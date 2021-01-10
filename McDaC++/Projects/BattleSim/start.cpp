@@ -5,7 +5,7 @@
 #include "start.hpp"
 #include "basic.hpp"
 
-void Details::set_pwd(const std::string pwd)
+void Details::set_pwd(const std::string &pwd)
 {
     this->pwd = pwd;
 }
@@ -34,9 +34,9 @@ void Details::operator = (Details details)
     pwd = details.pwd;
 }
 
-int start()
+char start()
 {
-    int input;
+    char input;
 
     do
     {
@@ -53,7 +53,7 @@ int start()
 
 void cfm_battle(const int LV)
 {
-    int input;
+    char input;
 
     do
     {
@@ -87,58 +87,58 @@ void cfm_battle(const int LV)
 
 int tutorial()
 {
-    short input;
+    char input;
 
-    std::string options = "Welcome to the tutorial for C++ Battle Simulator\n\
-This battle simulator relies on the input of numbers, each of which correspond to a different action.\n\
-\n\
-For battling, enter 1\n\
-For multiplayer, enter 2\n\
-To end the tutorial, enter 3 here: ";
+    std::string options = R"(Welcome to the tutorial for C++ Battle Simulator
+This battle simulator relies on the input of numbers, each of which correspond to a different action.
 
-    std::string battling = "BATTLING\n\
-When you begin a battle, you will have multiple options to choose from.\n\
-\n\
-You can Attack by entering 1, which will lower the opponent's health:\n\
-    When attacking, the word \"wait...\" will appear.\n\
-    Shortly after, the word \"NOW!\" will appear.\n\
-    When \"NOW\" appears, you must press enter.\n\
-    The quicker it is pressed, the more damage will be done.\n\
-    But if you press enter before the word \"NOW!\" appears, you will be penalized.\n\
-\n\
-You can use Magic by entering 2, which will give you multiple options:\n\
-    You can Increase Defence by entering 1, which will decrease damage taken from opponent's attacks.\n\
-    You can Increase Attack by entering 2, which will increase the damage given to the opponent.\n\
-    You can Heal by entering 3, which will increase your health.\n\
-    You can go Back by entering 4, which will take you back to the first four options.\n\
-\n\
-You can Use Items by entering 3, which will give you multiple options:\n\
-    You can Use Reflector by entering 1, which will reflect the damage from the opponent.\n\
-    You can Use Absorber by entering 2, which will absorb the damage from the opponent.\n\
-        Absorbing attacks increases your magic effectiveness.\n\
-    You can go Back by entering 3, which will take you back to the first four options.\n\
-    All items will decrease in efficiency the more that item is used.\n\
-\n\
-You can Taunt by entering 4, which will make their attacks stronger, but their defence weaker.\n\
-\n\
-After you have made your move, the opponent will make theirs with any of the above actions.\n\
-After both you and the opponent have made your actions, press enter to proceed.\n\
-\n\
-Different actions are prioritized over others, so that they occur before the other action.\n\
-The prioritizing of these actions are are: 1. Items | 2. Magic | 3. Taunt | 4. Attack\n\
-\n\
-To win the battle, you must lower the health of the opponent to 0.\n\
-But if your health gets lowered to 0 first, you will lose the battle.\n\
-Having both your health and the opponent's health lowered to 0 would cause a draw.";
+For battling, enter 1
+For multiplayer, enter 2
+To end the tutorial, enter 3 here: )";
 
-    std::string multiplayer = "MULTIPLAYER\n\
-By entering in 4 at the menu screen, you can begin multiplayer mode.\n\
-\n\
-Multiplayer mode is where you battle a human instead of a computer.\n\
-\n\
-Multiplayer battling works the same way that computer battling works, but with a few differences:\n\
-    When starting, both players must enter their name.\n\
-    Each player will take one action each turn, first player 1, then player 2.";
+    std::string battling = R"(BATTLING
+When you begin a battle, you will have multiple options to choose from.
+
+You can Attack by entering 1, which will lower the opponent's health:
+    When attacking, the word "wait..." will appear.
+    Shortly after, the word "NOW!" will appear.
+    When "NOW" appears, you must press enter.
+    The quicker it is pressed, the more damage will be done.
+    But if you press enter before the word "NOW!" appears, you will be penalized.
+
+You can use Magic by entering 2, which will give you multiple options:
+    You can Increase Defence by entering 1, which will decrease damage taken from opponent's attacks.
+    You can Increase Attack by entering 2, which will increase the damage given to the opponent.
+    You can Heal by entering 3, which will increase your health.
+    You can go Back by entering 4, which will take you back to the first four options.
+
+You can Use Items by entering 3, which will give you multiple options:
+    You can Use Reflector by entering 1, which will reflect the damage from the opponent.
+    You can Use Absorber by entering 2, which will absorb the damage from the opponent.
+        Absorbing attacks increases your magic effectiveness.
+    You can go Back by entering 3, which will take you back to the first four options.
+    All items will decrease in efficiency the more that item is used.
+
+You can Taunt by entering 4, which will make their attacks stronger, but their defence weaker.
+
+After you have made your move, the opponent will make theirs with any of the above actions.
+After both you and the opponent have made your actions, press enter to proceed.
+
+Different actions are prioritized over others, so that they occur before the other action.
+The prioritizing of these actions are are: 1. Items | 2. Magic | 3. Taunt | 4. Attack
+
+To win the battle, you must lower the health of the opponent to 0.
+But if your health gets lowered to 0 first, you will lose the battle.
+Having both your health and the opponent's health lowered to 0 would cause a draw.)";
+
+    std::string multiplayer = R"(MULTIPLAYER
+By entering in 4 at the menu screen, you can begin multiplayer mode.
+
+Multiplayer mode is where you battle a human instead of a computer.
+
+Multiplayer battling works the same way that computer battling works, but with a few differences:
+    When starting, both players must enter their name.
+    Each player will take one action each turn, first player 1, then player 2.)";
 
     do
     {
@@ -168,7 +168,7 @@ Multiplayer battling works the same way that computer battling works, but with a
 
 std::array<int, 3> custom(const int LV, const bool guest)
 {
-    int input;
+    char input;
     int LV_input;
     int difficulty_input;
     std::array<int, 3> values = {0, 0, 0};
@@ -254,12 +254,13 @@ std::array<std::string, 2> multiplayer()
 
 void credits()
 {
-    std::string credits = "\
-       Programming | Seth McDonald\n\
-    Special Thanks | Patrick Cornale\n\
-                   | Jaryn Oliphant\n\
-                   | Maisie Wallace\n\
-                   | Charlotte Cosgrove";
+    std::string credits = R"(
+       Programming | Seth McDonald
+                   |
+    Special Thanks | Patrick Cornale
+                   | Jaryn Oliphant
+                   | Maisie Wallace
+                   | Charlotte Cosgrove)";
 
     std::cout << credits << std::endl;
     std::cin.get();

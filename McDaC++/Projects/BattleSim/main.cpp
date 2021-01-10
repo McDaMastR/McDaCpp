@@ -1,6 +1,5 @@
 #include <iostream>
 #include <ctime>
-#include <string>
 #include <array>
 #include "start.hpp"
 #include "battle.hpp"
@@ -8,9 +7,9 @@
 
 int main()
 {
-    srand(time(NULL));
+    srand(time(0));
 
-    short input;
+    char input;
     std::array<int, 3> custom_values;
     std::array<std::string, 2> unames;
     Details details;

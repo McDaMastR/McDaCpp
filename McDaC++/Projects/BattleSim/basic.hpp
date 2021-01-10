@@ -1,9 +1,6 @@
-#ifndef BASIC_HPP
-#define BASIC_HPP
+#pragma once
 
 namespace bsc
 {
     void clear();
 }
-
-#endif // BASIC_HPP

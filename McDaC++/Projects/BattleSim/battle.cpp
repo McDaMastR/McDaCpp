@@ -6,8 +6,9 @@
 #include "fighter.hpp"
 #include "battle.hpp"
 
-void battle_init(const std::string name, const int no_opp, int &LV, int &EXP)
+void battle_init(const std::string &name, const int no_opp, int &LV, int &EXP)
 {
+    // Maybe create fighters on the heap
     std::vector<std::string> text;
 
     User user(name, LV);
@@ -28,11 +29,12 @@ void battle_init(const std::string name, const int no_opp, int &LV, int &EXP)
     battle_loop(text, no_opp, LV, EXP, user, opp1);
 }
 
-void battle_loop(std::vector<std::string> &text, const int no_opp, int &LV, int &EXP, User &user, Computer opp1)
+void battle_loop(std::vector<std::string> &text, const int no_opp, int &LV, int &EXP, User &user, Computer &opp1)
 {
     do
     {
         text.clear();
+        text.reserve(2);
 
         user.health_bar();
         // switch(no_opp) Fix this
@@ -122,7 +124,7 @@ void battle_loop(std::vector<std::string> &text, const int no_opp, int &LV, int 
     }
 }
 
-void action_priority(std::vector<std::string> &text, const int no_opp, User &user, Computer opp1)
+void action_priority(std::vector<std::string> &text, const int no_opp, User &user, Computer &opp1)
 {
     bsc::clear();
 
@@ -210,7 +212,7 @@ void action_priority(std::vector<std::string> &text, const int no_opp, User &use
     }
 }
 
-void multi_battle(const std::array<std::string, 2> names)
+void multi_battle(const std::array<std::string, 2> &names)
 {
 
 }

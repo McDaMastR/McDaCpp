@@ -1,5 +1,4 @@
-#ifndef FIGHTER_HPP
-#define FIGHTER_HPP
+#pragma once
 
 #include <string>
 #include <vector>
@@ -103,5 +102,3 @@ class Computer : public Fighter
 
         void attack(std::vector<std::string> &text, const double opp_defence, const double opp_taunt);
 };
-
-#endif // FIGHTER_HPP

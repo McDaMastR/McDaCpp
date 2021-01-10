@@ -1,5 +1,4 @@
-#ifndef START_HPP
-#define START_HPP
+#pragma once
 
 #include <array>
 #include <string>
@@ -11,7 +10,7 @@ struct Details
     std::string uname;
     bool guest = false;
 
-    void set_pwd(const std::string pwd);
+    void set_pwd(const std::string &pwd);
 
     void set_guest();
 
@@ -25,7 +24,7 @@ struct Details
 };
 unsigned long Details::guest_num = 0;
 
-int start();
+char start();
 
 void cfm_battle(const int LV);
 
@@ -38,5 +37,3 @@ std::array<std::string, 2> multiplayer();
 void credits();
 
 Details sign_in();
-
-#endif // START_HPP
