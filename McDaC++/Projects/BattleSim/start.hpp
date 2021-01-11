@@ -5,28 +5,30 @@
 
 struct Details
 {
-    int LV = 0;
-    int EXP;
-    std::string uname;
-    bool guest = false;
+    public:
+        int LV = 0;
+        int EXP;
+        std::string uname;
+        bool guest = false;
 
-    void set_pwd(const std::string &pwd);
+        void set_pwd(const std::string &pwd);
 
-    void set_guest();
+        void set_guest();
 
-    static int inc_guests();
+        static int inc_guests();
 
-    void operator = (Details details);
+        void operator = (Details details);
+
+        void operator ++ (int);
 
     private:
         std::string pwd;
-        static unsigned long guest_num;
+        inline static unsigned long guest_num = 0;
 };
-unsigned long Details::guest_num = 0;
 
-char start();
+int start();
 
-void cfm_battle(const int LV);
+bool cfm_battle(const int LV);
 
 int tutorial();
 

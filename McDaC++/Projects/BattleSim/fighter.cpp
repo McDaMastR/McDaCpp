@@ -25,9 +25,9 @@ void Fighter::use_reflector(std::vector<std::string> &text, unsigned int opp_att
 
     if(opp_attack == 0) 
     {
-        if(opp_no == 0) {text.push_back("You missed!");}
+        if(opp_no == 0) {text.emplace_back("You missed!");}
 
-        else {text.push_back("Opponent " + std::to_string(opp_no) + "'s attack missed!");}
+        else {text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack missed!");}
     }
 
     else if(reflector_health < 0)
@@ -38,14 +38,14 @@ void Fighter::use_reflector(std::vector<std::string> &text, unsigned int opp_att
             
         if(opp_no == 0) 
         {
-            text.push_back("But opponent " + std::to_string(number) + "'s reflector had already been destroyed!");
-            text.push_back("You inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("But opponent " + std::to_string(number) + "'s reflector had already been destroyed!");
+            text.emplace_back("You inflicted " + std::to_string(opp_attack) + " damage");
         }
 
         else 
         {
-            text.push_back("But your reflector had already been destroyed!");
-            text.push_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("But your reflector had already been destroyed!");
+            text.emplace_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
         }
     }
 
@@ -60,14 +60,14 @@ void Fighter::use_reflector(std::vector<std::string> &text, unsigned int opp_att
 
         if(opp_no == 0) 
         {
-            text.push_back("You destroyed opponent " + std::to_string(number) + "'s reflector!");
-            text.push_back("You inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("You destroyed opponent " + std::to_string(number) + "'s reflector!");
+            text.emplace_back("You inflicted " + std::to_string(opp_attack) + " damage");
         }
 
         else 
         {
-            text.push_back("Opponent " + std::to_string(opp_no) + "'s attack destroyed your reflector!");
-            text.push_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack destroyed your reflector!");
+            text.emplace_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
         }
     }
 
@@ -81,14 +81,14 @@ void Fighter::use_reflector(std::vector<std::string> &text, unsigned int opp_att
 
         if(opp_no == 0) 
         {
-            text.push_back("You broke through opponent " + std::to_string(number) + "'s reflector!");
-            text.push_back("You inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("You broke through opponent " + std::to_string(number) + "'s reflector!");
+            text.emplace_back("You inflicted " + std::to_string(opp_attack) + " damage");
         }
 
         else 
         {
-            text.push_back("Opponent " + std::to_string(opp_no) + "'s attack broke through your reflector!");
-            text.push_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack broke through your reflector!");
+            text.emplace_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
         }
     }
 
@@ -102,14 +102,14 @@ void Fighter::use_reflector(std::vector<std::string> &text, unsigned int opp_att
 
         if(opp_no == 0) 
         {
-            text.push_back("Your attack was reflected!");
-            text.push_back("Your reflection inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("Your attack was reflected!");
+            text.emplace_back("Your reflection inflicted " + std::to_string(opp_attack) + " damage");
         }
 
         else 
         {
-            text.push_back("Opponent " + std::to_string(opp_no) + "'s attack was reflected!");
-            text.push_back("Opponent " + std::to_string(opp_no) + "'s reflection inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack was reflected!");
+            text.emplace_back("Opponent " + std::to_string(opp_no) + "'s reflection inflicted " + std::to_string(opp_attack) + " damage");
         }
     }
 }
@@ -120,9 +120,9 @@ void Fighter::use_absorber(std::vector<std::string> &text, unsigned int opp_atta
 
     if(opp_attack == 0) 
     {
-        if(opp_no == 0) {text.push_back("You missed!");}
+        if(opp_no == 0) {text.emplace_back("You missed!");}
 
-        else {text.push_back("Opponent " + std::to_string(opp_no) + "'s attack missed!");}
+        else {text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack missed!");}
     }
 
     else if(absorber_health < 0)
@@ -133,14 +133,14 @@ void Fighter::use_absorber(std::vector<std::string> &text, unsigned int opp_atta
             
         if(opp_no == 0) 
         {
-            text.push_back("But opponent " + std::to_string(number) + "'s absorber had already been destroyed!");
-            text.push_back("You inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("But opponent " + std::to_string(number) + "'s absorber had already been destroyed!");
+            text.emplace_back("You inflicted " + std::to_string(opp_attack) + " damage");
         }
 
         else 
         {
-            text.push_back("But your absorber had already been destroyed!");
-            text.push_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("But your absorber had already been destroyed!");
+            text.emplace_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
         }
     }
 
@@ -155,14 +155,14 @@ void Fighter::use_absorber(std::vector<std::string> &text, unsigned int opp_atta
 
         if(opp_no == 0) 
         {
-            text.push_back("You destroyed opponent " + std::to_string(number) + "'s absorber!");
-            text.push_back("You inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("You destroyed opponent " + std::to_string(number) + "'s absorber!");
+            text.emplace_back("You inflicted " + std::to_string(opp_attack) + " damage");
         }
 
         else 
         {
-            text.push_back("Opponent " + std::to_string(opp_no) + "'s attack destroyed your absorber!");
-            text.push_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack destroyed your absorber!");
+            text.emplace_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
         }
     }
 
@@ -176,14 +176,14 @@ void Fighter::use_absorber(std::vector<std::string> &text, unsigned int opp_atta
 
         if(opp_no == 0) 
         {
-            text.push_back("You broke through opponent " + std::to_string(number) + "'s absorber!");
-            text.push_back("You inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("You broke through opponent " + std::to_string(number) + "'s absorber!");
+            text.emplace_back("You inflicted " + std::to_string(opp_attack) + " damage");
         }
 
         else 
         {
-            text.push_back("Opponent " + std::to_string(opp_no) + "'s attack broke through your absorber!");
-            text.push_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
+            text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack broke through your absorber!");
+            text.emplace_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
         }
     }
 
@@ -201,14 +201,14 @@ void Fighter::use_absorber(std::vector<std::string> &text, unsigned int opp_atta
 
         if(opp_no == 0) 
         {
-            text.push_back("Your attack was absorbed!");
-            text.push_back("Opponent " + std::to_string(number) + "'s magic effectiveness increased by " + std::to_string(opp_attack * 100 - 100) + "%");
+            text.emplace_back("Your attack was absorbed!");
+            text.emplace_back("Opponent " + std::to_string(number) + "'s magic effectiveness increased by " + std::to_string(opp_attack * 100 - 100) + "%");
         }
 
         else 
         {
-            text.push_back("Opponent " + std::to_string(opp_no) + "'s attack was absorbed!");
-            text.push_back("Your magic effectiveness increased by " + std::to_string(opp_attack * 100 - 100) + "%");
+            text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack was absorbed!");
+            text.emplace_back("Your magic effectiveness increased by " + std::to_string(opp_attack * 100 - 100) + "%");
         }
     }
 }
@@ -222,14 +222,14 @@ void Fighter::inc_def(std::vector<std::string> &text, const int opp_no)
 
     if(opp_no == 0) 
     {
-        text.push_back("Opponent " + std::to_string(number) + " used magic on their defence");
-        text.push_back("Opponent " + std::to_string(number) + "'s defence increased by " + std::to_string((int) (100 - def_inc * 100)) + "%!");
+        text.emplace_back("Opponent " + std::to_string(number) + " used magic on their defence");
+        text.emplace_back("Opponent " + std::to_string(number) + "'s defence increased by " + std::to_string((int) (100 - def_inc * 100)) + "%!");
     }
 
     else 
     {
-        text.push_back("You used magic on your defence");
-        text.push_back("Your defence increased by " + std::to_string((int) (100 - def_inc * 100)) + "%!");
+        text.emplace_back("You used magic on your defence");
+        text.emplace_back("Your defence increased by " + std::to_string((int) (100 - def_inc * 100)) + "%!");
     }
 }
 
@@ -242,14 +242,14 @@ void Fighter::inc_atk(std::vector<std::string> &text, const int opp_no)
 
     if(opp_no == 0) 
     {
-        text.push_back("Opponent " + std::to_string(number) + " used magic on their attack");
-        text.push_back("Opponent " + std::to_string(number) + "'s attack increased by " + std::to_string((int) (atk_inc * 100 - 100)) + "%!");
+        text.emplace_back("Opponent " + std::to_string(number) + " used magic on their attack");
+        text.emplace_back("Opponent " + std::to_string(number) + "'s attack increased by " + std::to_string((int) (atk_inc * 100 - 100)) + "%!");
     }
 
     else 
     {
-        text.push_back("You used magic on your attack");
-        text.push_back("Your attack increased by " + std::to_string((int) (atk_inc * 100 - 100)) + "%!");
+        text.emplace_back("You used magic on your attack");
+        text.emplace_back("Your attack increased by " + std::to_string((int) (atk_inc * 100 - 100)) + "%!");
     }
 }
 
@@ -268,14 +268,14 @@ void Fighter::inc_hlth(std::vector<std::string> &text, const int opp_no)
 
     if(opp_no == 0) 
     {
-        text.push_back("Opponent " + std::to_string(number) + " used magic on their health");
-        text.push_back("Opponent " + std::to_string(number) + "'s health increased by " + std::to_string(hlth_inc) + "!");
+        text.emplace_back("Opponent " + std::to_string(number) + " used magic on their health");
+        text.emplace_back("Opponent " + std::to_string(number) + "'s health increased by " + std::to_string(hlth_inc) + "!");
     }
 
     else 
     {
-        text.push_back("You used magic on your health");
-        text.push_back("Your health increased by " + std::to_string(hlth_inc) + "!");
+        text.emplace_back("You used magic on your health");
+        text.emplace_back("Your health increased by " + std::to_string(hlth_inc) + "!");
     }
 }
 
@@ -286,28 +286,28 @@ void Fighter::taunt(std::vector<std::string> &text, const int opp_no)
 
     if(opp_no == 0) 
     {
-        text.push_back("Opponent " + std::to_string(number) + " taunted you");
-        text.push_back("You got frustrated...");
-        text.push_back("Your attack increased!");
-        text.push_back("Your defence decreased!");
+        text.emplace_back("Opponent " + std::to_string(number) + " taunted you");
+        text.emplace_back("You got frustrated...");
+        text.emplace_back("Your attack increased!");
+        text.emplace_back("Your defence decreased!");
     }
 
     else 
     {
         if(get_inst() - 1 == 1)
         {
-            text.push_back("You taunted the opponent");
-            text.push_back("The opponent got irritated...");
-            text.push_back("The opponent's attack increased!");
-            text.push_back("The opponent's defence decreased!");
+            text.emplace_back("You taunted the opponent");
+            text.emplace_back("The opponent got irritated...");
+            text.emplace_back("The opponent's attack increased!");
+            text.emplace_back("The opponent's defence decreased!");
         }
 
         else
         {
-            text.push_back("You taunted the opponents");
-            text.push_back("The opponents got frustrated...");
-            text.push_back("The opponents' attack increased!");
-            text.push_back("The opponents' defence decreased!");
+            text.emplace_back("You taunted the opponents");
+            text.emplace_back("The opponents got frustrated...");
+            text.emplace_back("The opponents' attack increased!");
+            text.emplace_back("The opponents' defence decreased!");
         }
     }
 }
@@ -517,7 +517,7 @@ void User::attack(std::vector<std::string> &text, const int opp_no, const double
     
     else {damage = 0;}
 
-    text.push_back("You attacked opponent " + std::to_string(opp_no));
+    text.emplace_back("You attacked opponent " + std::to_string(opp_no));
 }
 
 Computer::Computer(const int number, const int LV)
@@ -563,5 +563,5 @@ void Computer::attack(std::vector<std::string> &text, const double opp_defence, 
 
     if(damage < LV) {damage += LV;}
 
-    text.push_back("Opponent " + std::to_string(number) + " attacked you!");
+    text.emplace_back("Opponent " + std::to_string(number) + " attacked you!");
 }

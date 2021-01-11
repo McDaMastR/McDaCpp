@@ -9,7 +9,8 @@ int main()
 {
     srand(time(0));
 
-    char input;
+    int input;
+    bool cfm;
     std::array<int, 3> custom_values;
     std::array<std::string, 2> unames;
     Details details;
@@ -26,8 +27,8 @@ int main()
         switch(input)
         {
             case 1:
-                cfm_battle(details.LV);
-                battle_init(details.uname, 1, details.LV, details.EXP);
+                cfm = cfm_battle(details.LV);
+                if(cfm) {battle_init(details.uname, 1, details);}
                 break;
             
             case 2:
@@ -58,6 +59,11 @@ int main()
             
             case 8:
                 return 0;
+            
+            default:
+                std::cout << "This doesn't work... :(" << std::endl;
+                std::cin.get();
+                break;
         }
     }
 }

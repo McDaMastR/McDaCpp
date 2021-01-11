@@ -5,10 +5,7 @@
 #include "start.hpp"
 #include "basic.hpp"
 
-void Details::set_pwd(const std::string &pwd)
-{
-    this->pwd = pwd;
-}
+void Details::set_pwd(const std::string &pwd) {this->pwd = pwd;}
 
 void Details::set_guest()
 {
@@ -16,7 +13,7 @@ void Details::set_guest()
     unsigned long number = inc_guests();
     LV = 1;
     EXP = 0;
-    uname = "Guest" [+ number];
+    uname = "Guest" + std::to_string(number);
 }
 
 int Details::inc_guests()
@@ -34,26 +31,43 @@ void Details::operator = (Details details)
     pwd = details.pwd;
 }
 
-char start()
+void Details::operator ++ (int)
 {
-    char input;
+    EXP++;
+
+    if(EXP == LV)
+    {
+        LV++;
+        EXP = 0;
+    }
+}
+
+int start()
+{
+    int input;
+    std::string msg = R"(Enter 1 to start
+Enter 2 for the tutorial
+Enter 3 for custom battle
+Enter 4 for multiplayer
+Enter 5 for credits
+Enter 6 to login
+Enter 7 to log out
+Enter 8 to quit: )";
 
     do
     {
         bsc::clear();
-
-        std::cout << "Enter 1 to start\nEnter 2 for the tutorial\nEnter 3 for custom battle\nEnter 4 for multiplayer\n"
-                    "Enter 5 for credits\nEnter 6 to login\nEnter 7 to log out\nEnter 8 to quit: ";
+        std::cout << msg;
         std::cin >> input;
     }
-    while(0 < input && input < 9);
+    while(!(0 < input && input < 9));
 
     return input;
 }
 
-void cfm_battle(const int LV)
+bool cfm_battle(const int LV)
 {
-    char input;
+    int input;
 
     do
     {
@@ -65,13 +79,15 @@ void cfm_battle(const int LV)
                 std::cout << "Enter 1 to sign in\nEnter 2 to go to home screen: ";
                 std::cin >> input;
             }
-            while(input != 1 && input != 2);
+            while(!(input == 1 || input == 2));
 
             if(input == 1) 
             {
                 sign_in();
                 continue;
             }
+
+            else {return false;}
         }
 
         else
@@ -83,11 +99,13 @@ void cfm_battle(const int LV)
         }
     } 
     while(false);
+
+    return true;
 }
 
 int tutorial()
 {
-    char input;
+    int input;
 
     std::string options = R"(Welcome to the tutorial for C++ Battle Simulator
 This battle simulator relies on the input of numbers, each of which correspond to a different action.
@@ -168,7 +186,7 @@ Multiplayer battling works the same way that computer battling works, but with a
 
 std::array<int, 3> custom(const int LV, const bool guest)
 {
-    char input;
+    int input;
     int LV_input;
     int difficulty_input;
     std::array<int, 3> values = {0, 0, 0};

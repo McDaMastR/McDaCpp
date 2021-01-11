@@ -3,33 +3,34 @@
 #include <array>
 #include <vector>
 #include "basic.hpp"
+#include "start.hpp"
 #include "fighter.hpp"
 #include "battle.hpp"
 
-void battle_init(const std::string &name, const int no_opp, int &LV, int &EXP)
+void battle_init(const std::string &name, const int no_opp, Details &details)
 {
     // Maybe create fighters on the heap
     std::vector<std::string> text;
 
-    User user(name, LV);
+    User user(name, details.LV);
 
     // switch(no_opp) Fix this
     // {
     //    case 4:
-            Computer opp4(4, LV);
+            // Computer opp4(4, details.LV);
     //    case 3:
-            Computer opp3(3, LV);
+            // Computer opp3(3, details.LV);
     //    case 2:
-            Computer opp2(2, LV);
+            // Computer opp2(2, details.LV);
     //    case 1:
-            Computer opp1(1, LV);
+            Computer opp1(1, details.LV);
     //        break;
     // }
 
-    battle_loop(text, no_opp, LV, EXP, user, opp1);
+    battle_loop(text, no_opp, details, user, opp1);
 }
 
-void battle_loop(std::vector<std::string> &text, const int no_opp, int &LV, int &EXP, User &user, Computer &opp1)
+void battle_loop(std::vector<std::string> &text, const int no_opp, Details &details, User &user, Computer &opp1)
 {
     do
     {
@@ -76,26 +77,19 @@ void battle_loop(std::vector<std::string> &text, const int no_opp, int &LV, int 
     {
         std::cout << "VICTORY!!!\n";
 
-        if(no_opp == 1) {std::cout << "You knocked out a difficulty " << LV << " opponent!\n";}
+        if(no_opp == 1) {std::cout << "You knocked out a difficulty " << details.LV << " opponent!\n";}
 
-        else {std::cout << "You knocked out " << no_opp << " difficulty " << LV << " opponents!\n";}
+        else {std::cout << "You knocked out " << no_opp << " difficulty " << details.LV << " opponents!\n";}
 
         std::cout << "Remaining health: " << user.health << std::endl;
-
-        EXP++;
 
         std::cin.get();
         bsc::clear();
 
+        details++;
         std::cout << "Your EXP increased by 1!\n";
 
-        if(LV == EXP)
-        {
-            LV++;
-            EXP = 0;
-
-            std::cout << "Your LV increased!\n";
-        }
+        if(details.EXP == 0) {std::cout << "Your LV increased!\n";}
     }
 
     else
@@ -104,13 +98,13 @@ void battle_loop(std::vector<std::string> &text, const int no_opp, int &LV, int 
 
         if(no_opp == 1) 
         {
-            std::cout << "You were knocked out by a difficulty " << LV << " opponent\n";
+            std::cout << "You were knocked out by a difficulty " << details.LV << " opponent\n";
             std::cout << "Opponent's remaining health: " << opp1.health << std::endl;
         }
 
         else // Fix this
         {
-            std::cout << "You were knocked out by " << no_opp << " difficulty " << LV << " opponents\n";
+            std::cout << "You were knocked out by " << no_opp << " difficulty " << details.LV << " opponents\n";
 
             if(no_opp == 2) {std::cout << "Opponents' combined remaining health: " << opp1.health /*+ opp2.health */ << std::endl;}
 
@@ -140,13 +134,13 @@ void action_priority(std::vector<std::string> &text, const int no_opp, User &use
             break;
         
         case 1:
-            if(user.reflector_use) {text.push_back("You equiped your reflector");}
+            if(user.reflector_use) {text.emplace_back("You equiped your reflector");}
     
-            if(opp1.reflector_use) {text.push_back("Opponent 1 equiped their reflector");}
+            if(opp1.reflector_use) {text.emplace_back("Opponent 1 equiped their reflector");}
 
-            if(user.absorber_use) {text.push_back("You equiped your absorber");}
+            if(user.absorber_use) {text.emplace_back("You equiped your absorber");}
 
-            if(opp1.absorber_use) {text.push_back("Opponent 1 equiped their absorber");}
+            if(opp1.absorber_use) {text.emplace_back("Opponent 1 equiped their absorber");}
 
             if(user.def_inc_use) {user.inc_def(text);}
 
@@ -178,7 +172,7 @@ void action_priority(std::vector<std::string> &text, const int no_opp, User &use
 
                     opp1.health -= user.damage;
 
-                    text.push_back("You inflicted " + std::to_string(user.damage) + " damage");
+                    text.emplace_back("You inflicted " + std::to_string(user.damage) + " damage");
                 }
             }
 
@@ -198,7 +192,7 @@ void action_priority(std::vector<std::string> &text, const int no_opp, User &use
 
                     user.health -= opp1.damage;
 
-                    text.push_back("Opponent 1 inflicted " + std::to_string(opp1.damage) + " damage");
+                    text.emplace_back("Opponent 1 inflicted " + std::to_string(opp1.damage) + " damage");
                 }
             }
 

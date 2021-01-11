@@ -48,7 +48,7 @@ class Fighter
         double def_inc;
         double atk_inc;
         double magic_effect = 1;
-        static unsigned int no_inst;
+        inline static unsigned int no_inst = 0;
 
         static void add_one();
 
@@ -59,7 +59,6 @@ class Fighter
     private:
         int number;
 };
-unsigned int Fighter::no_inst = 0;
 
 class User : public Fighter
 {
