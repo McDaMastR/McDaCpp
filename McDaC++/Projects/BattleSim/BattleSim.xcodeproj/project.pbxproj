@@ -6,61 +6,90 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXCopyFilesBuildPhase section */
+		5DFC0BFF25B2D0FE004B7398 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		5DAB3A7B25B27D7700662FFE /* basic.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = basic.hpp; sourceTree = "<group>"; };
-		5DAB3A7C25B27D7700662FFE /* Battle_Project */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = Battle_Project; sourceTree = "<group>"; };
-		5DAB3A7D25B27D7700662FFE /* fighter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = fighter.hpp; sourceTree = "<group>"; };
-		5DAB3A7E25B27D7700662FFE /* makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; };
-		5DAB3A7F25B27D7700662FFE /* main.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = main.o; sourceTree = "<group>"; };
-		5DAB3A8025B27D7700662FFE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		5DAB3A8125B27D7800662FFE /* battle.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = battle.o; sourceTree = "<group>"; };
-		5DAB3A8225B27D7800662FFE /* basic.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = basic.o; sourceTree = "<group>"; };
-		5DAB3A8325B27D7800662FFE /* battle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = battle.hpp; sourceTree = "<group>"; };
-		5DAB3A8425B27D7800662FFE /* main */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = main; sourceTree = "<group>"; };
-		5DAB3A8525B27D7800662FFE /* fighter.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = fighter.o; sourceTree = "<group>"; };
-		5DAB3A8625B27D7800662FFE /* main.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = main.dSYM; sourceTree = "<group>"; };
-		5DAB3A8725B27D7800662FFE /* battle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = battle.cpp; sourceTree = "<group>"; };
-		5DAB3A8825B27D7800662FFE /* start.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = start.cpp; sourceTree = "<group>"; };
-		5DAB3A8925B27D7900662FFE /* fighter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = fighter.cpp; sourceTree = "<group>"; };
-		5DAB3A8A25B27D7900662FFE /* start.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = start.o; sourceTree = "<group>"; };
-		5DAB3A8B25B27D7900662FFE /* start.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = start.hpp; sourceTree = "<group>"; };
-		5DAB3A8C25B27D7900662FFE /* basic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = basic.cpp; sourceTree = "<group>"; };
+		5DFC0C0125B2D0FE004B7398 /* BattleSim */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BattleSim; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFrameworksBuildPhase section */
+		5DFC0BFE25B2D0FE004B7398 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
-		5DAB3A7425B27C0500662FFE = {
+		5DFC0BF825B2D0FE004B7398 = {
 			isa = PBXGroup;
 			children = (
-				5DAB3A8C25B27D7900662FFE /* basic.cpp */,
-				5DAB3A7B25B27D7700662FFE /* basic.hpp */,
-				5DAB3A8225B27D7800662FFE /* basic.o */,
-				5DAB3A7C25B27D7700662FFE /* Battle_Project */,
-				5DAB3A8725B27D7800662FFE /* battle.cpp */,
-				5DAB3A8325B27D7800662FFE /* battle.hpp */,
-				5DAB3A8125B27D7800662FFE /* battle.o */,
-				5DAB3A8925B27D7900662FFE /* fighter.cpp */,
-				5DAB3A7D25B27D7700662FFE /* fighter.hpp */,
-				5DAB3A8525B27D7800662FFE /* fighter.o */,
-				5DAB3A8425B27D7800662FFE /* main */,
-				5DAB3A8025B27D7700662FFE /* main.cpp */,
-				5DAB3A8625B27D7800662FFE /* main.dSYM */,
-				5DAB3A7F25B27D7700662FFE /* main.o */,
-				5DAB3A7E25B27D7700662FFE /* makefile */,
-				5DAB3A8825B27D7800662FFE /* start.cpp */,
-				5DAB3A8B25B27D7900662FFE /* start.hpp */,
-				5DAB3A8A25B27D7900662FFE /* start.o */,
+				5DFC0C0325B2D0FE004B7398 /* BattleSim */,
+				5DFC0C0225B2D0FE004B7398 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		5DFC0C0225B2D0FE004B7398 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5DFC0C0125B2D0FE004B7398 /* BattleSim */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5DFC0C0325B2D0FE004B7398 /* BattleSim */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BattleSim;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXNativeTarget section */
+		5DFC0C0025B2D0FE004B7398 /* BattleSim */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5DFC0C0825B2D0FE004B7398 /* Build configuration list for PBXNativeTarget "BattleSim" */;
+			buildPhases = (
+				5DFC0BFD25B2D0FE004B7398 /* Sources */,
+				5DFC0BFE25B2D0FE004B7398 /* Frameworks */,
+				5DFC0BFF25B2D0FE004B7398 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BattleSim;
+			productName = BattleSim;
+			productReference = 5DFC0C0125B2D0FE004B7398 /* BattleSim */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
 /* Begin PBXProject section */
-		5DAB3A7525B27C0500662FFE /* Project object */ = {
+		5DFC0BF925B2D0FE004B7398 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1230;
+				TargetAttributes = {
+					5DFC0C0025B2D0FE004B7398 = {
+						CreatedOnToolsVersion = 12.3;
+					};
+				};
 			};
-			buildConfigurationList = 5DAB3A7825B27C0500662FFE /* Build configuration list for PBXProject "BattleSim" */;
+			buildConfigurationList = 5DFC0BFC25B2D0FE004B7398 /* Build configuration list for PBXProject "BattleSim" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -68,40 +97,180 @@
 				en,
 				Base,
 			);
-			mainGroup = 5DAB3A7425B27C0500662FFE;
+			mainGroup = 5DFC0BF825B2D0FE004B7398;
+			productRefGroup = 5DFC0C0225B2D0FE004B7398 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				5DFC0C0025B2D0FE004B7398 /* BattleSim */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXSourcesBuildPhase section */
+		5DFC0BFD25B2D0FE004B7398 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
 /* Begin XCBuildConfiguration section */
-		5DAB3A7925B27C0500662FFE /* Debug */ = {
+		5DFC0C0625B2D0FE004B7398 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
-		5DAB3A7A25B27C0500662FFE /* Release */ = {
+		5DFC0C0725B2D0FE004B7398 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		5DFC0C0925B2D0FE004B7398 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GS7MGB943M;
+				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		5DFC0C0A25B2D0FE004B7398 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = GS7MGB943M;
+				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5DAB3A7825B27C0500662FFE /* Build configuration list for PBXProject "BattleSim" */ = {
+		5DFC0BFC25B2D0FE004B7398 /* Build configuration list for PBXProject "BattleSim" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5DAB3A7925B27C0500662FFE /* Debug */,
-				5DAB3A7A25B27C0500662FFE /* Release */,
+				5DFC0C0625B2D0FE004B7398 /* Debug */,
+				5DFC0C0725B2D0FE004B7398 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5DFC0C0825B2D0FE004B7398 /* Build configuration list for PBXNativeTarget "BattleSim" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5DFC0C0925B2D0FE004B7398 /* Debug */,
+				5DFC0C0A25B2D0FE004B7398 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 5DAB3A7525B27C0500662FFE /* Project object */;
+	rootObject = 5DFC0BF925B2D0FE004B7398 /* Project object */;
 }
