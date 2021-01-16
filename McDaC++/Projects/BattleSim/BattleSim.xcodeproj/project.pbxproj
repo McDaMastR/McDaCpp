@@ -1,0 +1,107 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXFileReference section */
+		5DAB3A7B25B27D7700662FFE /* basic.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = basic.hpp; sourceTree = "<group>"; };
+		5DAB3A7C25B27D7700662FFE /* Battle_Project */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = Battle_Project; sourceTree = "<group>"; };
+		5DAB3A7D25B27D7700662FFE /* fighter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = fighter.hpp; sourceTree = "<group>"; };
+		5DAB3A7E25B27D7700662FFE /* makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; };
+		5DAB3A7F25B27D7700662FFE /* main.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = main.o; sourceTree = "<group>"; };
+		5DAB3A8025B27D7700662FFE /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		5DAB3A8125B27D7800662FFE /* battle.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = battle.o; sourceTree = "<group>"; };
+		5DAB3A8225B27D7800662FFE /* basic.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = basic.o; sourceTree = "<group>"; };
+		5DAB3A8325B27D7800662FFE /* battle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = battle.hpp; sourceTree = "<group>"; };
+		5DAB3A8425B27D7800662FFE /* main */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = main; sourceTree = "<group>"; };
+		5DAB3A8525B27D7800662FFE /* fighter.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = fighter.o; sourceTree = "<group>"; };
+		5DAB3A8625B27D7800662FFE /* main.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = main.dSYM; sourceTree = "<group>"; };
+		5DAB3A8725B27D7800662FFE /* battle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = battle.cpp; sourceTree = "<group>"; };
+		5DAB3A8825B27D7800662FFE /* start.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = start.cpp; sourceTree = "<group>"; };
+		5DAB3A8925B27D7900662FFE /* fighter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = fighter.cpp; sourceTree = "<group>"; };
+		5DAB3A8A25B27D7900662FFE /* start.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = start.o; sourceTree = "<group>"; };
+		5DAB3A8B25B27D7900662FFE /* start.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = start.hpp; sourceTree = "<group>"; };
+		5DAB3A8C25B27D7900662FFE /* basic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = basic.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		5DAB3A7425B27C0500662FFE = {
+			isa = PBXGroup;
+			children = (
+				5DAB3A8C25B27D7900662FFE /* basic.cpp */,
+				5DAB3A7B25B27D7700662FFE /* basic.hpp */,
+				5DAB3A8225B27D7800662FFE /* basic.o */,
+				5DAB3A7C25B27D7700662FFE /* Battle_Project */,
+				5DAB3A8725B27D7800662FFE /* battle.cpp */,
+				5DAB3A8325B27D7800662FFE /* battle.hpp */,
+				5DAB3A8125B27D7800662FFE /* battle.o */,
+				5DAB3A8925B27D7900662FFE /* fighter.cpp */,
+				5DAB3A7D25B27D7700662FFE /* fighter.hpp */,
+				5DAB3A8525B27D7800662FFE /* fighter.o */,
+				5DAB3A8425B27D7800662FFE /* main */,
+				5DAB3A8025B27D7700662FFE /* main.cpp */,
+				5DAB3A8625B27D7800662FFE /* main.dSYM */,
+				5DAB3A7F25B27D7700662FFE /* main.o */,
+				5DAB3A7E25B27D7700662FFE /* makefile */,
+				5DAB3A8825B27D7800662FFE /* start.cpp */,
+				5DAB3A8B25B27D7900662FFE /* start.hpp */,
+				5DAB3A8A25B27D7900662FFE /* start.o */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		5DAB3A7525B27C0500662FFE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1230;
+			};
+			buildConfigurationList = 5DAB3A7825B27C0500662FFE /* Build configuration list for PBXProject "BattleSim" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 5DAB3A7425B27C0500662FFE;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		5DAB3A7925B27C0500662FFE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		5DAB3A7A25B27C0500662FFE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5DAB3A7825B27C0500662FFE /* Build configuration list for PBXProject "BattleSim" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5DAB3A7925B27C0500662FFE /* Debug */,
+				5DAB3A7A25B27C0500662FFE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5DAB3A7525B27C0500662FFE /* Project object */;
+}
