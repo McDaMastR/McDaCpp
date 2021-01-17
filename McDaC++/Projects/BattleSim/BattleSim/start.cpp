@@ -3,7 +3,8 @@
 #include <array>
 #include <string>
 #include "start.hpp"
-#include "basic.hpp"
+
+#define CLEAR system("clear")
 
 void Details::set_pwd(const std::string &pwd) {this->pwd = pwd;}
 
@@ -16,7 +17,7 @@ void Details::set_guest()
     uname = "Guest" + std::to_string(number);
 }
 
-int Details::inc_guests()
+uint8_t Details::inc_guests()
 {
     guest_num++;
     return guest_num;
@@ -42,9 +43,9 @@ void Details::operator ++ (int)
     }
 }
 
-int start()
+uint8_t start()
 {
-    int input;
+    uint8_t input;
     std::string msg = R"(Enter 1 to start
 Enter 2 for the tutorial
 Enter 3 for custom battle
@@ -56,7 +57,7 @@ Enter 8 to quit: )";
 
     do
     {
-        bsc::clear();
+        CLEAR;
         std::cout << msg;
         std::cin >> input;
     }
@@ -65,9 +66,9 @@ Enter 8 to quit: )";
     return input;
 }
 
-bool cfm_battle(const int LV)
+bool cfm_battle(const uint16_t LV)
 {
-    int input;
+    uint8_t input;
 
     do
     {
@@ -103,9 +104,9 @@ bool cfm_battle(const int LV)
     return true;
 }
 
-int tutorial()
+void tutorial()
 {
-    int input;
+    uint8_t input;
 
     std::string options = R"(Welcome to the tutorial for C++ Battle Simulator
 This battle simulator relies on the input of numbers, each of which correspond to a different action.
@@ -162,7 +163,7 @@ Multiplayer battling works the same way that computer battling works, but with a
     {
         std::cout << options;
         std::cin >> input;
-        bsc::clear();
+        CLEAR;
 
         switch(input)
         {
@@ -177,19 +178,19 @@ Multiplayer battling works the same way that computer battling works, but with a
                 break;
             
             case 3:
-                return 0;
+                return;
         }
-        bsc::clear();
+        CLEAR;
     }
     while(true);
 }
 
-std::array<int, 3> custom(const int LV, const bool guest)
+std::array<uint16_t, 3> custom(const uint16_t LV, const bool guest)
 {
-    int input;
-    int LV_input;
-    int difficulty_input;
-    std::array<int, 3> values = {0, 0, 0};
+    uint8_t input;
+    uint16_t LV_input;
+    uint16_t difficulty_input = 0;
+    std::array<uint16_t, 3> values = {0, 0, 0};
 
     if(LV == 0)
     {
@@ -229,12 +230,12 @@ std::array<int, 3> custom(const int LV, const bool guest)
         std::cout << "What will be your LV?: ";
         std::cin >> LV_input;
 
-        if(LV_input < 1) {continue;}
+        if(LV_input < 1) continue;
 
         std::cout << "What will be the difficulty of your opponent/s?: ";
         std::cin >> difficulty_input;
 
-        if(difficulty_input < 1) {continue;}
+        if(difficulty_input < 1) continue;
     }
     while(false);
 
@@ -246,7 +247,7 @@ std::array<int, 3> custom(const int LV, const bool guest)
 
 std::array<std::string, 2> multiplayer()
 {
-    int i = 0;
+    uint8_t i = 0;
     std::array<std::string, 2> unames;
 
     std::cout << "Enter player 1's username: ";
@@ -256,7 +257,7 @@ std::array<std::string, 2> multiplayer()
     {
         if(i != 0) 
         {
-            bsc::clear();
+            CLEAR;
             std::cout << "Enter player 1's username: " << unames[0] << std::endl;
             std::cout << "That username has already been taken\n";
         }
@@ -286,9 +287,7 @@ void credits()
 
 Details sign_in()
 {
-    int input;
-    unsigned int LV;
-    unsigned int EXP;
+    uint8_t input;
     std::string username;
     std::string password;
     std::string file_pwd;
@@ -298,15 +297,15 @@ Details sign_in()
 
     std::cout << "To sign in, enter 1\nTo sign up, enter 2\nTo continue as a guest, enter 3: ";
     std::cin >> input;
-    bsc::clear();
+    CLEAR;
     
     switch(input)
     {
         case 1:
             do
             {
-                if(uname_incorrect) {std::cout << "Username is incorrect\n";}
-                else if(pwd_incorrect) {std::cout << "Password is incorrect\n";}
+                if(uname_incorrect) std::cout << "Username is incorrect\n";
+                else if(pwd_incorrect) std::cout << "Password is incorrect\n";
 
                 std::cout << "Please enter your username: ";
                 getline(std::cin, username);
@@ -323,7 +322,7 @@ Details sign_in()
 
                 login >> file_pwd;
 
-                if(file_pwd != password) {pwd_incorrect = true;}
+                if(file_pwd != password) pwd_incorrect = true;
 
                 else
                 {
@@ -349,17 +348,17 @@ Details sign_in()
                 bool pwd_dont_match = false;
                 bool uname_taken = false;
 
-                if(pwd_dont_match) {std::cout << "The two passwords do not match\n";}
-                else if(uname_taken) {std::cout << "That username has already been taken\n";}
+                if(pwd_dont_match) std::cout << "The two passwords do not match\n";
+                else if(uname_taken) std::cout << "That username has already been taken\n";
 
                 std::cout << "Enter your username: ";
                 getline(std::cin, username);
                 std::cout << "Enter your password: ";
                 getline(std::cin, password1);
                
-                bsc::clear();
-                if(pwd_dont_match) {std::cout << "The two passwords do not match\n";}
-                else if(uname_taken) {std::cout << "That username has already been taken\n";}
+                CLEAR;
+                if(pwd_dont_match) std::cout << "The two passwords do not match\n";
+                else if(uname_taken) std::cout << "That username has already been taken\n";
 
                 std::cout << "Enter your username: " << username << std::endl;
                 std::cout << "Confirm your password: ";
@@ -373,7 +372,7 @@ Details sign_in()
 
                 std::ifstream check ("/Accounts/" + username + ".txt");
 
-                if(check.is_open()) {uname_taken = true;}
+                if(check.is_open()) uname_taken = true;
 
                 else
                 {

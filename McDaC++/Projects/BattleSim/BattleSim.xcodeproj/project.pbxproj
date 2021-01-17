@@ -3,11 +3,18 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5D1AF92B25B2D8D200E19167 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D1AF92625B2D8D200E19167 /* main.cpp */; };
+		5D1AF92D25B2D8D200E19167 /* start.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D1AF92825B2D8D200E19167 /* start.cpp */; };
+		5D1AF92E25B2D8D200E19167 /* battle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D1AF92925B2D8D200E19167 /* battle.cpp */; };
+		5D1AF92F25B2D8D200E19167 /* fighter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D1AF92A25B2D8D200E19167 /* fighter.cpp */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		5DFC0BFF25B2D0FE004B7398 /* CopyFiles */ = {
+		5D0763D325B2D6530050192D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -19,11 +26,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5DFC0C0125B2D0FE004B7398 /* BattleSim */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BattleSim; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D0763D525B2D6530050192D /* BattleSim */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BattleSim; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D1AF92325B2D8B100E19167 /* battle.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = battle.hpp; sourceTree = "<group>"; };
+		5D1AF92425B2D8B100E19167 /* start.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = start.hpp; sourceTree = "<group>"; };
+		5D1AF92525B2D8B100E19167 /* fighter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = fighter.hpp; sourceTree = "<group>"; };
+		5D1AF92625B2D8D200E19167 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		5D1AF92825B2D8D200E19167 /* start.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = start.cpp; sourceTree = "<group>"; };
+		5D1AF92925B2D8D200E19167 /* battle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = battle.cpp; sourceTree = "<group>"; };
+		5D1AF92A25B2D8D200E19167 /* fighter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fighter.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5DFC0BFE25B2D0FE004B7398 /* Frameworks */ = {
+		5D0763D225B2D6530050192D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,39 +47,54 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5DFC0BF825B2D0FE004B7398 = {
+		5D0763CC25B2D6530050192D = {
 			isa = PBXGroup;
 			children = (
-				5DFC0C0325B2D0FE004B7398 /* BattleSim */,
-				5DFC0C0225B2D0FE004B7398 /* Products */,
+				5D0763D725B2D6530050192D /* BattleSim */,
+				5D0763D625B2D6530050192D /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		5DFC0C0225B2D0FE004B7398 /* Products */ = {
+		5D0763D625B2D6530050192D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5DFC0C0125B2D0FE004B7398 /* BattleSim */,
+				5D0763D525B2D6530050192D /* BattleSim */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5DFC0C0325B2D0FE004B7398 /* BattleSim */ = {
+		5D0763D725B2D6530050192D /* BattleSim */ = {
+			isa = PBXGroup;
+			children = (
+				5D1AF94625B2DF7F00E19167 /* Accounts */,
+				5D1AF92325B2D8B100E19167 /* battle.hpp */,
+				5D1AF92525B2D8B100E19167 /* fighter.hpp */,
+				5D1AF92425B2D8B100E19167 /* start.hpp */,
+				5D1AF92925B2D8D200E19167 /* battle.cpp */,
+				5D1AF92A25B2D8D200E19167 /* fighter.cpp */,
+				5D1AF92625B2D8D200E19167 /* main.cpp */,
+				5D1AF92825B2D8D200E19167 /* start.cpp */,
+			);
+			path = BattleSim;
+			sourceTree = "<group>";
+		};
+		5D1AF94625B2DF7F00E19167 /* Accounts */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = BattleSim;
+			path = Accounts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5DFC0C0025B2D0FE004B7398 /* BattleSim */ = {
+		5D0763D425B2D6530050192D /* BattleSim */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5DFC0C0825B2D0FE004B7398 /* Build configuration list for PBXNativeTarget "BattleSim" */;
+			buildConfigurationList = 5D0763DC25B2D6530050192D /* Build configuration list for PBXNativeTarget "BattleSim" */;
 			buildPhases = (
-				5DFC0BFD25B2D0FE004B7398 /* Sources */,
-				5DFC0BFE25B2D0FE004B7398 /* Frameworks */,
-				5DFC0BFF25B2D0FE004B7398 /* CopyFiles */,
+				5D0763D125B2D6530050192D /* Sources */,
+				5D0763D225B2D6530050192D /* Frameworks */,
+				5D0763D325B2D6530050192D /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -73,52 +102,56 @@
 			);
 			name = BattleSim;
 			productName = BattleSim;
-			productReference = 5DFC0C0125B2D0FE004B7398 /* BattleSim */;
+			productReference = 5D0763D525B2D6530050192D /* BattleSim */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		5DFC0BF925B2D0FE004B7398 /* Project object */ = {
+		5D0763CD25B2D6530050192D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1230;
 				TargetAttributes = {
-					5DFC0C0025B2D0FE004B7398 = {
+					5D0763D425B2D6530050192D = {
 						CreatedOnToolsVersion = 12.3;
 					};
 				};
 			};
-			buildConfigurationList = 5DFC0BFC25B2D0FE004B7398 /* Build configuration list for PBXProject "BattleSim" */;
-			compatibilityVersion = "Xcode 9.3";
+			buildConfigurationList = 5D0763D025B2D6530050192D /* Build configuration list for PBXProject "BattleSim" */;
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 5DFC0BF825B2D0FE004B7398;
-			productRefGroup = 5DFC0C0225B2D0FE004B7398 /* Products */;
+			mainGroup = 5D0763CC25B2D6530050192D;
+			productRefGroup = 5D0763D625B2D6530050192D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5DFC0C0025B2D0FE004B7398 /* BattleSim */,
+				5D0763D425B2D6530050192D /* BattleSim */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5DFC0BFD25B2D0FE004B7398 /* Sources */ = {
+		5D0763D125B2D6530050192D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D1AF92D25B2D8D200E19167 /* start.cpp in Sources */,
+				5D1AF92B25B2D8D200E19167 /* main.cpp in Sources */,
+				5D1AF92F25B2D8D200E19167 /* fighter.cpp in Sources */,
+				5D1AF92E25B2D8D200E19167 /* battle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		5DFC0C0625B2D0FE004B7398 /* Debug */ = {
+		5D0763DA25B2D6530050192D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -133,6 +166,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -145,7 +179,7 @@
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
@@ -177,7 +211,7 @@
 			};
 			name = Debug;
 		};
-		5DFC0C0725B2D0FE004B7398 /* Release */ = {
+		5D0763DB25B2D6530050192D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -192,6 +226,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -204,7 +239,7 @@
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = NO;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
@@ -229,9 +264,10 @@
 			};
 			name = Release;
 		};
-		5DFC0C0925B2D0FE004B7398 /* Debug */ = {
+		5D0763DD25B2D6530050192D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GS7MGB943M;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -239,9 +275,10 @@
 			};
 			name = Debug;
 		};
-		5DFC0C0A25B2D0FE004B7398 /* Release */ = {
+		5D0763DE25B2D6530050192D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GS7MGB943M;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -252,25 +289,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5DFC0BFC25B2D0FE004B7398 /* Build configuration list for PBXProject "BattleSim" */ = {
+		5D0763D025B2D6530050192D /* Build configuration list for PBXProject "BattleSim" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5DFC0C0625B2D0FE004B7398 /* Debug */,
-				5DFC0C0725B2D0FE004B7398 /* Release */,
+				5D0763DA25B2D6530050192D /* Debug */,
+				5D0763DB25B2D6530050192D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		5DFC0C0825B2D0FE004B7398 /* Build configuration list for PBXNativeTarget "BattleSim" */ = {
+		5D0763DC25B2D6530050192D /* Build configuration list for PBXNativeTarget "BattleSim" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5DFC0C0925B2D0FE004B7398 /* Debug */,
-				5DFC0C0A25B2D0FE004B7398 /* Release */,
+				5D0763DD25B2D6530050192D /* Debug */,
+				5D0763DE25B2D6530050192D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 5DFC0BF925B2D0FE004B7398 /* Project object */;
+	rootObject = 5D0763CD25B2D6530050192D /* Project object */;
 }

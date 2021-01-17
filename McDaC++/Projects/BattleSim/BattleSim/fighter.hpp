@@ -5,99 +5,106 @@
 
 class Fighter
 {
-    public:
-        unsigned int health;
-        unsigned int damage;
-        unsigned int main_input;
-        double taunt_amount = 1;
-        double magic_def = 1;
-        double magic_atk = 1;
-        bool reflector_use = false;
-        bool absorber_use = false;
-        bool def_inc_use = false;
-        bool atk_inc_use = false;
-        bool hlth_inc_use = false;
-        bool taunt_use = false;
+public:
+    uint32_t health;
+    uint32_t damage;
+    uint8_t main_input;
+    float taunt_amount = 1;
+    float magic_def = 1;
+    float magic_atk = 1;
+    bool reflector_use = false;
+    bool absorber_use = false;
+    bool def_inc_use = false;
+    bool atk_inc_use = false;
+    bool hlth_inc_use = false;
+    bool taunt_use = false;
 
-        Fighter(const int LV);
+    Fighter(const uint16_t LV);
 
-        ~Fighter();
+    ~Fighter();
 
-        void health_bar();
-
-        void use_reflector(std::vector<std::string> &text, unsigned int opp_attack, unsigned int &opp_health, const int opp_no = 0);
-
-        void use_absorber(std::vector<std::string> &text, unsigned int opp_attack, const int opp_no = 0);
-
-        void inc_def(std::vector<std::string> &text, const int opp_no = 0);
-
-        void inc_atk(std::vector<std::string> &text, const int opp_no = 0);
-
-        void inc_hlth(std::vector<std::string> &text, const int opp_no = 0);
-
-        void taunt(std::vector<std::string> &text, const int opp_no = 0);
+    void health_bar();
     
-    protected:
-        const unsigned int max_health;
-        unsigned int secondary_input;
-        unsigned int item_random;
-        unsigned int LV;
-        unsigned int reflector_health = 100;
-        unsigned int absorber_health = 100;
-        unsigned int hlth_inc;
-        double def_inc;
-        double atk_inc;
-        double magic_effect = 1;
-        inline static unsigned int no_inst = 0;
+    virtual void main_action() = 0;
 
-        static void add_one();
+    void use_reflector(std::vector<std::string> &text, uint32_t opp_attack, uint32_t &opp_health, const uint8_t opp_no = 0);
 
-        static void take_one();
+    void use_absorber(std::vector<std::string> &text, uint32_t opp_attack, const uint8_t opp_no = 0);
 
-        static int get_inst();
+    void inc_def(std::vector<std::string> &text, const uint8_t opp_no = 0);
+
+    void inc_atk(std::vector<std::string> &text, const uint8_t opp_no = 0);
+
+    void inc_hlth(std::vector<std::string> &text, const uint8_t opp_no = 0);
+
+    void taunt(std::vector<std::string> &text, const uint8_t opp_no = 0);
     
-    private:
-        int number;
+    virtual void attack(std::vector<std::string> &text, const float opp_def, const float opp_taunt, const uint8_t opp_no = 0) = 0;
+    
+    virtual const uint8_t get_attack_use() const = 0;
+    
+protected:
+    const uint32_t max_health;
+    uint8_t secondary_input;
+    uint8_t item_random;
+    uint16_t LV;
+    uint8_t reflector_health = 100;
+    uint8_t absorber_health = 100;
+    uint32_t hlth_inc;
+    float def_inc;
+    float atk_inc;
+    float magic_effect = 1;
+    inline static uint8_t no_inst = 0;
+
+    static void add_one();
+
+    static void take_one();
+
+    static uint8_t get_inst();
+    
+private:
+    uint8_t number;
 };
 
 class User : public Fighter
 {
-    private:
-        unsigned int then;
-        double passed;
-        bool loop = false;
+public:
+    const std::string name;
 
-    public:
-        bool attack_1 = false;
-        bool attack_2 = false;
-        bool attack_3 = false;
-        bool attack_4 = false;
-        const std::string name;
+    User(const std::string &name, const uint16_t LV);
 
-        User(const std::string name, const int LV);
+    void main_action();
 
-        void main_action();
+    void item_action();
 
-        int item_action();
+    void magic_action();
 
-        int magic_action();
+    void taunt_action();
 
-        int taunt_action();
+    void attack_action();
 
-        int attack_action();
+    void attack(std::vector<std::string> &text, const float opp_def, const float opp_taunt, const uint8_t opp_no = 0);
+    
+    const uint8_t get_attack_use() const;
 
-        void attack(std::vector<std::string> &text, const int opp_no, const double opp_def, const double opp_taunt);
+private:
+    uint32_t then;
+    uint8_t passed; // TODO fix data type of "passed"
+    uint8_t attack_opp_no;
+    bool loop = false;
 };
 
 class Computer : public Fighter
 {
-    public:
-        unsigned int number;
-        bool attack_use = false;
+public:
+    uint8_t number;
+    bool attack_use = false;
 
-        Computer(const int number, const int LV);
+    Computer(const uint8_t number, const uint16_t LV);
 
-        void main_action();
+    void main_action();
 
-        void attack(std::vector<std::string> &text, const double opp_defence, const double opp_taunt);
+    void attack(std::vector<std::string> &text, const float opp_defence, const float opp_taunt, const uint8_t opp_no = 0);
+    
+    const uint8_t get_attack_use() const;
 };

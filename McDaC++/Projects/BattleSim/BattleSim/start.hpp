@@ -5,34 +5,34 @@
 
 struct Details
 {
-    public:
-        int LV = 0;
-        int EXP;
-        std::string uname;
-        bool guest = false;
+public:
+    uint16_t LV = 0;
+    uint16_t EXP;
+    std::string uname;
+    bool guest = false;
 
-        void set_pwd(const std::string &pwd);
+    void set_pwd(const std::string &pwd);
 
-        void set_guest();
+    void set_guest();
 
-        static int inc_guests();
+    static uint8_t inc_guests();
 
-        void operator = (Details details);
+    void operator = (Details details);
 
-        void operator ++ (int);
+    void operator ++ (int);
 
-    private:
-        std::string pwd;
-        inline static unsigned long guest_num = 0;
+private:
+    std::string pwd;
+    inline static uint8_t guest_num = 0;
 };
 
-int start();
+uint8_t start();
 
-bool cfm_battle(const int LV);
+bool cfm_battle(const uint16_t LV);
 
-int tutorial();
+void tutorial();
 
-std::array<int, 3> custom(const int LV, const bool guest);
+std::array<uint16_t, 3> custom(const uint16_t LV, const bool guest);
 
 std::array<std::string, 2> multiplayer();
 

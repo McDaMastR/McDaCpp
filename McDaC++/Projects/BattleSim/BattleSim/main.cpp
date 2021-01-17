@@ -3,15 +3,16 @@
 #include <array>
 #include "start.hpp"
 #include "battle.hpp"
-#include "basic.hpp"
+
+#define CLEAR system("clear")
 
 int main()
 {
     srand(time(0));
 
-    int input;
+    uint8_t input;
     bool cfm;
-    std::array<int, 3> custom_values;
+    std::array<uint16_t, 3> custom_values;
     std::array<std::string, 2> unames;
     Details details;
 
@@ -20,9 +21,9 @@ int main()
 
     while(true)
     {
-        bsc::clear();
+        CLEAR;
         input = start();
-        bsc::clear();
+        CLEAR;
 
         switch(input)
         {
