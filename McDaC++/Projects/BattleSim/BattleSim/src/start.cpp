@@ -12,7 +12,7 @@ void Details::setPwd(const std::string &pwd) {get().privateSetPwd(pwd);}
 
 void Details::setGuest() {get().privateSetGuest();}
 
-void Details::privateSetPwd(const std::string &pwd) {this->pwd = pwd;}
+void Details::privateSetPwd(const std::string &other_pwd) {pwd = other_pwd;}
 
 void Details::privateSetGuest()
 {
@@ -23,7 +23,7 @@ void Details::privateSetGuest()
     uname = "Guest" + std::to_string(number);
 }
  
-uint8_t Details::incGuests()
+uint16_t Details::incGuests()
 {
     guest_num++; 
     return guest_num;
@@ -38,11 +38,20 @@ void Details::operator ++ (int)
         LV++;
         EXP = 0;
     }
+    
+    if(!guest)
+    {
+        std::ofstream account("../Accounts/" + uname + ".txt");
+        account << pwd;
+        account << '\n' << EXP;
+        account << '\n' << LV;
+    }
 }
 
-void start(uint8_t &input)
+uint16_t start()
 {
-    const std::string msg = R"(Enter 1 to start
+    uint16_t input;
+    constexpr const std::string_view msg = R"(Enter 1 to start
 Enter 2 for the tutorial
 Enter 3 for credits
 Enter 4 to login
@@ -51,10 +60,17 @@ Enter 6 to quit: )";
 
     std::cout << msg;
     std::cin >> input;
+    std::cin.clear();
+    std::cin.ignore();
+    return input;
 }
 
-void cfmBattle(uint16_t &no_opp)
+uint16_t cfmBattle()
 {
+    union
+    {
+        uint16_t input, no_opp;
+    };
     const uint16_t LV = Details::get().LV;
 
    if(!LV)
@@ -62,25 +78,26 @@ void cfmBattle(uint16_t &no_opp)
         do
         {
 			CLEAR;
-            std::cout << "You have to be signed in to battle\n";
-            std::cout << "Enter 1 to sign in\nEnter 2 to go to home screen: ";
-            std::cin >> no_opp;
+            std::cout << R"(You have to be signed in to battle";
+Enter 1 to sign in
+Enter 2 to go to home screen: )";
+            std::cin >> input;
         }
-        while(!(no_opp == 1 || no_opp == 2));
+        while(!(input == 1 || input == 2));
 
 		CLEAR;
 		
-        if(no_opp == 1)
+        if(input == 1)
 			signIn();
 		
-		no_opp = 0;
-		return;
+		input = 0;
+		return 0;
 	}
 
-    if(LV < 10) 	 no_opp = 1;
-    else if(LV < 25) no_opp = 2;
-    else if(LV < 40) no_opp = 3;
-    else 			 no_opp = 4;
+    if(LV < 10) 	    no_opp = 1;
+    else if(LV < 25)    no_opp = 2;
+    else if(LV < 40)    no_opp = 3;
+    else 			    no_opp = 4;
 
     std::cout << "You are on LV " << LV << ".\n";
     if(no_opp == 1)
@@ -96,19 +113,22 @@ void cfmBattle(uint16_t &no_opp)
     std::cout << "Continue?: ";
     std::cin.get();
 	std::cin.get();
+    CLEAR;
+
+    return no_opp;
 }
 
 void tutorial()
 {
-    uint8_t input;
+    uint16_t input;
 
-    const std::string options = R"(Welcome to the tutorial for C++ Battle Simulator
+    constexpr const std::string_view options = R"(Welcome to the tutorial for C++ Battle Simulator
 This battle simulator relies on the input of numbers, each of which correspond to a different action.
 
 For battling, enter 1
 To end the tutorial, enter 2 here: )";
 
-    const std::string battling = R"(BATTLING
+    constexpr const std::string_view battling = R"(BATTLING
 When you begin a battle, you will have multiple options to choose from.
 
 You can Attack by entering 1, which will lower the opponent's health:
@@ -152,13 +172,13 @@ Having both your health and the opponent's health lowered to 0 would cause a dra
 		
         switch(input)
         {
-            case 0x31: // 1
-                std::cout << battling << std::endl;
+            case 1:
+                std::cout << battling << '\n';
                 std::cin.get();
 				std::cin.get();
                 break;
             
-            case 0x32: // 2
+            case 2:
                 return;
         }
     }
@@ -166,7 +186,7 @@ Having both your health and the opponent's health lowered to 0 would cause a dra
 
 void credits()
 {
-    const std::string credits = R"(
+    constexpr const std::string_view credits = R"(
        Programming | Seth McDonald
                    |
     Special Thanks | Patrick Cornale
@@ -174,8 +194,21 @@ void credits()
                    | Maisie Wallace
                    | Charlotte Cosgrove)";
 
-    std::cout << credits << std::endl;
+    std::cout << credits << '\n';
     std::cin.get();
+}
+
+static uint16_t checkPwd(const std::string_view &pwd)
+{
+    if(pwd.length() < 6)
+        return 1;
+    if(pwd.find_first_of("1234567890") > pwd.length() - 1)
+        return 2;
+    if(pwd.find_first_of("abcdefghijklmnopqrstuvwxyz") > pwd.length() - 1)
+        return 3;
+    if(pwd.find_first_of("ABCDEFGHIJKLMNOPQRSTUVWXYZ") > pwd.length() - 1)
+        return 4;
+    return 0;
 }
 
 void signIn()
@@ -191,7 +224,8 @@ void signIn()
 		EXP
 	 */
 	
-    uint8_t input;
+    uint16_t input;
+    uint16_t sad_pwd = 0;
     std::string username;
     std::string password1;
 	std::string password2;
@@ -206,15 +240,15 @@ void signIn()
     
     switch(input)
     {
-        case 0x31: // 1
+        case 1:
             while(true)
             {
 				CLEAR;
 				
 				std::cout << "Signing in\nEnter q to stop\n\n";
 				
-                if(uname_incorrect) std::cout << "Username is incorrect\n";
-                else if(pwd_incorrect) std::cout << "Password is incorrect\n";
+                if      (uname_incorrect = false; uname_incorrect)  std::cout << "Username is incorrect\n";
+                else if (pwd_incorrect = false; pwd_incorrect)      std::cout << "Password is incorrect\n";
 
                 std::cout << "Please enter your username: ";
 				std::cin >> username;
@@ -225,13 +259,10 @@ void signIn()
                 std::cout << "Please enter your password: ";
 				std::cin >> password1;
 				
-                std::ifstream login ("../Accounts/" + username + ".txt");
+                std::ifstream login("../Accounts/" + username + ".txt");
 
-                if(!login.is_open())
-                {
-                    uname_incorrect = true;
+                if(uname_incorrect = true; !login.is_open())
                     continue;
-                }
 
                 login >> file_pwd;
 
@@ -245,7 +276,7 @@ void signIn()
                     details.uname = username;
                     details.setPwd(password1);
 
-                    std::cout << "Welcome back, " << username << std::endl;
+                    std::cout << "Welcome back, " << username << '\n';
                     std::cin.get();
 					std::cin.get();
                     break;
@@ -253,15 +284,19 @@ void signIn()
             }
             break;
         
-		case 0x32: // 2
+		case 2:
             while(true)
             {
 				CLEAR;
 
 				std::cout << "Signing up\n!No Spaces!\nEnter q to stop\n\n";
 				
-                if(pwd_incorrect) std::cout << "The two passwords do not match\n";
-                else if(uname_incorrect) std::cout << "That username has already been taken\n";
+                if(pwd_incorrect = false; pwd_incorrect)        std::cout << "The two passwords do not match\n";
+                if(uname_incorrect = false; uname_incorrect)    std::cout << "That username has already been taken\n";
+                if(sad_pwd = 0; sad_pwd == 1)                   std::cout << "Password must be at least 6 characters long\n";
+                if(sad_pwd = 0; sad_pwd == 2)                   std::cout << "Password must contain a number\n";
+                if(sad_pwd = 0; sad_pwd == 3)                   std::cout << "Password must contain a lower case letter\n";
+                if(sad_pwd = 0; sad_pwd == 4)                   std::cout << "Password must contain an upper case letter\n";
 
                 std::cout << "Enter your username: ";
 				std::cin >> username;
@@ -275,34 +310,37 @@ void signIn()
                 CLEAR;
 				std::cout << "Signing up\n!No Spaces!\nEnter q to stop\n\n";
 				
-                if(pwd_incorrect) std::cout << "The two passwords do not match\n";
-                else if(uname_incorrect) std::cout << "That username has already been taken\n";
+                if(pwd_incorrect = false; pwd_incorrect)        std::cout << "The two passwords do not match\n";
+                if(uname_incorrect = false; uname_incorrect)    std::cout << "That username has already been taken\n";
+                if(sad_pwd = 0; sad_pwd == 1)                   std::cout << "Password must be at least 6 characters long\n";
+                if(sad_pwd = 0; sad_pwd == 2)                   std::cout << "Password must contain a number\n";
+                if(sad_pwd = 0; sad_pwd == 3)                   std::cout << "Password must contain a lower case letter\n";
+                if(sad_pwd = 0; sad_pwd == 4)                   std::cout << "Password must contain an upper case letter\n";
 
-                std::cout << "Enter your username: " << username << std::endl;
+                std::cout << "Enter your username: " << username << '\n';
 				std::cout << "Enter your password: \n";
                 std::cout << "Confirm your password: ";
 				std::cin >> password2;
 
-                if(password1 != password2)
-                {
-                    pwd_incorrect = true;
+                if(pwd_incorrect = true; password1 != password2)
                     continue;
-                }
+
+                if((sad_pwd = checkPwd(password1)))
+                    continue;
 
 				std::filesystem::create_directory("../Accounts");
-                std::ifstream check ("../Accounts/" + username + ".txt");
+                std::ifstream check("../Accounts/" + username + ".txt");
 
-                if(check.is_open())
+                if(uname_incorrect = true; check.is_open())
 				{
-					uname_incorrect = true;
 					check.close();
 					continue;
 				}
 
-				std::ofstream signup ("../Accounts/" + username + ".txt");
+				std::ofstream signup("../Accounts/" + username + ".txt");
 				signup << password1; // Write password into file
-				signup << std::endl << 1; // Write LV
-				signup << std::endl << 0; // Write EXP
+				signup << '\n' << 1; // Write LV
+				signup << '\n' << 0; // Write EXP
 				details.LV = 1;
 				details.EXP = 0;
 				details.uname = username;
@@ -315,7 +353,7 @@ void signIn()
             }
             break;
         
-        case 0x33: // 3
+        case 3:
             details.setGuest();
             break;
     }
@@ -330,6 +368,5 @@ void signOut()
 		Details::get().LV = 0;
 		std::cout << "You have been successfully logged out\n";
 	}
-	std::cin.get();
 	std::cin.get();
 }

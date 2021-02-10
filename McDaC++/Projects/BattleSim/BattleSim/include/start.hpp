@@ -2,7 +2,7 @@
 
 #include "bspch.hpp"
 
-struct Details
+struct [[nodiscard("Discarding return value of type Details")]] Details
 {
 public:
     uint16_t EXP, LV = 0;
@@ -11,7 +11,7 @@ public:
 
     Details(const Details &) = delete;
 
-    static Details &get();
+    [[nodiscard("Discarding reference to Details singleton")]] static Details &get();
 
     static void setPwd (const std::string &pwd);
 
@@ -23,21 +23,21 @@ public:
 
 private:
     std::string pwd;
-    inline static uint8_t guest_num = 0;
+    constinit inline static uint16_t guest_num = 0;
 
-    Details() = default;
+    [[nodiscard("Discarding creation of object of type Details")]] Details() = default;
     ~Details() = default;
 
     void privateSetPwd(const std::string &pwd);
 
     void privateSetGuest();
 
-    static uint8_t incGuests();
+    static uint16_t incGuests();
 };
 
-void start(uint8_t &input);
+uint16_t start();
 
-void cfmBattle(uint16_t &no_opp);
+uint16_t cfmBattle();
 
 void tutorial();
 

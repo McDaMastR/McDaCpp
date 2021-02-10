@@ -1,8 +1,10 @@
 #pragma once
 
+// Debugging
+#include <cstdio>
+
 // Macros
-#define DEBUG
-#define CLEAR system("clear")
+#define CLEAR if((system("clear"))) system("cls")
 
 // Streams
 #include <iostream>
