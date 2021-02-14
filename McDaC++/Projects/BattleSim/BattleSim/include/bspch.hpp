@@ -1,8 +1,5 @@
 #pragma once
 
-// Debugging
-#include <cstdio>
-
 // Macros
 #define CLEAR if((system("clear"))) system("cls")
 
@@ -19,3 +16,6 @@
 
 // C headers
 #include <unistd.h>
+
+// Global variables
+constexpr const std::string_view admin_pwd = "best_pwd";

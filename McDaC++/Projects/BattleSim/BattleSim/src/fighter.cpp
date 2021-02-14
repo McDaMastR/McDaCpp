@@ -10,18 +10,18 @@ std::istream &operator >> (std::istream &input, Fighter::Input &value)
     return input;
 }
 
-Fighter::Fighter(const uint16_t LV)
-    : health(40 * LV),max_health(40 * LV), LV(LV) {addOne();}
+Fighter::Fighter(const uint16_t LV) noexcept
+    : health(40 * LV), max_health(40 * LV), LV(LV) {addOne();}
 
-Fighter::~Fighter() {takeOne();}
+Fighter::~Fighter() noexcept {takeOne();}
 
-void Fighter::addOne() {no_inst++;}
+void Fighter::addOne() noexcept {no_inst++;}
 
-void Fighter::takeOne() {no_inst--;}
+void Fighter::takeOne() noexcept {no_inst--;}
 
-uint16_t Fighter::getInst() {return no_inst;}
+uint16_t Fighter::getInst() noexcept {return no_inst;}
 
-void Fighter::healthBar() const {std::cout << health << "/" << max_health << '\n';}
+void Fighter::healthBar() const noexcept {std::cout << health << '/' << max_health << '\n';}
 
 void Fighter::useReflector(std::vector<std::string> &text, uint32_t opp_attack, uint32_t &opp_health, const uint16_t opp_no)
 {
@@ -36,7 +36,6 @@ void Fighter::useReflector(std::vector<std::string> &text, uint32_t opp_attack, 
         else
             text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack missed!");
     }
-
     else if(reflector_health < 0)
     {
         text.reserve(2);
@@ -51,19 +50,17 @@ void Fighter::useReflector(std::vector<std::string> &text, uint32_t opp_attack, 
             text.emplace_back("But opponent " + std::to_string(number) + "'s reflector had already been destroyed!");
             text.emplace_back("You inflicted " + std::to_string(opp_attack) + " damage");
         }
-
         else 
         {
             text.emplace_back("But your reflector had already been destroyed!");
             text.emplace_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
         }
     }
-
     else if(!reflector_health)
     {
         text.reserve(2);
         
-        opp_attack *= 1.6;
+        opp_attack = static_cast<uint32_t>(opp_attack * 1.6);
             
         if(opp_attack > health) 
             opp_attack = health;
@@ -76,19 +73,17 @@ void Fighter::useReflector(std::vector<std::string> &text, uint32_t opp_attack, 
             text.emplace_back("You destroyed opponent " + std::to_string(number) + "'s reflector!");
             text.emplace_back("You inflicted " + std::to_string(opp_attack) + " damage");
         }
-
         else 
         {
             text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack destroyed your reflector!");
             text.emplace_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
         }
     }
-
     else if(item_random > reflector_health)
     {
         text.reserve(2);
         
-        opp_attack *= 1.3;
+		opp_attack = static_cast<uint32_t>(opp_attack * 1.3);
 
         if(opp_attack > health) 
             opp_attack = health;
@@ -100,14 +95,12 @@ void Fighter::useReflector(std::vector<std::string> &text, uint32_t opp_attack, 
             text.emplace_back("You broke through opponent " + std::to_string(number) + "'s reflector!");
             text.emplace_back("You inflicted " + std::to_string(opp_attack) + " damage");
         }
-
         else 
         {
             text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack broke through your reflector!");
             text.emplace_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
         }
     }
-
     else
     {
         text.reserve(2);
@@ -124,7 +117,6 @@ void Fighter::useReflector(std::vector<std::string> &text, uint32_t opp_attack, 
             text.emplace_back("Your attack was reflected!");
             text.emplace_back("Your reflection inflicted " + std::to_string(opp_attack) + " damage");
         }
-
         else 
         {
             text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack was reflected!");
@@ -146,7 +138,6 @@ void Fighter::useAbsorber(std::vector<std::string> &text, uint32_t opp_attack, c
         else
             text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack missed!");
     }
-
     else if(absorber_health < 0)
     {
         text.reserve(2);
@@ -161,19 +152,17 @@ void Fighter::useAbsorber(std::vector<std::string> &text, uint32_t opp_attack, c
             text.emplace_back("But opponent " + std::to_string(number) + "'s absorber had already been destroyed!");
             text.emplace_back("You inflicted " + std::to_string(opp_attack) + " damage");
         }
-
         else 
         {
             text.emplace_back("But your absorber had already been destroyed!");
             text.emplace_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
         }
     }
-
     else if(!absorber_health)
     {
         text.reserve(2);
         
-        opp_attack *= 1.6;
+		opp_attack = static_cast<uint32_t>(opp_attack * 1.6);
             
         if(opp_attack > health) 
             opp_attack = health;
@@ -186,19 +175,17 @@ void Fighter::useAbsorber(std::vector<std::string> &text, uint32_t opp_attack, c
             text.emplace_back("You destroyed opponent " + std::to_string(number) + "'s absorber!");
             text.emplace_back("You inflicted " + std::to_string(opp_attack) + " damage");
         }
-
         else 
         {
             text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack destroyed your absorber!");
             text.emplace_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
         }
     }
-
     else if(item_random > absorber_health)
     {
         text.reserve(2);
         
-        opp_attack *= 1.3;
+		opp_attack = static_cast<uint32_t>(opp_attack * 1.3);
 
         if(opp_attack > health) 
             opp_attack = health;
@@ -210,19 +197,17 @@ void Fighter::useAbsorber(std::vector<std::string> &text, uint32_t opp_attack, c
             text.emplace_back("You broke through opponent " + std::to_string(number) + "'s absorber!");
             text.emplace_back("You inflicted " + std::to_string(opp_attack) + " damage");
         }
-
         else 
         {
             text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack broke through your absorber!");
             text.emplace_back("Opponent " + std::to_string(opp_no) + " inflicted " + std::to_string(opp_attack) + " damage");
         }
     }
-
     else
     {
         text.reserve(2);
         
-        magic_inc = std::ceil(opp_attack / (20 * LV)) / 100 + 100;
+        magic_inc = std::ceilf(opp_attack / (10 * LV)) / 100 + 1;
 
         magic_effect *= magic_inc;
         absorber_health -= 20;
@@ -230,13 +215,12 @@ void Fighter::useAbsorber(std::vector<std::string> &text, uint32_t opp_attack, c
         if(!opp_no) 
         {
             text.emplace_back("Your attack was absorbed!");
-            text.emplace_back("Opponent " + std::to_string(number) + "'s magic effectiveness increased by " + std::to_string((magic_inc - 1) * 100) + "%");
+            text.emplace_back("Opponent " + std::to_string(number) + "'s magic effectiveness increased by " + std::to_string(static_cast<uint16_t>(std::ceilf((magic_inc - 1) * 100))) + "%");
         }
-
         else 
         {
             text.emplace_back("Opponent " + std::to_string(opp_no) + "'s attack was absorbed!");
-            text.emplace_back("Your magic effectiveness increased by " + std::to_string(opp_attack * 100 - 100) + "%");
+            text.emplace_back("Your magic effectiveness increased by " + std::to_string(static_cast<uint16_t>(std::ceilf((magic_inc - 1) * 100))) + "%");
         }
     }
 }
@@ -254,8 +238,7 @@ void Fighter::incDef(std::vector<std::string> &text)
         text.emplace_back("Opponent " + std::to_string(number) + " used magic on their defence");
         text.emplace_back("Opponent " + std::to_string(number) + "'s defence increased by " + std::to_string((int) (100 - def_inc * 100)) + "%!");
     }
-
-    else 
+    else
     {
         text.emplace_back("You used magic on your defence");
         text.emplace_back("Your defence increased by " + std::to_string((int) (100 - def_inc * 100)) + "%!");
@@ -275,7 +258,6 @@ void Fighter::incAtk(std::vector<std::string> &text)
         text.emplace_back("Opponent " + std::to_string(number) + " used magic on their attack");
         text.emplace_back("Opponent " + std::to_string(number) + "'s attack increased by " + std::to_string((int) (atk_inc * 100 - 100)) + "%!");
     }
-
     else 
     {
         text.emplace_back("You used magic on your attack");
@@ -288,7 +270,7 @@ void Fighter::incHlth(std::vector<std::string> &text)
     text.reserve(2);
 
     std::uniform_int_distribution<uint16_t> distribution(10, 40);
-    hlth_inc = std::ceil(distribution(rand_gen) * magic_effect * LV / 5);
+    hlth_inc = static_cast<uint32_t>(std::ceilf(distribution(rand_gen) * magic_effect * LV / 5));
     health += hlth_inc;
 
     if(health > max_health)
@@ -296,13 +278,11 @@ void Fighter::incHlth(std::vector<std::string> &text)
         hlth_inc -= health - max_health;
         health = max_health;
     }
-
     if(number) 
     {
         text.emplace_back("Opponent " + std::to_string(number) + " used magic on their health");
         text.emplace_back("Opponent " + std::to_string(number) + "'s health increased by " + std::to_string(hlth_inc) + "!");
     }
-
     else 
     {
         text.emplace_back("You used magic on your health");
@@ -315,34 +295,33 @@ void Fighter::taunt(std::vector<std::string> &text)
     text.reserve(4);
 
     std::uniform_real_distribution<float> distribution(0.25f, 0.7f);
-    taunt_amount += distribution(rand_gen);
+	taunt_inc = distribution(rand_gen);
+    taunt_amount += taunt_inc;
 
     if(number) 
     {
         text.emplace_back("Opponent " + std::to_string(number) + " taunted you");
         text.emplace_back("You got frustrated...");
-        text.emplace_back("Your attack increased!");
-        text.emplace_back("Your defence decreased!");
+        text.emplace_back("Your attack increased by " + std::to_string(taunt_inc * 100) + "%!");
+        text.emplace_back("Your defence decreased by " + std::to_string(taunt_inc * 100) + "%!");
     }
-
     else if(getInst() - 1 == 1)
     {
         text.emplace_back("You taunted the opponent");
         text.emplace_back("The opponent got irritated...");
-        text.emplace_back("The opponent's attack increased!");
-        text.emplace_back("The opponent's defence decreased!");
+        text.emplace_back("The opponent's attack increased by " + std::to_string(taunt_inc * 100) + "%!");
+        text.emplace_back("The opponent's defence decreased by " + std::to_string(taunt_inc * 100) + "%!");
     }
-
     else
     {
         text.emplace_back("You taunted the opponents");
         text.emplace_back("The opponents got frustrated...");
-        text.emplace_back("The opponents' attack increased!");
-        text.emplace_back("The opponents' defence decreased!");
+        text.emplace_back("The opponents' attack increased by " + std::to_string(taunt_inc * 100) + "%!");
+        text.emplace_back("The opponents' defence decreased by " + std::to_string(taunt_inc * 100) + "%!");
     }
 }
 
-User::User(const std::string_view &name, const uint16_t LV)
+User::User(const std::string_view &name, const uint16_t LV) noexcept
     : Fighter(LV), name(name) {}
 
 void User::mainAction()
@@ -459,19 +438,20 @@ void User::attackAction()
 
 void User::attack(std::vector<std::string> &text, const float opp_def, const float opp_taunt, const uint16_t opp_no)
 {
-    damage = std::ceil(magic_atk * taunt_amount * opp_def * opp_taunt * LV / 5);
+    damage = static_cast<uint32_t>(std::ceilf(magic_atk * taunt_amount * opp_def * opp_taunt * LV / 5));
     std::uniform_int_distribution<uint16_t> distribution(2, 4);
 
     std::cout << "Wait...\n";
     sleep(distribution(rand_gen));
-    then = std::chrono::steady_clock::now();
     std::cout << "NOW!: ";
+	then = std::chrono::steady_clock::now();
     std::cin.get();
     std::cin.get();
+    CLEAR;
     now = std::chrono::steady_clock::now();
     passed = now - then;
 
-    if          (passed.count() <= 0.01)    damage  = 0;
+    if          (passed.count() <= 0.05)	damage  = 0;
     else if     (passed.count() <= 0.1)     damage *= 60;
     else if     (passed.count() <= 0.15)    damage *= 58;
     else if     (passed.count() <= 0.2)     damage *= 56;
@@ -507,7 +487,7 @@ void User::attack(std::vector<std::string> &text, const float opp_def, const flo
     text.emplace_back("You attacked opponent " + std::to_string(opp_no));
 }
 
-Computer::Computer(const uint16_t &&number, const uint16_t &&LV)
+Computer::Computer(const uint16_t &&number, const uint16_t &&LV) noexcept
     : Fighter(LV) {this->number = number;}
 
 void Computer::mainAction()
@@ -539,7 +519,6 @@ void Computer::mainAction()
         else 
             use = Use::hlth_inc;
     }
-    
     else if(main_input == Input::item)
     {
         secondary_input = distribution(rand_gen);
@@ -557,9 +536,8 @@ void Computer::mainAction()
 
 void Computer::attack(std::vector<std::string> &text, const float opp_def, const float opp_taunt, const uint16_t)
 {
-    std::uniform_int_distribution<uint16_t> distribution(1, 30);
-    damage = distribution(rand_gen) * magic_atk * taunt_amount;
-    damage *= opp_taunt * opp_def * LV / 5;
+    std::uniform_int_distribution<uint16_t> distribution(5, 35);
+    damage = static_cast<uint32_t>(distribution(rand_gen) * magic_atk * taunt_amount * opp_taunt * opp_def * LV / 5);
 
     if(damage < LV) 
         damage += LV;

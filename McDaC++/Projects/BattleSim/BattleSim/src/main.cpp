@@ -11,7 +11,7 @@
 
     HOW TO COMPILE AND RUN IN TERMINAL
     For debugging:
-    - time g++ -std=c++2a -Og -D DEBUG -Wall -Wextra -Wshadow -Wdouble-promotion -o BattleSimDebug main.cpp start.cpp battle.cpp fighter.cpp
+    - time g++ -std=c++2a -Og -D DEBUG -Wall -Wextra -Wshadow -Wdouble-promotion -Wpedantic -Wconversion -o BattleSimDebug main.cpp start.cpp battle.cpp fighter.cpp
     - ./BattleSimDebug
 
     For distribution:
@@ -19,31 +19,34 @@
     - ./BattleSim
 */
 
-#ifdef DEBUG
-constexpr const std::string_view admin_pwd = "best_pwd";
-#endif
-
 int main()
 {
     uint16_t input;
     uint16_t no_opp;
 
 #ifdef DEBUG
+    std::string admin_input;
+    std::cout << "In debug mode\nEnter admin pwd to continue: ";
+    std::cin >> admin_input;
+
+    if(admin_input != admin_pwd)
     {
-        std::string admin_input;
-        std::cout << "In debug mode\nEnter admin pwd to continue: ";
-        std::cin >> admin_input;
-        if(admin_input == admin_pwd)
-        {
-            Details::get().LV = 2;
-            battleInit(1);
-        }
-        else
-        {
-            std::cout << "Incorrect. Terminating program\n";
-            std::cin.get();
+        std::cout << "Incorrect. Terminating program\n";
+        std::cin.get();
+        return 0;
+    }
+    
+    bool contin_input;
+	while(true)
+    {
+        CLEAR;
+        Details::get().LV = 2;
+        battleInit(1);
+        CLEAR;
+        std::cout << "Continue? (1 for yes, 0 for no): ";
+        std::cin >> contin_input;
+        if(!contin_input)
             return 0;
-        }
     }
 #endif
     std::cout << "Welcome to C++ battle simulator!\nEnter to start";

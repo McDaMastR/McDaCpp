@@ -2,19 +2,19 @@
 
 #include <filesystem>
 
-Details &Details::get()
+Details &Details::get() noexcept
 {
     static Details details;
     return details;
 }
 
-void Details::setPwd(const std::string &pwd) {get().privateSetPwd(pwd);}
+void Details::setPwd(const std::string_view &pwd) noexcept {get().privateSetPwd(pwd);}
 
-void Details::setGuest() {get().privateSetGuest();}
+void Details::setGuest() noexcept {get().privateSetGuest();}
 
-void Details::privateSetPwd(const std::string &other_pwd) {pwd = other_pwd;}
+void Details::privateSetPwd(const std::string_view &other_pwd) noexcept {pwd = other_pwd;}
 
-void Details::privateSetGuest()
+void Details::privateSetGuest() noexcept
 {
     guest = true;
     uint16_t number = incGuests();
@@ -23,7 +23,7 @@ void Details::privateSetGuest()
     uname = "Guest" + std::to_string(number);
 }
  
-uint16_t Details::incGuests()
+uint16_t Details::incGuests() noexcept
 {
     guest_num++; 
     return guest_num;
@@ -38,7 +38,6 @@ void Details::operator ++ (int)
         LV++;
         EXP = 0;
     }
-    
     if(!guest)
     {
         std::ofstream account("../Accounts/" + uname + ".txt");
@@ -120,8 +119,6 @@ Enter 2 to go to home screen: )";
 
 void tutorial()
 {
-    uint16_t input;
-
     constexpr const std::string_view options = R"(Welcome to the tutorial for C++ Battle Simulator
 This battle simulator relies on the input of numbers, each of which correspond to a different action.
 
@@ -163,7 +160,8 @@ To win the battle, you must lower the health of the opponent to 0.
 But if your health gets lowered to 0 first, you will lose the battle.
 Having both your health and the opponent's health lowered to 0 would cause a draw.)";
 
-    while(true)
+    uint16_t input; 
+	while(true)
     {
 		CLEAR;
         std::cout << options;

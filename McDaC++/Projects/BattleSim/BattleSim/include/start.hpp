@@ -2,7 +2,7 @@
 
 #include "bspch.hpp"
 
-struct [[nodiscard("Discarding return value of type Details")]] Details
+struct [[nodiscard]] Details
 {
 public:
     uint16_t EXP, LV = 0;
@@ -11,28 +11,28 @@ public:
 
     Details(const Details &) = delete;
 
-    [[nodiscard("Discarding reference to Details singleton")]] static Details &get();
+    [[nodiscard]] static Details &get() noexcept;
 
-    static void setPwd (const std::string &pwd);
+    static void setPwd (const std::string_view &pwd) noexcept;
 
-    static void setGuest();
+    static void setGuest() noexcept;
 
     void operator = (const Details &) = delete;
 
     void operator ++ (int);
 
 private:
-    std::string pwd;
+    std::string_view pwd;
     constinit inline static uint16_t guest_num = 0;
 
-    [[nodiscard("Discarding creation of object of type Details")]] Details() = default;
+    [[nodiscard]] Details() = default;
     ~Details() = default;
 
-    void privateSetPwd(const std::string &pwd);
+    void privateSetPwd(const std::string_view &pwd) noexcept;
 
-    void privateSetGuest();
+    void privateSetGuest() noexcept;
 
-    static uint16_t incGuests();
+    static uint16_t incGuests() noexcept;
 };
 
 uint16_t start();
