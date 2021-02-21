@@ -1,0 +1,2 @@
+/usr/bin/ar qc libBSCstatic.a CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.o
+/usr/bin/ranlib libBSCstatic.a

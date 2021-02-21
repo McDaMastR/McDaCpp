@@ -1,11 +1,11 @@
 #pragma once
 
-#include "BSCTypes.hpp"
+#include "BSCtypes.hpp"
 
 namespace bsc
 {
 	// For amount of bools needed to be stored
-	template <ui2b S>
+	template <uint16_t S>
 	class MultiBool
 	{
 	public:

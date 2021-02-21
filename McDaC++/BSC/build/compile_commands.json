@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build",
+  "command": "/usr/bin/clang++   -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -Wall -Wextra -Wpedantic -Wshadow -o CMakeFiles/test.dir/src/types/BSCoperator.cpp.o -c /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCoperator.cpp",
+  "file": "/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCoperator.cpp"
+},
+{
+  "directory": "/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build",
+  "command": "/usr/bin/clang++   -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -Wall -Wextra -Wpedantic -Wshadow -o CMakeFiles/test.dir/src/types/BSCconstruct.cpp.o -c /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCconstruct.cpp",
+  "file": "/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCconstruct.cpp"
+},
+{
+  "directory": "/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build",
+  "command": "/usr/bin/clang++ -DBSCshared_EXPORTS  -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -fPIC -o CMakeFiles/BSCshared.dir/src/types/BSCoperator.cpp.o -c /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCoperator.cpp",
+  "file": "/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCoperator.cpp"
+},
+{
+  "directory": "/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build",
+  "command": "/usr/bin/clang++ -DBSCshared_EXPORTS  -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -fPIC -o CMakeFiles/BSCshared.dir/src/types/BSCconstruct.cpp.o -c /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCconstruct.cpp",
+  "file": "/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCconstruct.cpp"
+},
+{
+  "directory": "/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build",
+  "command": "/usr/bin/clang++   -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -o CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o -c /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCoperator.cpp",
+  "file": "/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCoperator.cpp"
+},
+{
+  "directory": "/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build",
+  "command": "/usr/bin/clang++   -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -o CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.o -c /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCconstruct.cpp",
+  "file": "/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCconstruct.cpp"
+}
+]
