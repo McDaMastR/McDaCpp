@@ -236,12 +236,12 @@ void Fighter::incDef(std::vector<std::string> &text)
     if(number) 
     {
         text.emplace_back("Opponent " + std::to_string(number) + " used magic on their defence");
-        text.emplace_back("Opponent " + std::to_string(number) + "'s defence increased by " + std::to_string((int) (100 - def_inc * 100)) + "%!");
+        text.emplace_back("Opponent " + std::to_string(number) + "'s defence increased by " + std::to_string(static_cast<int>(100 - def_inc * 100)) + "%!");
     }
     else
     {
         text.emplace_back("You used magic on your defence");
-        text.emplace_back("Your defence increased by " + std::to_string((int) (100 - def_inc * 100)) + "%!");
+        text.emplace_back("Your defence increased by " + std::to_string(static_cast<int>(100 - def_inc * 100)) + "%!");
     }
 }
 
@@ -256,12 +256,12 @@ void Fighter::incAtk(std::vector<std::string> &text)
     if(number) 
     {
         text.emplace_back("Opponent " + std::to_string(number) + " used magic on their attack");
-        text.emplace_back("Opponent " + std::to_string(number) + "'s attack increased by " + std::to_string((int) (atk_inc * 100 - 100)) + "%!");
+        text.emplace_back("Opponent " + std::to_string(number) + "'s attack increased by " + std::to_string(static_cast<int>(atk_inc * 100 - 100)) + "%!");
     }
     else 
     {
         text.emplace_back("You used magic on your attack");
-        text.emplace_back("Your attack increased by " + std::to_string((int) (atk_inc * 100 - 100)) + "%!");
+        text.emplace_back("Your attack increased by " + std::to_string(static_cast<int>(atk_inc * 100 - 100)) + "%!");
     }
 }
 

@@ -6,11 +6,6 @@
 			[
 				{
 					"build" : ".",
-					"childIndexes" : 
-					[
-						1,
-						2
-					],
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.19.5"
@@ -23,26 +18,6 @@
 						1,
 						2
 					]
-				},
-				{
-					"build" : "src",
-					"minimumCMakeVersion" : 
-					{
-						"string" : "3.19.5"
-					},
-					"parentIndex" : 0,
-					"projectIndex" : 0,
-					"source" : "src"
-				},
-				{
-					"build" : "include",
-					"minimumCMakeVersion" : 
-					{
-						"string" : "3.19.5"
-					},
-					"parentIndex" : 0,
-					"projectIndex" : 0,
-					"source" : "include"
 				}
 			],
 			"name" : "Debug",
@@ -51,9 +26,7 @@
 				{
 					"directoryIndexes" : 
 					[
-						0,
-						1,
-						2
+						0
 					],
 					"name" : "BSClib",
 					"targetIndexes" : 
@@ -69,21 +42,21 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "BSCshared::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-BSCshared-Debug-5620185e5a1838738a98.json",
+					"jsonFile" : "target-BSCshared-Debug-62a6a483597ebf2a6df1.json",
 					"name" : "BSCshared",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "BSCstatic::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-BSCstatic-Debug-20c5bab5627a6a9b8e44.json",
+					"jsonFile" : "target-BSCstatic-Debug-dff041551af99465c1bb.json",
 					"name" : "BSCstatic",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "test::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-test-Debug-6166bdf2c581d64a16c0.json",
+					"jsonFile" : "target-test-Debug-4b684cf55dd3e25a0ac1.json",
 					"name" : "test",
 					"projectIndex" : 0
 				}

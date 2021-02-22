@@ -11,11 +11,15 @@
 
     HOW TO COMPILE AND RUN IN TERMINAL
     For debugging:
-    - time g++ -std=c++2a -Og -D DEBUG -Wall -Wextra -Wshadow -Wdouble-promotion -Wpedantic -Wconversion -o BattleSimDebug main.cpp start.cpp battle.cpp fighter.cpp
+    - time clang++ -g -std=gnu++2a -Og -D DEBUG \
+        -Wall -Wextra -Wshadow -Wdouble-promotion -Wpedantic -Wconversion -Wnon-virtual-dtor \
+        -Woverloaded-virtual -Wold-style-cast -Wcast-align -Wunused -Wsign-conversion -Wnull-dereference -Wformat=2 \
+        -fsanitize=address -fsanitize=undefined -o BattleSimDebug \
+        main.cpp start.cpp battle.cpp fighter.cpp
     - ./BattleSimDebug
 
     For distribution:
-    - g++ -std=c++2a -O3 -o BattleSim main.cpp start.cpp battle.cpp fighter.cpp
+    - clang++ -std=gnu++2a -O3 -o BattleSim main.cpp start.cpp battle.cpp fighter.cpp
     - ./BattleSim
 */
 

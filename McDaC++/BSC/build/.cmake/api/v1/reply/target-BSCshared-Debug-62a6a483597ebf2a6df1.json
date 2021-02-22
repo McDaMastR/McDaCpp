@@ -1,9 +1,8 @@
 {
-	"archive" : {},
 	"artifacts" : 
 	[
 		{
-			"path" : "libBSCstatic.a"
+			"path" : "libBSCshared.dylib"
 		}
 	],
 	"backtrace" : 1,
@@ -25,7 +24,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 13,
+				"line" : 50,
 				"parent" : 0
 			}
 		]
@@ -36,7 +35,13 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk"
+					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -fPIC"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"define" : "BSCshared_EXPORTS"
 				}
 			],
 			"language" : "CXX",
@@ -47,9 +52,20 @@
 			]
 		}
 	],
-	"id" : "BSCstatic::@6890427a1f51a3e7e1df",
-	"name" : "BSCstatic",
-	"nameOnDisk" : "libBSCstatic.a",
+	"id" : "BSCshared::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "",
+				"role" : "flags"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "BSCshared",
+	"nameOnDisk" : "libBSCshared.dylib",
 	"paths" : 
 	{
 		"build" : ".",
@@ -111,5 +127,5 @@
 			"sourceGroupIndex" : 1
 		}
 	],
-	"type" : "STATIC_LIBRARY"
+	"type" : "SHARED_LIBRARY"
 }
