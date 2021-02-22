@@ -1,2 +1,8 @@
-# McDaCpp
-This repository is for most of my c/c++ work
+## McDaStuff
+# This repository is for my random projects and learning
+
+# Languages:
+C
+C++
+Python
+Typescript
