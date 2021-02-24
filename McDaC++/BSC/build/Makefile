@@ -168,6 +168,132 @@ BSCstatic/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/build
 .PHONY : BSCstatic/fast
 
+src/grid/BSCconstruct.o: src/grid/BSCconstruct.cpp.o
+
+.PHONY : src/grid/BSCconstruct.o
+
+# target to build an object file
+src/grid/BSCconstruct.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCconstruct.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCconstruct.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.o
+.PHONY : src/grid/BSCconstruct.cpp.o
+
+src/grid/BSCconstruct.i: src/grid/BSCconstruct.cpp.i
+
+.PHONY : src/grid/BSCconstruct.i
+
+# target to preprocess a source file
+src/grid/BSCconstruct.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCconstruct.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCconstruct.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.i
+.PHONY : src/grid/BSCconstruct.cpp.i
+
+src/grid/BSCconstruct.s: src/grid/BSCconstruct.cpp.s
+
+.PHONY : src/grid/BSCconstruct.s
+
+# target to generate assembly for a file
+src/grid/BSCconstruct.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCconstruct.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCconstruct.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.s
+.PHONY : src/grid/BSCconstruct.cpp.s
+
+src/grid/BSCfunction.o: src/grid/BSCfunction.cpp.o
+
+.PHONY : src/grid/BSCfunction.o
+
+# target to build an object file
+src/grid/BSCfunction.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCfunction.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCfunction.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o
+.PHONY : src/grid/BSCfunction.cpp.o
+
+src/grid/BSCfunction.i: src/grid/BSCfunction.cpp.i
+
+.PHONY : src/grid/BSCfunction.i
+
+# target to preprocess a source file
+src/grid/BSCfunction.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCfunction.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCfunction.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.i
+.PHONY : src/grid/BSCfunction.cpp.i
+
+src/grid/BSCfunction.s: src/grid/BSCfunction.cpp.s
+
+.PHONY : src/grid/BSCfunction.s
+
+# target to generate assembly for a file
+src/grid/BSCfunction.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCfunction.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCfunction.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.s
+.PHONY : src/grid/BSCfunction.cpp.s
+
+src/grid/BSCoperator.o: src/grid/BSCoperator.cpp.o
+
+.PHONY : src/grid/BSCoperator.o
+
+# target to build an object file
+src/grid/BSCoperator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCoperator.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCoperator.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o
+.PHONY : src/grid/BSCoperator.cpp.o
+
+src/grid/BSCoperator.i: src/grid/BSCoperator.cpp.i
+
+.PHONY : src/grid/BSCoperator.i
+
+# target to preprocess a source file
+src/grid/BSCoperator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCoperator.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCoperator.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.i
+.PHONY : src/grid/BSCoperator.cpp.i
+
+src/grid/BSCoperator.s: src/grid/BSCoperator.cpp.s
+
+.PHONY : src/grid/BSCoperator.s
+
+# target to generate assembly for a file
+src/grid/BSCoperator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCoperator.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCoperator.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.s
+.PHONY : src/grid/BSCoperator.cpp.s
+
+src/main.o: src/main.cpp.o
+
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
 src/types/BSCconstruct.o: src/types/BSCconstruct.cpp.o
 
 .PHONY : src/types/BSCconstruct.o
@@ -245,6 +371,18 @@ help:
 	@echo "... BSCshared"
 	@echo "... BSCstatic"
 	@echo "... test"
+	@echo "... src/grid/BSCconstruct.o"
+	@echo "... src/grid/BSCconstruct.i"
+	@echo "... src/grid/BSCconstruct.s"
+	@echo "... src/grid/BSCfunction.o"
+	@echo "... src/grid/BSCfunction.i"
+	@echo "... src/grid/BSCfunction.s"
+	@echo "... src/grid/BSCoperator.o"
+	@echo "... src/grid/BSCoperator.i"
+	@echo "... src/grid/BSCoperator.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 	@echo "... src/types/BSCconstruct.o"
 	@echo "... src/types/BSCconstruct.i"
 	@echo "... src/types/BSCconstruct.s"

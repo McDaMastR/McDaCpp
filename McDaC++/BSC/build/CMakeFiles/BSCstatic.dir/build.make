@@ -102,19 +102,64 @@ CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.s"
 	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCconstruct.cpp -o CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.s
 
+CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.o: CMakeFiles/BSCstatic.dir/flags.make
+CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.o: ../src/grid/BSCconstruct.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.o -c /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/grid/BSCconstruct.cpp
+
+CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/grid/BSCconstruct.cpp > CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.i
+
+CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/grid/BSCconstruct.cpp -o CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.s
+
+CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o: CMakeFiles/BSCstatic.dir/flags.make
+CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o: ../src/grid/BSCoperator.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o -c /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/grid/BSCoperator.cpp
+
+CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/grid/BSCoperator.cpp > CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.i
+
+CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/grid/BSCoperator.cpp -o CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.s
+
+CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o: CMakeFiles/BSCstatic.dir/flags.make
+CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o: ../src/grid/BSCfunction.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o -c /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/grid/BSCfunction.cpp
+
+CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/grid/BSCfunction.cpp > CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.i
+
+CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/grid/BSCfunction.cpp -o CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.s
+
 # Object files for target BSCstatic
 BSCstatic_OBJECTS = \
 "CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o" \
-"CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.o"
+"CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.o" \
+"CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.o" \
+"CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o" \
+"CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o"
 
 # External object files for target BSCstatic
 BSCstatic_EXTERNAL_OBJECTS =
 
 libBSCstatic.a: CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o
 libBSCstatic.a: CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.o
+libBSCstatic.a: CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.o
+libBSCstatic.a: CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o
+libBSCstatic.a: CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o
 libBSCstatic.a: CMakeFiles/BSCstatic.dir/build.make
 libBSCstatic.a: CMakeFiles/BSCstatic.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libBSCstatic.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX static library libBSCstatic.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/BSCstatic.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/BSCstatic.dir/link.txt --verbose=$(VERBOSE)
 

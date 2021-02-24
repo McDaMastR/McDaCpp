@@ -6,33 +6,23 @@
 
 #IncludeRegexTransform: 
 
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/include/BSCmath.hpp
-BSCtypes.hpp
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/include/BSCtypes.hpp
-
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/include/BSCmultiBool.hpp
-BSCtypes.hpp
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/include/BSCtypes.hpp
+/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/include/BSCgrid.hpp
+BSCpch.hpp
+/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/include/BSCpch.hpp
 
 /Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/include/BSCpch.hpp
 cstdint
 -
 climits
 -
+compare
+-
 stdexcept
 -
 iostream
 -
 
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/include/BSCtypes.hpp
-BSCpch.hpp
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/include/BSCpch.hpp
-
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/types/BSCoperator.cpp
-../../include/BSCtypes.hpp
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/include/BSCtypes.hpp
-../../include/BSCmath.hpp
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/include/BSCmath.hpp
-../../include/BSCmultiBool.hpp
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/include/BSCmultiBool.hpp
+/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/src/grid/BSCconstruct.cpp
+../../include/BSCgrid.hpp
+/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/include/BSCgrid.hpp
 

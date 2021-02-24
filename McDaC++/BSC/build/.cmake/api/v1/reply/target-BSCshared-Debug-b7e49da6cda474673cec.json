@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "test"
+			"path" : "libBSCshared.dylib"
 		}
 	],
 	"backtrace" : 1,
@@ -10,7 +10,7 @@
 	{
 		"commands" : 
 		[
-			"add_executable",
+			"add_library",
 			"add_compile_options"
 		],
 		"files" : 
@@ -25,13 +25,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 58,
+				"line" : 57,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 57,
+				"line" : 48,
 				"parent" : 0
 			}
 		]
@@ -42,7 +42,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk"
+					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -fPIC"
 				},
 				{
 					"backtrace" : 2,
@@ -106,10 +106,6 @@
 				},
 				{
 					"backtrace" : 2,
-					"fragment" : "-fsanitize=address"
-				},
-				{
-					"backtrace" : 2,
 					"fragment" : "-fsanitize=undefined"
 				},
 				{
@@ -125,23 +121,28 @@
 					"fragment" : "DEBUG"
 				}
 			],
+			"defines" : 
+			[
+				{
+					"define" : "BSCshared_EXPORTS"
+				}
+			],
 			"language" : "CXX",
 			"sourceIndexes" : 
 			[
 				0,
-				1
+				1,
+				2,
+				3,
+				4
 			]
 		}
 	],
-	"id" : "test::@6890427a1f51a3e7e1df",
+	"id" : "BSCshared::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
 		[
-			{
-				"fragment" : "-g",
-				"role" : "flags"
-			},
 			{
 				"fragment" : "",
 				"role" : "flags"
@@ -149,8 +150,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "test",
-	"nameOnDisk" : "test",
+	"name" : "BSCshared",
+	"nameOnDisk" : "libBSCshared.dylib",
 	"paths" : 
 	{
 		"build" : ".",
@@ -163,7 +164,20 @@
 			"sourceIndexes" : 
 			[
 				0,
-				1
+				1,
+				2,
+				3,
+				4
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				5,
+				6,
+				7,
+				8
 			]
 		}
 	],
@@ -180,7 +194,45 @@
 			"compileGroupIndex" : 0,
 			"path" : "src/types/BSCconstruct.cpp",
 			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/grid/BSCconstruct.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/grid/BSCoperator.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/grid/BSCfunction.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/BSCtypes.hpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/BSCpch.hpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/BSCmath.hpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/BSCgrid.hpp",
+			"sourceGroupIndex" : 1
 		}
 	],
-	"type" : "EXECUTABLE"
+	"type" : "SHARED_LIBRARY"
 }

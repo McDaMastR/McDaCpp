@@ -1,4 +1,7 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/BSCstatic.dir/src/grid/BSCconstruct.cpp.o"
+  "CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o"
+  "CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o"
   "CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.o"
   "CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o"
   "libBSCstatic.a"

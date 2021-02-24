@@ -6,5 +6,5 @@ CXX_DEFINES = -DBSCshared_EXPORTS
 
 CXX_INCLUDES = 
 
-CXX_FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -fPIC
+CXX_FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -fPIC -std=gnu++2a -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -Wold-style-cast -Wcast-align -Wunused -Wconversion -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat=2 -fsanitize=undefined -g -D DEBUG
 
