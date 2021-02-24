@@ -5,4 +5,4 @@
 C
 C++
 Python
-Typescript
+JavaScript
