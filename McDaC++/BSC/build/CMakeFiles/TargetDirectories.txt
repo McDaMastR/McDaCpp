@@ -1,5 +1,0 @@
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build/CMakeFiles/test.dir
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build/CMakeFiles/BSCshared.dir
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build/CMakeFiles/rebuild_cache.dir
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build/CMakeFiles/edit_cache.dir
-/Users/sethmcdonald/dev/McDaCpp/McDaC++/BSC/build/CMakeFiles/BSCstatic.dir

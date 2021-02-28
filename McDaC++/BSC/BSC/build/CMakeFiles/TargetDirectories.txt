@@ -1,0 +1,5 @@
+/Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles/test.dir
+/Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles/BSCshared.dir
+/Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles/rebuild_cache.dir
+/Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles/edit_cache.dir
+/Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles/BSCstatic.dir
