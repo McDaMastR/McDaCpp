@@ -53,19 +53,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/local/Cellar/cmake/3.19.6/bin/cmake
+CMAKE_COMMAND = /usr/local/Cellar/cmake/3.19.5/bin/cmake
 
 # The command to remove a file.
-RM = /usr/local/Cellar/cmake/3.19.6/bin/cmake -E rm -f
+RM = /usr/local/Cellar/cmake/3.19.5/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC
+CMAKE_SOURCE_DIR = /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build
+CMAKE_BINARY_DIR = /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/BSCstatic.dir/depend.make
@@ -78,86 +78,86 @@ include CMakeFiles/BSCstatic.dir/flags.make
 
 CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o: CMakeFiles/BSCstatic.dir/flags.make
 CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o: ../src/types/BSCoperator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o -c /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/types/BSCoperator.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/types/BSCoperator.cpp
 
 CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/types/BSCoperator.cpp > CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/types/BSCoperator.cpp > CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.i
 
 CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/types/BSCoperator.cpp -o CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/types/BSCoperator.cpp -o CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.s
 
-CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.o: CMakeFiles/BSCstatic.dir/flags.make
-CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.o: ../src/types/BSCconstruct.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.o -c /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/types/BSCconstruct.cpp
+CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.o: CMakeFiles/BSCstatic.dir/flags.make
+CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.o: ../src/types/BSCfunction.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/types/BSCfunction.cpp
 
-CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/types/BSCconstruct.cpp > CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.i
+CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.i"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/types/BSCfunction.cpp > CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.i
 
-CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/types/BSCconstruct.cpp -o CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.s
+CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.s"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/types/BSCfunction.cpp -o CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.s
 
 CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o: CMakeFiles/BSCstatic.dir/flags.make
 CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o: ../src/grid/BSCoperator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o -c /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/grid/BSCoperator.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/grid/BSCoperator.cpp
 
 CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/grid/BSCoperator.cpp > CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/grid/BSCoperator.cpp > CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.i
 
 CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/grid/BSCoperator.cpp -o CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/grid/BSCoperator.cpp -o CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.s
 
 CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o: CMakeFiles/BSCstatic.dir/flags.make
 CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o: ../src/grid/BSCfunction.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o -c /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/grid/BSCfunction.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/grid/BSCfunction.cpp
 
 CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/grid/BSCfunction.cpp > CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/grid/BSCfunction.cpp > CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.i
 
 CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/grid/BSCfunction.cpp -o CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/grid/BSCfunction.cpp -o CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.s
 
 CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.o: CMakeFiles/BSCstatic.dir/flags.make
 CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.o: ../src/math/BSCarithmatic.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.o -c /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/math/BSCarithmatic.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/math/BSCarithmatic.cpp
 
 CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/math/BSCarithmatic.cpp > CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/math/BSCarithmatic.cpp > CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.i
 
 CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/math/BSCarithmatic.cpp -o CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/math/BSCarithmatic.cpp -o CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.s
 
 CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.o: CMakeFiles/BSCstatic.dir/flags.make
 CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.o: ../src/math/BSCprobSolve.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.o -c /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/math/BSCprobSolve.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.o"
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/math/BSCprobSolve.cpp
 
 CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/math/BSCprobSolve.cpp > CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.i
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/math/BSCprobSolve.cpp > CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.i
 
 CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/src/math/BSCprobSolve.cpp -o CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.s
+	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/src/math/BSCprobSolve.cpp -o CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.s
 
 # Object files for target BSCstatic
 BSCstatic_OBJECTS = \
 "CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o" \
-"CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.o" \
+"CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.o" \
 "CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o" \
 "CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o" \
 "CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.o" \
@@ -167,14 +167,14 @@ BSCstatic_OBJECTS = \
 BSCstatic_EXTERNAL_OBJECTS =
 
 libBSCstatic.a: CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o
-libBSCstatic.a: CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.o
+libBSCstatic.a: CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.o
 libBSCstatic.a: CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o
 libBSCstatic.a: CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o
 libBSCstatic.a: CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.o
 libBSCstatic.a: CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.o
 libBSCstatic.a: CMakeFiles/BSCstatic.dir/build.make
 libBSCstatic.a: CMakeFiles/BSCstatic.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX static library libBSCstatic.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX static library libBSCstatic.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/BSCstatic.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/BSCstatic.dir/link.txt --verbose=$(VERBOSE)
 
@@ -188,6 +188,6 @@ CMakeFiles/BSCstatic.dir/clean:
 .PHONY : CMakeFiles/BSCstatic.dir/clean
 
 CMakeFiles/BSCstatic.dir/depend:
-	cd /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles/BSCstatic.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles/BSCstatic.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/BSCstatic.dir/depend
 

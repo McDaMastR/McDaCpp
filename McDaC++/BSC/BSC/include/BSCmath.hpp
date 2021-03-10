@@ -4,42 +4,52 @@
 namespace bsc::math
 {
     template <class T>
-    constexpr const inline T pi        = T(3.141592653589793238l ); // Long doubles are precise to 18 digits
+    constexpr const inline T pi       = T(3.141592653589793238l ); // Long doubles are precise to 18 digits
     template <class T>
-    constexpr const inline T e         = T(2.718281828459045235l );
+    constexpr const inline T e        = T(2.718281828459045235l );
     template <class T>
-    constexpr const inline T phi       = T(1.618033988749894848l );
+    constexpr const inline T phi      = T(1.618033988749894848l );
     template <class T>
-    constexpr const inline T in_phi    = T(-0.618033988749894848l);
+    constexpr const inline T in_phi   = T(-0.618033988749894848l);
     template <class T>
-    constexpr const inline T sqrt2     = T(1.414213562373095048l );
+    constexpr const inline T sqrt2    = T(1.414213562373095048l );
     template <class T>
-    constexpr const inline T sqrt3     = T(1.732050807568877293l );
+    constexpr const inline T sqrt3    = T(1.732050807568877293l );
     template <class T>
-    constexpr const inline T sqrt5     = T(2.236067977499789696l );
+    constexpr const inline T sqrt5    = T(2.236067977499789696l );
     template <class T>
-    constexpr const inline T in_sqrt5  = T(0.447213595499957927l );
+    constexpr const inline T in_sqrt5 = T(0.447213595499957927l );
 
     template <class T>
-    [[nodiscard]]                                                  constexpr T add(const T num1, const T num2) noexcept;
+    [[nodiscard]]                                                  constexpr inline T add(const T num1, const T num2) noexcept;
     template <class T, class S>
-    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr T add(const T num1, const S num2) noexcept;
+    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr inline T add(const T num1, const S num2) noexcept;
     template <class T>
-    [[nodiscard]]                                                  constexpr T sub(const T num1, const T num2) noexcept;
+    [[nodiscard]]                                                  constexpr inline T sub(const T num1, const T num2) noexcept;
     template <class T, class S>
-    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr T sub(const T num1, const S num2) noexcept;
+    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr inline T sub(const T num1, const S num2) noexcept;
     template <class T>
-    [[nodiscard]]                                                  constexpr T mul(const T num1, const T num2) noexcept;
+    [[nodiscard]]                                                  constexpr inline T mul(const T num1, const T num2) noexcept;
     template <class T, class S>
-    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr T mul(const T num1, const S num2) noexcept;
+    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr inline T mul(const T num1, const S num2) noexcept;
     template <class T>
-    [[nodiscard]]                                                  constexpr T div(const T num1, const T num2) noexcept;
+    [[nodiscard]]                                                  constexpr inline T div(const T num1, const T num2) noexcept;
     template <class T, class S>
-    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr T div(const T num1, const S num2) noexcept;
+    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr inline T div(const T num1, const S num2) noexcept;
     template <class T>
-    [[nodiscard]]                                                  constexpr T mod(const T num1, const T num2) noexcept;
+    [[nodiscard]]                                                  constexpr inline T mod(const T num1, const T num2) noexcept;
     template <class T, class S>
-    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr T mod(const T num1, const S num2) noexcept;
+    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr inline T mod(const T num1, const S num2) noexcept;
+
+	[[nodiscard]] constexpr double 		inverse(const std::size_t num) noexcept;
+	[[nodiscard]] constexpr float 		inverse(const float num		 ) noexcept;
+	[[nodiscard]] constexpr double 		inverse(const double num	 ) noexcept;
+	[[nodiscard]] constexpr long double inverse(const long double num) noexcept;
+
+	[[nodiscard]] constexpr int64_t    abs(const int64_t num	 ) noexcept;
+	[[nodiscard]] constexpr float	 	abs(const float num		 ) noexcept;
+	[[nodiscard]] constexpr double	 	abs(const double num	 ) noexcept;
+	[[nodiscard]] constexpr long double abs(const long double num) noexcept;
 
     [[nodiscard]] constexpr std::size_t sqr(const std::size_t base                         ) noexcept;
     [[nodiscard]] constexpr float       sqr(const float base                               ) noexcept;
@@ -66,15 +76,15 @@ namespace bsc::math
     [[nodiscard]] constexpr long double pow(const long double base, const double index     ) noexcept;
     [[nodiscard]] constexpr long double pow(const long double base, const long double index) noexcept;
 
-    [[nodiscard]] constexpr std::size_t inSqr(const std::size_t base                         ) noexcept;
+    [[nodiscard]] constexpr double      inSqr(const std::size_t base                         ) noexcept;
     [[nodiscard]] constexpr float       inSqr(const float base                               ) noexcept;
     [[nodiscard]] constexpr double      inSqr(const double base                              ) noexcept;
     [[nodiscard]] constexpr long double inSqr(const long double base                         ) noexcept;
-    [[nodiscard]] constexpr std::size_t inCbe(const std::size_t base                         ) noexcept;
+    [[nodiscard]] constexpr double	    inCbe(const std::size_t base                         ) noexcept;
     [[nodiscard]] constexpr float       inCbe(const float base                               ) noexcept;
     [[nodiscard]] constexpr double      inCbe(const double base                              ) noexcept;
     [[nodiscard]] constexpr long double inCbe(const long double base                         ) noexcept;
-    [[nodiscard]] constexpr std::size_t inPow(const std::size_t base, const std::size_t index) noexcept;
+    [[nodiscard]] constexpr double	    inPow(const std::size_t base, const std::size_t index) noexcept;
     [[nodiscard]] constexpr float       inPow(const float base, const std::size_t index      ) noexcept;
     [[nodiscard]] constexpr double      inPow(const double base, const std::size_t index     ) noexcept;
     [[nodiscard]] constexpr long double inPow(const long double base, const std::size_t index) noexcept;
@@ -91,30 +101,30 @@ namespace bsc::math
     [[nodiscard]] constexpr long double inPow(const long double base, const double index     ) noexcept;
     [[nodiscard]] constexpr long double inPow(const long double base, const long double index) noexcept;
 
-    [[nodiscard]] double      sqrt(std::size_t base                              ) noexcept;
-    [[nodiscard]] float       sqrt(float base                                    ) noexcept;
-    [[nodiscard]] double      sqrt(double base                                   ) noexcept;
-    [[nodiscard]] long double sqrt(long double base                              ) noexcept;
-    [[nodiscard]] double      cbrt(std::size_t base                              ) noexcept;
-    [[nodiscard]] float       cbrt(float base                                    ) noexcept;
-    [[nodiscard]] double      cbrt(double base                                   ) noexcept;
-    [[nodiscard]] long double cbrt(long double base                              ) noexcept;
-    [[nodiscard]] std::size_t root(const std::size_t base, const std::size_t root) noexcept;
-    [[nodiscard]] float       root(const float base, const std::size_t root      ) noexcept;
-    [[nodiscard]] double      root(const double base, const std::size_t root     ) noexcept;
-    [[nodiscard]] long double root(const long double base, const std::size_t root) noexcept;
-    [[nodiscard]] float       root(const std::size_t base, const float root      ) noexcept;
-    [[nodiscard]] double      root(const std::size_t base, const double root     ) noexcept;
-    [[nodiscard]] long double root(const std::size_t base, const long double root) noexcept;
-    [[nodiscard]] float       root(const float base, const float root            ) noexcept;
-    [[nodiscard]] double      root(const float base, const double root           ) noexcept;
-    [[nodiscard]] long double root(const float base, const long double root      ) noexcept;
-    [[nodiscard]] double      root(const double base, const float root           ) noexcept;
-    [[nodiscard]] double      root(const double base, const double root          ) noexcept;
-    [[nodiscard]] long double root(const double base, const long double root     ) noexcept;
-    [[nodiscard]] long double root(const long double base, const float root      ) noexcept;
-    [[nodiscard]] long double root(const long double base, const double root     ) noexcept;
-    [[nodiscard]] long double root(const long double base, const long double root) noexcept;
+    [[nodiscard]] 			double      sqrt(std::size_t base                              ) noexcept;
+    [[nodiscard]] 			float       sqrt(float base                                    ) noexcept;
+    [[nodiscard]] 			double      sqrt(double base                                   ) noexcept;
+    [[nodiscard]] 			long double sqrt(long double base                              ) noexcept;
+    [[nodiscard]] constexpr double      cbrt(std::size_t base                              ) noexcept;
+    [[nodiscard]] constexpr float       cbrt(float base                                    ) noexcept;
+    [[nodiscard]] constexpr double      cbrt(double base                                   ) noexcept;
+    [[nodiscard]] constexpr long double cbrt(long double base                              ) noexcept;
+    [[nodiscard]] constexpr std::size_t root(const std::size_t base, const std::size_t root) noexcept;
+    [[nodiscard]] constexpr float       root(const float base, const std::size_t root      ) noexcept;
+    [[nodiscard]] constexpr double      root(const double base, const std::size_t root     ) noexcept;
+    [[nodiscard]] constexpr long double root(const long double base, const std::size_t root) noexcept;
+    [[nodiscard]] constexpr float       root(const std::size_t base, const float root      ) noexcept;
+    [[nodiscard]] constexpr double      root(const std::size_t base, const double root     ) noexcept;
+    [[nodiscard]] constexpr long double root(const std::size_t base, const long double root) noexcept;
+    [[nodiscard]] constexpr float       root(const float base, const float root            ) noexcept;
+    [[nodiscard]] constexpr double      root(const float base, const double root           ) noexcept;
+    [[nodiscard]] constexpr long double root(const float base, const long double root      ) noexcept;
+    [[nodiscard]] constexpr double      root(const double base, const float root           ) noexcept;
+    [[nodiscard]] constexpr double      root(const double base, const double root          ) noexcept;
+    [[nodiscard]] constexpr long double root(const double base, const long double root     ) noexcept;
+    [[nodiscard]] constexpr long double root(const long double base, const float root      ) noexcept;
+    [[nodiscard]] constexpr long double root(const long double base, const double root     ) noexcept;
+    [[nodiscard]] constexpr long double root(const long double base, const long double root) noexcept;
 
     [[nodiscard]] double      inSqrt(std::size_t base                               ) noexcept;
     [[nodiscard]] float       inSqrt(float base                                     ) noexcept;
@@ -155,18 +165,20 @@ namespace bsc::math
     [[nodiscard]] constexpr std::size_t primeNum(const std::size_t num) noexcept;
     [[nodiscard]] constexpr bool        isPrime (const std::size_t num) noexcept;
     [[nodiscard]] constexpr std::size_t fibNum  (const std::size_t num) noexcept;
-    [[nodiscard]] constexpr bool        isFib   (const std::size_t num) noexcept;
+    [[nodiscard]] 			bool        isFib   (const std::size_t num) noexcept;
 
-    [[nodiscard]] constexpr double      maxAreaGivenPre (const std::size_t cir  ) noexcept;
-    [[nodiscard]] constexpr float       maxAreaGivenPre (const float cir        ) noexcept;
-    [[nodiscard]] constexpr double      maxAreaGivenPre (const double cir       ) noexcept;
-    [[nodiscard]] constexpr long double maxAreaGivenPre (const long double cir  ) noexcept;
-    [[nodiscard]] constexpr double      maxAreaGivenPreS(const std::size_t pre  ) noexcept;
-    [[nodiscard]] constexpr float       maxAreaGivenPreS(const float pre        ) noexcept;
-    [[nodiscard]] constexpr double      maxAreaGivenPreS(const double pre       ) noexcept;
-    [[nodiscard]] constexpr long double maxAreaGivenPreS(const long double pre  ) noexcept;
+    [[nodiscard]] constexpr double      maxAreaGivenPre (const std::size_t cir ) noexcept;
+    [[nodiscard]] constexpr float       maxAreaGivenPre (const float cir       ) noexcept;
+    [[nodiscard]] constexpr double      maxAreaGivenPre (const double cir      ) noexcept;
+    [[nodiscard]] constexpr long double maxAreaGivenPre (const long double cir ) noexcept;
+    [[nodiscard]] constexpr double      maxAreaGivenPreS(const std::size_t pre ) noexcept;
+    [[nodiscard]] constexpr float       maxAreaGivenPreS(const float pre       ) noexcept;
+    [[nodiscard]] constexpr double      maxAreaGivenPreS(const double pre      ) noexcept;
+    [[nodiscard]] constexpr long double maxAreaGivenPreS(const long double pre ) noexcept;
     [[nodiscard]]           double      maxPreGivenArea (const std::size_t area) noexcept;
     [[nodiscard]]           float       maxPreGivenArea (const float area      ) noexcept;
     [[nodiscard]]           double      maxPreGivenArea (const double area     ) noexcept;
     [[nodiscard]]           long double maxPreGivenArea (const long double area) noexcept;
+
+	[[nodiscard]] returnArray<std::size_t, 3> genPythagTriple(const std::size_t u, const std::size_t v) noexcept;
 }

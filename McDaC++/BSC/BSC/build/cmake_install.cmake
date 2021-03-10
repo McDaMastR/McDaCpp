@@ -1,4 +1,4 @@
-# Install script for directory: /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC
+# Install script for directory: /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

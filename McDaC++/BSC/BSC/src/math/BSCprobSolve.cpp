@@ -26,16 +26,16 @@ namespace bsc::math
             return true;
         if(num % 2 == 0 || num % 3 == 0) 
             return false;
-        for(int i = 5; i * i < num + 1; i += 6)
+        for(std::size_t i = 5; i * i < num + 1; i += 6)
             if(!(num % i && num % (i + 2))) 
                 return false;
         return true;
     }
     [[nodiscard]] constexpr std::size_t fibNum(const std::size_t num) noexcept
     {
-        return in_sqrt5<long double> * (pow(phi<double>, num) - pow(in_phi<double>, num));
+        return static_cast<std::size_t>(in_sqrt5<long double> * static_cast<long double>(pow(phi<double>, num) - pow(in_phi<double>, num)));
     }
-    [[nodiscard]] constexpr bool isFib(const std::size_t num) noexcept
+    [[nodiscard]] bool isFib(const std::size_t num) noexcept
     {
         return perfSqr(5 * num * num + 4) || perfSqr(5 * num * num - 4);
     }
@@ -88,4 +88,13 @@ namespace bsc::math
     {
         return 4 * sqrt(area);
     }
+
+	[[nodiscard]] returnArray<std::size_t, 3> genPythagTriple(const std::size_t u, const std::size_t v) noexcept
+	{
+		std::size_t temp[3];
+		temp[0] = u * u - v * v;
+		temp[1] = 2 * u * v;
+		temp[2] = u * u + v * v;
+		return temp;
+	}
 }

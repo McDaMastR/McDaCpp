@@ -25,15 +25,6 @@ namespace bsc
             case 3:
                 array = new T[lengths[0]][lengths[1]][lengths[2]];
                 break;
-            case 4:
-                array = new T[lengths[0]][lengths[1]][lengths[2]][lengths[3]];
-                break;
-            case 5:
-                array = new T[lengths[0]][lengths[1]][lengths[2]][lengths[3]][lengths[4]];
-                break;
-            case 6:
-                array = new T[lengths[0]][lengths[1]][lengths[2]][lengths[3]][lengths[4]][lengths[5]];
-                break;
         }
     }
     

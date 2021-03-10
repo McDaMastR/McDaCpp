@@ -3,55 +3,89 @@
 namespace bsc::math
 {
     template <class T>
-    [[nodiscard]] constexpr T add(const T num1, const T num2) noexcept // Do paramater packaging
+    [[nodiscard]] constexpr inline T add(const T num1, const T num2) noexcept // Do paramater packaging
     {
         return num1 + num2;
     }
     template <class T, class S>
-    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr T add(const T num1, const S num2) noexcept
+    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr inline T add(const T num1, const S num2) noexcept
     {
         return num1 + num2;
     }
     template <class T>
-    [[nodiscard]] constexpr T sub(const T num1, const T num2) noexcept
+    [[nodiscard]] constexpr inline T sub(const T num1, const T num2) noexcept
     {
         return num1 - num2;
     }
     template <class T, class S>
-    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr T sub(const T num1, const S num2) noexcept
+    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr inline T sub(const T num1, const S num2) noexcept
     {
         return num1 - num2;
     }
     template <class T>
-    [[nodiscard]] constexpr T mul(const T num1, const T num2) noexcept
+    [[nodiscard]] constexpr inline T mul(const T num1, const T num2) noexcept
     {
         return num1 * num2;
     }
     template <class T, class S>
-    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr T mul(const T num1, const S num2) noexcept
+    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr inline T mul(const T num1, const S num2) noexcept
     {
         return num1 * num2;
     }
     template <class T>
-    [[nodiscard]] constexpr T div(const T num1, const T num2) noexcept
+    [[nodiscard]] constexpr inline T div(const T num1, const T num2) noexcept
     {
         return num1 / num2;
     }
     template <class T, class S>
-    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr T div(const T num1, const S num2) noexcept
+    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr inline T div(const T num1, const S num2) noexcept
     {
         return num1 / num2;
     }
     template <class T>
-    [[nodiscard]] constexpr T mod(const T num1, const T num2) noexcept
+    [[nodiscard]] constexpr inline T mod(const T num1, const T num2) noexcept
     {
         return num1 % num2;
     }
     template <class T, class S>
-    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr T mod(const T num1, const S num2) noexcept
+    [[deprecated("Unsafe to use multiple data types"), nodiscard]] constexpr inline T mod(const T num1, const S num2) noexcept
     {
         return num1 % num2;
     }
+
+	[[nodiscard]] constexpr double inverse(const std::size_t num) noexcept
+	{
+		return 1 / num;
+	}
+	[[nodiscard]] constexpr float inverse(const float num) noexcept
+	{
+		return 1 / num;
+	}
+	[[nodiscard]] constexpr double inverse(const double num) noexcept
+	{
+		return 1 / num;
+	}
+	[[nodiscard]] constexpr long double inverse(const long double num) noexcept
+	{
+		return 1 / num;
+	}
+
+	[[nodiscard]] constexpr int64_t abs(const int64_t num) noexcept
+	{
+		return num < 0 ? -num : num;
+	}
+	[[nodiscard]] constexpr float abs(const float num) noexcept
+	{
+		return num < 0 ? -num : num;
+	}
+	[[nodiscard]] constexpr double abs(const double num) noexcept
+	{
+		return num < 0 ? -num : num;
+	}
+	[[nodiscard]] constexpr long double abs(const long double num) noexcept
+	{
+		return num < 0 ? -num : num;
+	}
 
     [[nodiscard]] constexpr std::size_t sqr(const std::size_t base) noexcept
     {
@@ -85,6 +119,7 @@ namespace bsc::math
     {
         return base * base * base;
     }
+
     [[nodiscard]] constexpr std::size_t pow(const std::size_t base, const std::size_t index) noexcept
     {
         if(!index)
@@ -94,6 +129,15 @@ namespace bsc::math
             result *= base;
         return result;
     }
+    [[nodiscard]] constexpr float pow(const float base, const std::size_t index) noexcept
+	{
+		if(!index)
+            return 1;
+        float result = base;
+        for(std::size_t i = 1; i < index; i++)
+            result *= base;
+        return result;
+	}
     [[nodiscard]] constexpr double pow(const double base, const std::size_t index) noexcept
     {
         if(!index)
@@ -103,11 +147,165 @@ namespace bsc::math
             result *= base;
         return result;
     }
-    [[nodiscard]] constexpr double pow(const std::size_t base, const double index) noexcept;
-    [[nodiscard]] constexpr double pow(const double base, const double index) noexcept;
+    [[nodiscard]] constexpr long double pow(const long double base, const std::size_t index) noexcept
+	{
+		if(!index)
+            return 1;
+        long double result = base;
+        for(std::size_t i = 1; i < index; i++)
+            result *= base;
+        return result;
+	}
+    [[nodiscard]] constexpr float pow(const std::size_t base, const float index) noexcept
+	{
+		return pow(base, static_cast<std::size_t>(index)) * root(base, 1 / (index - static_cast<std::size_t>(index)));
+	}
+    [[nodiscard]] constexpr double pow(const std::size_t base, const double index) noexcept
+	{
+		return pow(base, static_cast<std::size_t>(index)) * root(base, 1 / (index - static_cast<std::size_t>(index)));
+	}
+    [[nodiscard]] constexpr long double pow(const std::size_t base, const long double index) noexcept
+	{
+		return pow(base, static_cast<std::size_t>(index)) * root(base, 1 / (index - static_cast<std::size_t>(index)));
+	}
+    [[nodiscard]] constexpr float pow(const float base, const float index) noexcept
+	{
+		return pow(base, static_cast<std::size_t>(index)) * root(base, 1 / (index - static_cast<std::size_t>(index)));
+	}
+    [[nodiscard]] constexpr double pow(const float base, const double index) noexcept
+	{
+		return static_cast<double>(pow(base, static_cast<std::size_t>(index))) * root(base, 1 / (index - static_cast<std::size_t>(index)));
+	}
+    [[nodiscard]] constexpr long double pow(const float base, const long double index) noexcept
+	{
+		return static_cast<long double>(pow(base, static_cast<std::size_t>(index))) * root(base, 1 / (index - static_cast<std::size_t>(index)));
+	}
+    [[nodiscard]] constexpr double pow(const double base, const float index ) noexcept
+	{
+		return pow(base, static_cast<std::size_t>(index)) * root(base, 1 / (index - static_cast<std::size_t>(index)));
+	}
+    [[nodiscard]] constexpr double pow(const double base, const double index) noexcept
+	{
+		return pow(base, static_cast<std::size_t>(index)) * root(base, 1 / (index - static_cast<std::size_t>(index)));
+	}
+    [[nodiscard]] constexpr long double pow(const double base, const long double index) noexcept
+	{
+		return static_cast<long double>(pow(base, static_cast<std::size_t>(index))) * root(base, 1 / (index - static_cast<std::size_t>(index)));
+	}
+    [[nodiscard]] constexpr long double pow(const long double base, const float index) noexcept
+	{
+		return pow(base, static_cast<std::size_t>(index)) * root(base, 1 / (index - static_cast<std::size_t>(index)));
+	}
+    [[nodiscard]] constexpr long double pow(const long double base, const double index) noexcept
+	{
+		return pow(base, static_cast<std::size_t>(index)) * root(base, 1 / (index - static_cast<std::size_t>(index)));
+	}
+    [[nodiscard]] constexpr long double pow(const long double base, const long double index) noexcept
+	{
+		return pow(base, static_cast<std::size_t>(index)) * root(base, 1 / (index - static_cast<std::size_t>(index)));
+	}
+
+    [[nodiscard]] constexpr double inSqr(const std::size_t base) noexcept
+	{
+		return 1 / (base * base);
+	}
+    [[nodiscard]] constexpr float inSqr(const float base) noexcept
+	{
+		return 1 / (base * base);
+	}
+    [[nodiscard]] constexpr double inSqr(const double base) noexcept
+	{
+		return 1 / (base * base);
+	}
+    [[nodiscard]] constexpr long double inSqr(const long double base) noexcept
+	{
+		return 1 / (base * base);
+	}
+    [[nodiscard]] constexpr double inCbe(const std::size_t base) noexcept
+	{
+		return 1 / (base * base * base);
+	}
+    [[nodiscard]] constexpr float inCbe(const float base) noexcept
+	{
+		return 1 / (base * base * base);
+	}
+    [[nodiscard]] constexpr double inCbe(const double base) noexcept
+	{
+		return 1 / (base * base * base);
+	}
+    [[nodiscard]] constexpr long double inCbe(const long double base) noexcept
+	{
+		return 1 / (base * base * base);
+	}	
+    [[nodiscard]] constexpr double inPow(const std::size_t base, const std::size_t index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr float inPow(const float base, const std::size_t index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr double inPow(const double base, const std::size_t index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr long double inPow(const long double base, const std::size_t index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr float inPow(const std::size_t base, const float index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr double inPow(const std::size_t base, const double index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr long double inPow(const std::size_t base, const long double index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr float inPow(const float base, const float index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr double inPow(const float base, const double index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr long double inPow(const float base, const long double index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr double inPow(const double base, const float index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr double inPow(const double base, const double index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr long double inPow(const double base, const long double index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr long double inPow(const long double base, const float index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr long double inPow(const long double base, const double index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
+    [[nodiscard]] constexpr long double inPow(const long double base, const long double index) noexcept
+	{
+		return 1 / pow(base, index);
+	}
 
     [[nodiscard]] double sqrt(std::size_t base) noexcept
     {
+		if(!base || base == 1)
+			return base;
         if constexpr(sizeof(std::size_t) == 8)
         {
             int64_t i;
@@ -126,6 +324,8 @@ namespace bsc::math
     }
     [[nodiscard]] float sqrt(float base) noexcept
     {
+		if(base == 0 || base == 1)
+			return base;
         int32_t i;
         i = *reinterpret_cast<int32_t *>(&base);
         i = 0x5f3759df - (i >> 1);
@@ -134,6 +334,8 @@ namespace bsc::math
     }
     [[nodiscard]] double sqrt(double base) noexcept
     {
+		if(base == 0 || base == 1)
+			return base;
         int64_t i;
         i = *reinterpret_cast<int64_t *>(&base);
         i = 0x5f3759df - (i >> 1);
@@ -142,6 +344,8 @@ namespace bsc::math
     }
     [[nodiscard]] long double sqrt(long double base) noexcept
     {
+		if(base == 0 || base == 1)
+			return base;
         int64_t i;
         i = *reinterpret_cast<int64_t *>(&base);
         i = 0x5f3759df - (i >> 1);
@@ -149,8 +353,47 @@ namespace bsc::math
         base *= static_cast<long double>(i * (1.5f - 0.5f * i * i));
         return base * i * static_cast<long double>(1.5f - 0.5f * i * i);
     }
+    [[nodiscard]] constexpr double cbrt(std::size_t base) noexcept
+	{
+		if(!base || base == 1)
+			return base;
+		double start = 0, end = base, mid, error; 
+		while (true) 
+		{ 
+			mid = (start + end)/2; 
+			error = abs(base - mid * mid * mid); 
+			if (error <= 0.0000001) 
+				return mid; 
+			if (mid * mid * mid > base) 
+				end = mid; 
+			else
+				start = mid; 
+    	}
+	}
+    [[nodiscard]] constexpr float       cbrt(float base                                    ) noexcept;
+    [[nodiscard]] constexpr double      cbrt(double base                                   ) noexcept;
+    [[nodiscard]] constexpr long double cbrt(long double base                              ) noexcept;
+    [[nodiscard]] constexpr std::size_t root(const std::size_t base, const std::size_t root) noexcept;
+    [[nodiscard]] constexpr float       root(const float base, const std::size_t root      ) noexcept;
+    [[nodiscard]] constexpr double      root(const double base, const std::size_t root     ) noexcept;
+    [[nodiscard]] constexpr long double root(const long double base, const std::size_t root) noexcept;
+    [[nodiscard]] constexpr float       root(const std::size_t base, const float root      ) noexcept;
+    [[nodiscard]] constexpr double      root(const std::size_t base, const double root     ) noexcept;
+    [[nodiscard]] constexpr long double root(const std::size_t base, const long double root) noexcept;
+    [[nodiscard]] constexpr float       root(const float base, const float root            ) noexcept;
+    [[nodiscard]] constexpr double      root(const float base, const double root           ) noexcept;
+    [[nodiscard]] constexpr long double root(const float base, const long double root      ) noexcept;
+    [[nodiscard]] constexpr double      root(const double base, const float root           ) noexcept;
+    [[nodiscard]] constexpr double      root(const double base, const double root          ) noexcept;
+    [[nodiscard]] constexpr long double root(const double base, const long double root     ) noexcept;
+    [[nodiscard]] constexpr long double root(const long double base, const float root      ) noexcept;
+    [[nodiscard]] constexpr long double root(const long double base, const double root     ) noexcept;
+    [[nodiscard]] constexpr long double root(const long double base, const long double root) noexcept;
+
     [[nodiscard]] double inSqrt(std::size_t base) noexcept
     {
+		if(base == 1)
+			return base;
         if constexpr(sizeof(std::size_t) == 8)
         {
             int64_t i;
@@ -169,6 +412,8 @@ namespace bsc::math
     }
     [[nodiscard]] float inSqrt(float base) noexcept
     {
+		if(base == 1)
+			return base;
         int32_t i;
         i = *reinterpret_cast<int32_t *>(&base);
         i = 0x5f3759df - (i >> 1);
@@ -177,6 +422,8 @@ namespace bsc::math
     }
     [[nodiscard]] double inSqrt(double base) noexcept
     {
+		if(base == 1)
+			return base;
         int64_t i;
         i = *reinterpret_cast<int64_t *>(&base);
         i = 0x5f3759df - (i >> 1);
@@ -185,6 +432,8 @@ namespace bsc::math
     }
     [[nodiscard]] long double inSqrt(long double base) noexcept
     {
+		if(base == 1)
+			return base;
         int64_t i;
         i = *reinterpret_cast<int64_t *>(&base);
         i = 0x5f3759df - (i >> 1);

@@ -58,19 +58,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/local/Cellar/cmake/3.19.6/bin/cmake
+CMAKE_COMMAND = /usr/local/Cellar/cmake/3.19.5/bin/cmake
 
 # The command to remove a file.
-RM = /usr/local/Cellar/cmake/3.19.6/bin/cmake -E rm -f
+RM = /usr/local/Cellar/cmake/3.19.5/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC
+CMAKE_SOURCE_DIR = /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build
+CMAKE_BINARY_DIR = /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -78,7 +78,7 @@ CMAKE_BINARY_DIR = /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/local/Cellar/cmake/3.19.6/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/3.19.5/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -89,7 +89,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/local/Cellar/cmake/3.19.6/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/3.19.5/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -99,9 +99,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/seth/Dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/sethmcdonald/dev/McDaStuff/McDaC++/BSC/BSC/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -168,13 +168,39 @@ BSCstatic/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/build
 .PHONY : BSCstatic/fast
 
+main.o: main.cpp.o
+
+.PHONY : main.o
+
+# target to build an object file
+main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/main.cpp.o
+.PHONY : main.cpp.o
+
+main.i: main.cpp.i
+
+.PHONY : main.i
+
+# target to preprocess a source file
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/main.cpp.i
+.PHONY : main.cpp.i
+
+main.s: main.cpp.s
+
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/main.cpp.s
+.PHONY : main.cpp.s
+
 src/grid/BSCfunction.o: src/grid/BSCfunction.cpp.o
 
 .PHONY : src/grid/BSCfunction.o
 
 # target to build an object file
 src/grid/BSCfunction.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCfunction.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCfunction.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.o
 .PHONY : src/grid/BSCfunction.cpp.o
@@ -185,7 +211,6 @@ src/grid/BSCfunction.i: src/grid/BSCfunction.cpp.i
 
 # target to preprocess a source file
 src/grid/BSCfunction.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCfunction.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCfunction.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.i
 .PHONY : src/grid/BSCfunction.cpp.i
@@ -196,7 +221,6 @@ src/grid/BSCfunction.s: src/grid/BSCfunction.cpp.s
 
 # target to generate assembly for a file
 src/grid/BSCfunction.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCfunction.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCfunction.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCfunction.cpp.s
 .PHONY : src/grid/BSCfunction.cpp.s
@@ -207,7 +231,6 @@ src/grid/BSCoperator.o: src/grid/BSCoperator.cpp.o
 
 # target to build an object file
 src/grid/BSCoperator.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCoperator.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCoperator.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.o
 .PHONY : src/grid/BSCoperator.cpp.o
@@ -218,7 +241,6 @@ src/grid/BSCoperator.i: src/grid/BSCoperator.cpp.i
 
 # target to preprocess a source file
 src/grid/BSCoperator.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCoperator.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCoperator.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.i
 .PHONY : src/grid/BSCoperator.cpp.i
@@ -229,37 +251,9 @@ src/grid/BSCoperator.s: src/grid/BSCoperator.cpp.s
 
 # target to generate assembly for a file
 src/grid/BSCoperator.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/grid/BSCoperator.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/grid/BSCoperator.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/grid/BSCoperator.cpp.s
 .PHONY : src/grid/BSCoperator.cpp.s
-
-src/main.o: src/main.cpp.o
-
-.PHONY : src/main.o
-
-# target to build an object file
-src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
-
-src/main.i: src/main.cpp.i
-
-.PHONY : src/main.i
-
-# target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
-
-src/main.s: src/main.cpp.s
-
-.PHONY : src/main.s
-
-# target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
 
 src/math/BSCarithmatic.o: src/math/BSCarithmatic.cpp.o
 
@@ -267,7 +261,6 @@ src/math/BSCarithmatic.o: src/math/BSCarithmatic.cpp.o
 
 # target to build an object file
 src/math/BSCarithmatic.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/math/BSCarithmatic.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/math/BSCarithmatic.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.o
 .PHONY : src/math/BSCarithmatic.cpp.o
@@ -278,7 +271,6 @@ src/math/BSCarithmatic.i: src/math/BSCarithmatic.cpp.i
 
 # target to preprocess a source file
 src/math/BSCarithmatic.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/math/BSCarithmatic.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/math/BSCarithmatic.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.i
 .PHONY : src/math/BSCarithmatic.cpp.i
@@ -289,7 +281,6 @@ src/math/BSCarithmatic.s: src/math/BSCarithmatic.cpp.s
 
 # target to generate assembly for a file
 src/math/BSCarithmatic.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/math/BSCarithmatic.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/math/BSCarithmatic.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/math/BSCarithmatic.cpp.s
 .PHONY : src/math/BSCarithmatic.cpp.s
@@ -300,7 +291,6 @@ src/math/BSCprobSolve.o: src/math/BSCprobSolve.cpp.o
 
 # target to build an object file
 src/math/BSCprobSolve.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/math/BSCprobSolve.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/math/BSCprobSolve.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.o
 .PHONY : src/math/BSCprobSolve.cpp.o
@@ -311,7 +301,6 @@ src/math/BSCprobSolve.i: src/math/BSCprobSolve.cpp.i
 
 # target to preprocess a source file
 src/math/BSCprobSolve.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/math/BSCprobSolve.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/math/BSCprobSolve.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.i
 .PHONY : src/math/BSCprobSolve.cpp.i
@@ -322,43 +311,39 @@ src/math/BSCprobSolve.s: src/math/BSCprobSolve.cpp.s
 
 # target to generate assembly for a file
 src/math/BSCprobSolve.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/math/BSCprobSolve.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/math/BSCprobSolve.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/math/BSCprobSolve.cpp.s
 .PHONY : src/math/BSCprobSolve.cpp.s
 
-src/types/BSCconstruct.o: src/types/BSCconstruct.cpp.o
+src/types/BSCfunction.o: src/types/BSCfunction.cpp.o
 
-.PHONY : src/types/BSCconstruct.o
+.PHONY : src/types/BSCfunction.o
 
 # target to build an object file
-src/types/BSCconstruct.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/types/BSCconstruct.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/types/BSCconstruct.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.o
-.PHONY : src/types/BSCconstruct.cpp.o
+src/types/BSCfunction.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/types/BSCfunction.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.o
+.PHONY : src/types/BSCfunction.cpp.o
 
-src/types/BSCconstruct.i: src/types/BSCconstruct.cpp.i
+src/types/BSCfunction.i: src/types/BSCfunction.cpp.i
 
-.PHONY : src/types/BSCconstruct.i
+.PHONY : src/types/BSCfunction.i
 
 # target to preprocess a source file
-src/types/BSCconstruct.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/types/BSCconstruct.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/types/BSCconstruct.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.i
-.PHONY : src/types/BSCconstruct.cpp.i
+src/types/BSCfunction.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/types/BSCfunction.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.i
+.PHONY : src/types/BSCfunction.cpp.i
 
-src/types/BSCconstruct.s: src/types/BSCconstruct.cpp.s
+src/types/BSCfunction.s: src/types/BSCfunction.cpp.s
 
-.PHONY : src/types/BSCconstruct.s
+.PHONY : src/types/BSCfunction.s
 
 # target to generate assembly for a file
-src/types/BSCconstruct.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/types/BSCconstruct.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/types/BSCconstruct.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/types/BSCconstruct.cpp.s
-.PHONY : src/types/BSCconstruct.cpp.s
+src/types/BSCfunction.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/types/BSCfunction.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/types/BSCfunction.cpp.s
+.PHONY : src/types/BSCfunction.cpp.s
 
 src/types/BSCoperator.o: src/types/BSCoperator.cpp.o
 
@@ -366,7 +351,6 @@ src/types/BSCoperator.o: src/types/BSCoperator.cpp.o
 
 # target to build an object file
 src/types/BSCoperator.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/types/BSCoperator.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/types/BSCoperator.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.o
 .PHONY : src/types/BSCoperator.cpp.o
@@ -377,7 +361,6 @@ src/types/BSCoperator.i: src/types/BSCoperator.cpp.i
 
 # target to preprocess a source file
 src/types/BSCoperator.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/types/BSCoperator.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/types/BSCoperator.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.i
 .PHONY : src/types/BSCoperator.cpp.i
@@ -388,7 +371,6 @@ src/types/BSCoperator.s: src/types/BSCoperator.cpp.s
 
 # target to generate assembly for a file
 src/types/BSCoperator.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/types/BSCoperator.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCshared.dir/build.make CMakeFiles/BSCshared.dir/src/types/BSCoperator.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/BSCstatic.dir/build.make CMakeFiles/BSCstatic.dir/src/types/BSCoperator.cpp.s
 .PHONY : src/types/BSCoperator.cpp.s
@@ -404,24 +386,24 @@ help:
 	@echo "... BSCshared"
 	@echo "... BSCstatic"
 	@echo "... test"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
 	@echo "... src/grid/BSCfunction.o"
 	@echo "... src/grid/BSCfunction.i"
 	@echo "... src/grid/BSCfunction.s"
 	@echo "... src/grid/BSCoperator.o"
 	@echo "... src/grid/BSCoperator.i"
 	@echo "... src/grid/BSCoperator.s"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
 	@echo "... src/math/BSCarithmatic.o"
 	@echo "... src/math/BSCarithmatic.i"
 	@echo "... src/math/BSCarithmatic.s"
 	@echo "... src/math/BSCprobSolve.o"
 	@echo "... src/math/BSCprobSolve.i"
 	@echo "... src/math/BSCprobSolve.s"
-	@echo "... src/types/BSCconstruct.o"
-	@echo "... src/types/BSCconstruct.i"
-	@echo "... src/types/BSCconstruct.s"
+	@echo "... src/types/BSCfunction.o"
+	@echo "... src/types/BSCfunction.i"
+	@echo "... src/types/BSCfunction.s"
 	@echo "... src/types/BSCoperator.o"
 	@echo "... src/types/BSCoperator.i"
 	@echo "... src/types/BSCoperator.s"
