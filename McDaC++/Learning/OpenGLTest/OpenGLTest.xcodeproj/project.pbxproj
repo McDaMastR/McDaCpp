@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5D2E75C725D6A0BF0045078C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5D2E75C625D6A0BF0045078C /* main.cpp */; };
 		5D2E75D025D6A1010045078C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2E75CF25D6A1010045078C /* Cocoa.framework */; };
 		5D2E75D225D6A11A0045078C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2E75D125D6A11A0045078C /* OpenGL.framework */; };
 		5D2E75D425D6A2A60045078C /* libGLEW.2.2.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D2E75D325D6A2A60045078C /* libGLEW.2.2.0.dylib */; };
@@ -28,11 +27,12 @@
 
 /* Begin PBXFileReference section */
 		5D2E75C325D6A0BF0045078C /* OpenGLTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenGLTest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5D2E75C625D6A0BF0045078C /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; usesTabs = 1; };
 		5D2E75CF25D6A1010045078C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		5D2E75D125D6A11A0045078C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		5D2E75D325D6A2A60045078C /* libGLEW.2.2.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.2.0.dylib; path = ../../../../../../../usr/local/Cellar/glew/2.2.0_1/lib/libGLEW.2.2.0.dylib; sourceTree = "<group>"; };
 		5D2E75D525D6A3020045078C /* libglfw.3.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libglfw.3.3.dylib; path = ../../../../../../../usr/local/Cellar/glfw/3.3.2/lib/libglfw.3.3.dylib; sourceTree = "<group>"; };
+		5DBD1BC625F8C2730027397D /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = OpenGLTest/src; sourceTree = "<group>"; };
+		5DBD1BC725F8C2730027397D /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; name = res; path = OpenGLTest/res; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +53,8 @@
 		5D2E75BA25D6A0BF0045078C = {
 			isa = PBXGroup;
 			children = (
-				5D2E75C525D6A0BF0045078C /* OpenGLTest */,
+				5DBD1BC725F8C2730027397D /* res */,
+				5DBD1BC625F8C2730027397D /* src */,
 				5D2E75C425D6A0BF0045078C /* Products */,
 				5D2E75CE25D6A1010045078C /* Frameworks */,
 			);
@@ -65,14 +66,6 @@
 				5D2E75C325D6A0BF0045078C /* OpenGLTest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		5D2E75C525D6A0BF0045078C /* OpenGLTest */ = {
-			isa = PBXGroup;
-			children = (
-				5D2E75C625D6A0BF0045078C /* main.cpp */,
-			);
-			path = OpenGLTest;
 			sourceTree = "<group>";
 		};
 		5D2E75CE25D6A1010045078C /* Frameworks */ = {
@@ -142,7 +135,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D2E75C725D6A0BF0045078C /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,3 @@
-#define DEBUG
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -9,183 +7,131 @@
 #include <string>
 #include <sstream>
 
-#ifdef DEBUG
-	#define ASSERT(x) 	if(!(x)) {\
-						glfwTerminate();\
-						return -1;}
+#include "include/renderer.hpp"
+#include "include/vertexBuffer.hpp"
+#include "include/vertexBufferLayout.hpp"
+#include "include/indexBuffer.hpp"
+#include "include/vertexArray.hpp"
+#include "include/shader.hpp"
+#include "include/texture.hpp"
 
-	#define GL_CALL(x)	clearErrors();\
-						x;\
-						ASSERT(logCall(#x, __FILE__, __LINE__))
-#else
-	#define GL_CALL(x) x
-#endif
+#include "tests/include/test.hpp"
+#include "tests/include/clearColor.hpp"
+#include "tests/include/texture2D.hpp"
+
+#include "vendor/glm/glm.hpp"
+#include "vendor/glm/gtc/matrix_transform.hpp"
+#include "vendor/imGui/imgui.h"
+#include "vendor/imGui/imgui_impl_glfw.h"
+#include "vendor/imGui/imgui_impl_opengl3.h"
 
 /*	How to compile:	
 
-time clang++ -std=gnu++2a \
--D GL_SILENCE_DEPRECATION -D GLEW_STATIC \
--lglfw.3.3 -lglew.2.2.0 -framework OpenGL \
--Wall -Wextra -Wpedantic \
--g -Og src/main.cpp -o myApp
+time clang++ -std=gnu++2a -g -Og -D DEBUG \
+-D GL_SILENCE_DEPRECATION -D GLEW_STATIC -lglfw.3.3 -lglew.2.2.0 -framework OpenGL \
+-Wall -Wextra -Wpedantic -Wshadow -Wno-deprecated-volatile \
+src/vendor/stb_image/stb_image.cpp src/vendor/imGui/imgui_demo.cpp src/vendor/imGui/imgui_draw.cpp \
+src/vendor/imGui/imgui_tables.cpp src/vendor/imGui/imgui_widgets.cpp src/vendor/imGui/imgui.cpp \
+src/vendor/imGui/imgui_impl_glfw.cpp src/vendor/imGui/imgui_impl_opengl3.cpp \
+src/main.cpp src/renderer.cpp src/vertexBuffer.cpp src/indexBuffer.cpp src/vertexArray.cpp \
+src/vertexBufferElement.cpp src/vertexBufferLayout.cpp src/shader.cpp src/texture.cpp \
+src/tests/test.cpp src/tests/clearColor.cpp src/tests/texture2D.cpp \
+-o myApp
 
 */
 
-static void clearErrors()
-{
-	while (glGetError());
-}
-
-static bool logCall(const char *func, const char *file, const uint64_t line)
-{
-	uint32_t error;
-	bool isError = false;
-	while ((error = glGetError()))
-	{
-		std::cout << "OpenGL Error has occured\nError code: 0x" << std::hex << error << 
-		std::dec << "\nFile: " << file << "\nLine: " << line << "\nFunction: " << func << '\n';
-		isError = true;
-	}
-	if (isError)
-		return false;
-	return true;
-}
-
-static std::pair<std::string, std::string> parseShader(const std::string &filepath)
-{
-	enum class Mode
-	{
-		null = -1, vertex = 0, fragment = 1
-	};
-
-	std::ifstream file(filepath);
-	std::string line;
-	std::stringstream ss[2];
-	Mode mode = Mode::null;
-
-	while (getline(file, line))
-	{
-		if (line.find("#shader") != std::string::npos)
-		{
-			if (line.find("vertex") != std::string::npos)
-				mode = Mode::vertex;
-			else if (line.find("fragment") != std::string::npos)
-				mode = Mode::fragment;
-			continue;
-		}
-		ss[static_cast<int16_t>(mode)] << line << '\n';
-	}
-	return {ss[0].str(), ss[1].str()};
-}
-
-static uint32_t compileShader(const uint32_t type, const std::string &source)
-{
-	GL_CALL(const uint32_t id = glCreateShader(type));
-	const char *src = source.c_str();
-	GL_CALL(glShaderSource(id, 1, &src, nullptr));
-	GL_CALL(glCompileShader(id));
-
-	int32_t debug_result;
-	GL_CALL(glGetShaderiv(id, GL_COMPILE_STATUS, &debug_result));
-	if (!debug_result)
-	{
-		int32_t length;
-		GL_CALL(glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length));
-		char *error_msg = static_cast<char *>(alloca(length * sizeof(char)));
-		GL_CALL(glGetShaderInfoLog(id, length, &length, error_msg));
-
-		std::cout << "Shader Error: " << error_msg << '\n';
-		GL_CALL(glDeleteShader(id));
-		return 0;
-	}
-
-	return id;
-}
-
-static uint32_t createShader(const std::string &vertex_shader, const std::string &fragment_shader)
-{
-	GL_CALL(uint32_t program = glCreateProgram());
-	const uint32_t vs = compileShader(GL_VERTEX_SHADER, vertex_shader);
-	const uint32_t fs = compileShader(GL_FRAGMENT_SHADER, fragment_shader);
-
-	GL_CALL(glAttachShader(program, vs));
-	GL_CALL(glAttachShader(program, fs));
-	GL_CALL(glLinkProgram(program));
-	GL_CALL(glValidateProgram(program));
-
-	GL_CALL(glDeleteShader(vs));
-	GL_CALL(glDeleteShader(fs));
-	return program;
-}
-
-int main()
+int main(const int argc, const char **argv)
 {	
 	GLFWwindow* window;
 
     if (!glfwInit())
+	{
+		std::cout << "Failed to initialize glfw\n";
         return -1;
+	}
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    window = glfwCreateWindow(640, 480, "McDaWindow", NULL, NULL);
+    window = glfwCreateWindow(960, 540, "McDaWindow", NULL, NULL); // 16:9 ratio
     if (!window)
     {
+		std::cout << "Failed to create window\n";
         glfwTerminate();
         return -1;
     }
 
     glfwMakeContextCurrent(window);
 
+	glfwSwapInterval(1);
+
 	glewExperimental = GL_TRUE;
 	if (glewInit())
+	{
+		std::cout << "Failed to initialize glew\n";
 		return -1;
+	}
 
 	GL_CALL(std::cout << "GPU Version: " << glGetString(GL_VERSION) << "\nGLSL version: " 
 	<< reinterpret_cast<char *>(const_cast<GLubyte *>(glGetString(GL_SHADING_LANGUAGE_VERSION))) << '\n');
 
-	const float positions[] = {
-		-0.5f, -0.5f, // Vertex 0
- 		 0.5f, -0.5f, // Vertex 1
-	 	 0.5f,  0.5f, // Vertex 2
-		-0.5f,  0.5f, // Vertex 3
-	};
-	const uint32_t indices[] = {
-		0, 1, 2, 
-		2, 3, 0
-	};
+	{
+		GL_CALL(glEnable(GL_BLEND));
+		GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)); // ALPHA == r g b _A_
 
-	uint32_t bufferID;
-	GL_CALL(glGenBuffers(1, &bufferID));
-	GL_CALL(glBindBuffer(GL_ARRAY_BUFFER, bufferID));
-	GL_CALL(glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW));
+		const Renderer renderer;
 
-	uint32_t ibo;
-	GL_CALL(glGenBuffers(1, &ibo));
-	GL_CALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));
-	GL_CALL(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW));
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGui::StyleColorsDark();
+		ImGui_ImplGlfw_InitForOpenGL(window, true);
+		ImGui_ImplOpenGL3_Init((reinterpret_cast<char *>(const_cast<unsigned char *>(glGetString(330)))));
 
-	GL_CALL(glEnableVertexAttribArray(0));
-	GL_CALL(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0));
+		test::Test *current_test;
+		test::Menu *test_menu = new test::Menu(current_test);
+		current_test = test_menu;
 
-	auto[vertex_shader, fragment_shader] = parseShader("../res/shaders/basic.shader");
+		test_menu->registerTest<test::ClearColor>("Clear Color");
+		test_menu->registerTest<test::Texture2D>("Texture 2D");
 
-	const uint32_t shader = createShader(vertex_shader, fragment_shader);
-	GL_CALL(glUseProgram(shader));
- 
-    while (!glfwWindowShouldClose(window))
-    {
-        GL_CALL(glClear(GL_COLOR_BUFFER_BIT));
+		while (!glfwWindowShouldClose(window))
+		{
+			renderer.setClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			renderer.clear();
 
-		GL_CALL(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+			ImGui_ImplOpenGL3_NewFrame();
+			ImGui_ImplGlfw_NewFrame();
+			ImGui::NewFrame();
 
-        glfwSwapBuffers(window);
+			if (current_test)
+			{
+				current_test->onUpdate(0.0f);
+				current_test->onRender();
 
-        glfwPollEvents();
-    }
+				ImGui::Begin("Debugging");
+				if (current_test != test_menu && ImGui::Button("Back to Menu"))
+				{
+					delete current_test;
+					current_test = test_menu;
+				}
+				current_test->onImGuiRender();
+				ImGui::End();
+			}
+			ImGui::Render();
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-	GL_CALL(glDeleteProgram(shader));
+			glfwSwapBuffers(window);
+			glfwPollEvents();
+		}
+		if (current_test != test_menu)
+			delete current_test;
+		delete test_menu;
+	}
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
     glfwTerminate();
 }

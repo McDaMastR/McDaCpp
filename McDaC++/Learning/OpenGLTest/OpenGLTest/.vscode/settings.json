@@ -1,5 +1,11 @@
 {
 	"files.associations": {
-		"string": "cpp"
+		"string": "cpp",
+		"functional": "cpp",
+		"utility": "cpp",
+		"__hash_table": "cpp",
+		"__locale": "cpp",
+		"iterator": "cpp",
+		"memory": "cpp"
 	}
 }
