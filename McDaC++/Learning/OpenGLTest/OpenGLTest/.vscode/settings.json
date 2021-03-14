@@ -6,6 +6,7 @@
 		"__hash_table": "cpp",
 		"__locale": "cpp",
 		"iterator": "cpp",
-		"memory": "cpp"
+		"memory": "cpp",
+		"iosfwd": "cpp"
 	}
 }
