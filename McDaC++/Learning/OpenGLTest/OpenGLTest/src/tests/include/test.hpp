@@ -32,11 +32,13 @@ namespace test
     
         void onImGuiRender() override;
 
+		void changeCurrentTest(const std::string &name);
+
         template <class T>
         void registerTest(const std::string &name)
         {
             std::cout << name << " test has been registered\n";
-            tests.push_back(std::make_pair(name, [](){return new T;}));
+            tests.push_back(std::make_pair(name, []{return new T;}));
         }
     };
 }

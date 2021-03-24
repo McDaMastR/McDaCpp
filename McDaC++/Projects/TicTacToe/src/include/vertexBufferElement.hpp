@@ -1,9 +1,11 @@
 #pragma once
 
+#include <cstdint>
+
 struct VertexBufferElement
 {
-    unsigned int m_type, m_count;
-    unsigned short m_normalized;
+    uint32_t m_type, m_count;
+    uint16_t m_normalized;
 
-    constexpr static unsigned int typeSize(const unsigned int type);
+    static uint32_t typeSize(const uint32_t type);
 };

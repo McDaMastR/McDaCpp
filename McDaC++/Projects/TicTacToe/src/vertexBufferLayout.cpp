@@ -18,13 +18,13 @@ const std::vector<VertexBufferElement> &VertexBufferLayout::getElements() const
 }
 
 template <class T>
-void VertexBufferLayout::push(const unsigned int)
+void VertexBufferLayout::push(const uint32_t)
 {
     ASSERT(false);
 }
 
 template <>
-void VertexBufferLayout::push<float>(const unsigned int count)
+void VertexBufferLayout::push<float>(const uint32_t count)
 {
     m_elements.emplace_back(VertexBufferElement{GL_FLOAT, count, GL_FALSE});
     m_stride += VertexBufferElement::typeSize(GL_FLOAT) * count;

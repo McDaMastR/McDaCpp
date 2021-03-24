@@ -1,7 +1,21 @@
 {
     "files.associations": {
-        "algorithm": "cpp",
-        "functional": "cpp",
-        "memory": "cpp"
-    }
+		"algorithm": "cpp",
+		"functional": "cpp",
+		"memory": "cpp",
+		"sstream": "cpp",
+		"iostream": "cpp",
+		"ostream": "cpp",
+		"utility": "cpp",
+		"__config": "cpp",
+		"__locale": "cpp",
+		"chrono": "cpp",
+		"ctime": "cpp",
+		"filesystem": "cpp",
+		"iterator": "cpp",
+		"locale": "cpp",
+		"typeinfo": "cpp",
+		"iosfwd": "cpp"
+	},
+	"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }

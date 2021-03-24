@@ -11,6 +11,18 @@ namespace test
 
     }
 
+	void Menu::changeCurrentTest(const std::string &name)
+	{
+		for (auto &test : tests)
+		{
+			if (test.first == name)
+			{
+				current_test = test.second();
+				break;
+			}
+		}
+	}
+
     void Menu::onImGuiRender()
     {
         for (auto &test : tests)

@@ -4,7 +4,7 @@
 
 #include <GL/glew.h>
 
-constexpr unsigned int VertexBufferElement::typeSize(const unsigned int type)
+unsigned int VertexBufferElement::typeSize(const uint32_t type)
 {
     switch (type)
     {

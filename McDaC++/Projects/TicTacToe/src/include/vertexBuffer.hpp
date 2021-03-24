@@ -1,12 +1,14 @@
 #pragma once
 
+#include <cstdint>
+
 class VertexBuffer
 {
 private:
-    unsigned int m_rendererID;
+    uint32_t m_rendererID;
 
 public:
-    VertexBuffer(const void * const data, const unsigned int size);
+    VertexBuffer(const void * const data, const uint32_t size);
     ~VertexBuffer();
 
     void   bind() const;

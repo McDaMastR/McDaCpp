@@ -16,28 +16,28 @@ VertexArray::~VertexArray()
     GLCALL(glDeleteVertexArrays(1, &m_rendererID));
 }
 
-VertexArray::bind() const
+void VertexArray::bind() const
 {
     GLCALL(glBindVertexArray(m_rendererID));
 }
 
-VertexArray::unBind() const
+void VertexArray::unBind() const
 {
     GLCALL(glBindVertexArray(m_rendererID));
 }
 
-VertexArray::addBuffer(const VertexBuffer &vb, const VertexBufferLayout &layout)
+void VertexArray::addBuffer(const VertexBuffer &vb, const VertexBufferLayout &layout)
 {
     bind();
     vb.bind();
     const std::vector<VertexBufferElement> &elements = layout.getElements();
-    unsigned int offset = 0;
+    uint32_t offset = 0;
 
-    for (unsigned int i = 0; i < elements.size(); i++)
+    for (uint32_t i = 0; i < elements.size(); i++)
     {
         const auto &element = elements[i];
-        GL_CALL(glEnableVertexAttribArray(i));
-        GL_CALL(glVertexAttribPointer(i, element.count, element.type, element.normalized, layout.getStride(), reinterpret_cast<const void *>(offset)));
-        offset += element.count * VertexBufferElement::typeSize(element.type);
+        GLCALL(glEnableVertexAttribArray(i));
+        GLCALL(glVertexAttribPointer(i, element.m_count, element.m_type, element.m_normalized, layout.getStride(), reinterpret_cast<const void *>(offset)));
+        offset += element.m_count * VertexBufferElement::typeSize(element.m_type);
     }
 }

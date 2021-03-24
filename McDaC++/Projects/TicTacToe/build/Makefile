@@ -58,19 +58,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/local/Cellar/cmake/3.19.6/bin/cmake
+CMAKE_COMMAND = /usr/local/Cellar/cmake/3.19.7/bin/cmake
 
 # The command to remove a file.
-RM = /usr/local/Cellar/cmake/3.19.6/bin/cmake -E rm -f
+RM = /usr/local/Cellar/cmake/3.19.7/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe
+CMAKE_SOURCE_DIR = /Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build
+CMAKE_BINARY_DIR = /Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -78,7 +78,7 @@ CMAKE_BINARY_DIR = /Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/local/Cellar/cmake/3.19.6/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/3.19.7/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -89,7 +89,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/local/Cellar/cmake/3.19.6/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/3.19.7/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -99,9 +99,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build/CMakeFiles /Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe/build/CMakeFiles /Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -130,17 +130,152 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named MazeGenerator
+# Target rules for targets named TicTacToe
 
 # Build rule for target.
-MazeGenerator: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MazeGenerator
-.PHONY : MazeGenerator
+TicTacToe: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 TicTacToe
+.PHONY : TicTacToe
 
 # fast build rule for target.
-MazeGenerator/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeGenerator.dir/build.make CMakeFiles/MazeGenerator.dir/build
-.PHONY : MazeGenerator/fast
+TicTacToe/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/build
+.PHONY : TicTacToe/fast
+
+src/blender.o: src/blender.cpp.o
+
+.PHONY : src/blender.o
+
+# target to build an object file
+src/blender.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/blender.cpp.o
+.PHONY : src/blender.cpp.o
+
+src/blender.i: src/blender.cpp.i
+
+.PHONY : src/blender.i
+
+# target to preprocess a source file
+src/blender.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/blender.cpp.i
+.PHONY : src/blender.cpp.i
+
+src/blender.s: src/blender.cpp.s
+
+.PHONY : src/blender.s
+
+# target to generate assembly for a file
+src/blender.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/blender.cpp.s
+.PHONY : src/blender.cpp.s
+
+src/board.o: src/board.cpp.o
+
+.PHONY : src/board.o
+
+# target to build an object file
+src/board.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/board.cpp.o
+.PHONY : src/board.cpp.o
+
+src/board.i: src/board.cpp.i
+
+.PHONY : src/board.i
+
+# target to preprocess a source file
+src/board.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/board.cpp.i
+.PHONY : src/board.cpp.i
+
+src/board.s: src/board.cpp.s
+
+.PHONY : src/board.s
+
+# target to generate assembly for a file
+src/board.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/board.cpp.s
+.PHONY : src/board.cpp.s
+
+src/dearImGui.o: src/dearImGui.cpp.o
+
+.PHONY : src/dearImGui.o
+
+# target to build an object file
+src/dearImGui.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/dearImGui.cpp.o
+.PHONY : src/dearImGui.cpp.o
+
+src/dearImGui.i: src/dearImGui.cpp.i
+
+.PHONY : src/dearImGui.i
+
+# target to preprocess a source file
+src/dearImGui.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/dearImGui.cpp.i
+.PHONY : src/dearImGui.cpp.i
+
+src/dearImGui.s: src/dearImGui.cpp.s
+
+.PHONY : src/dearImGui.s
+
+# target to generate assembly for a file
+src/dearImGui.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/dearImGui.cpp.s
+.PHONY : src/dearImGui.cpp.s
+
+src/events.o: src/events.cpp.o
+
+.PHONY : src/events.o
+
+# target to build an object file
+src/events.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/events.cpp.o
+.PHONY : src/events.cpp.o
+
+src/events.i: src/events.cpp.i
+
+.PHONY : src/events.i
+
+# target to preprocess a source file
+src/events.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/events.cpp.i
+.PHONY : src/events.cpp.i
+
+src/events.s: src/events.cpp.s
+
+.PHONY : src/events.s
+
+# target to generate assembly for a file
+src/events.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/events.cpp.s
+.PHONY : src/events.cpp.s
+
+src/indexBuffer.o: src/indexBuffer.cpp.o
+
+.PHONY : src/indexBuffer.o
+
+# target to build an object file
+src/indexBuffer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/indexBuffer.cpp.o
+.PHONY : src/indexBuffer.cpp.o
+
+src/indexBuffer.i: src/indexBuffer.cpp.i
+
+.PHONY : src/indexBuffer.i
+
+# target to preprocess a source file
+src/indexBuffer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/indexBuffer.cpp.i
+.PHONY : src/indexBuffer.cpp.i
+
+src/indexBuffer.s: src/indexBuffer.cpp.s
+
+.PHONY : src/indexBuffer.s
+
+# target to generate assembly for a file
+src/indexBuffer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/indexBuffer.cpp.s
+.PHONY : src/indexBuffer.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -148,7 +283,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeGenerator.dir/build.make CMakeFiles/MazeGenerator.dir/src/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -157,7 +292,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeGenerator.dir/build.make CMakeFiles/MazeGenerator.dir/src/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -166,8 +301,467 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MazeGenerator.dir/build.make CMakeFiles/MazeGenerator.dir/src/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
+
+src/piece.o: src/piece.cpp.o
+
+.PHONY : src/piece.o
+
+# target to build an object file
+src/piece.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/piece.cpp.o
+.PHONY : src/piece.cpp.o
+
+src/piece.i: src/piece.cpp.i
+
+.PHONY : src/piece.i
+
+# target to preprocess a source file
+src/piece.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/piece.cpp.i
+.PHONY : src/piece.cpp.i
+
+src/piece.s: src/piece.cpp.s
+
+.PHONY : src/piece.s
+
+# target to generate assembly for a file
+src/piece.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/piece.cpp.s
+.PHONY : src/piece.cpp.s
+
+src/renderer.o: src/renderer.cpp.o
+
+.PHONY : src/renderer.o
+
+# target to build an object file
+src/renderer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/renderer.cpp.o
+.PHONY : src/renderer.cpp.o
+
+src/renderer.i: src/renderer.cpp.i
+
+.PHONY : src/renderer.i
+
+# target to preprocess a source file
+src/renderer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/renderer.cpp.i
+.PHONY : src/renderer.cpp.i
+
+src/renderer.s: src/renderer.cpp.s
+
+.PHONY : src/renderer.s
+
+# target to generate assembly for a file
+src/renderer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/renderer.cpp.s
+.PHONY : src/renderer.cpp.s
+
+src/shader.o: src/shader.cpp.o
+
+.PHONY : src/shader.o
+
+# target to build an object file
+src/shader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/shader.cpp.o
+.PHONY : src/shader.cpp.o
+
+src/shader.i: src/shader.cpp.i
+
+.PHONY : src/shader.i
+
+# target to preprocess a source file
+src/shader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/shader.cpp.i
+.PHONY : src/shader.cpp.i
+
+src/shader.s: src/shader.cpp.s
+
+.PHONY : src/shader.s
+
+# target to generate assembly for a file
+src/shader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/shader.cpp.s
+.PHONY : src/shader.cpp.s
+
+src/texture.o: src/texture.cpp.o
+
+.PHONY : src/texture.o
+
+# target to build an object file
+src/texture.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/texture.cpp.o
+.PHONY : src/texture.cpp.o
+
+src/texture.i: src/texture.cpp.i
+
+.PHONY : src/texture.i
+
+# target to preprocess a source file
+src/texture.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/texture.cpp.i
+.PHONY : src/texture.cpp.i
+
+src/texture.s: src/texture.cpp.s
+
+.PHONY : src/texture.s
+
+# target to generate assembly for a file
+src/texture.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/texture.cpp.s
+.PHONY : src/texture.cpp.s
+
+src/vendor/imGui/imgui.o: src/vendor/imGui/imgui.cpp.o
+
+.PHONY : src/vendor/imGui/imgui.o
+
+# target to build an object file
+src/vendor/imGui/imgui.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui.cpp.o
+.PHONY : src/vendor/imGui/imgui.cpp.o
+
+src/vendor/imGui/imgui.i: src/vendor/imGui/imgui.cpp.i
+
+.PHONY : src/vendor/imGui/imgui.i
+
+# target to preprocess a source file
+src/vendor/imGui/imgui.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui.cpp.i
+.PHONY : src/vendor/imGui/imgui.cpp.i
+
+src/vendor/imGui/imgui.s: src/vendor/imGui/imgui.cpp.s
+
+.PHONY : src/vendor/imGui/imgui.s
+
+# target to generate assembly for a file
+src/vendor/imGui/imgui.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui.cpp.s
+.PHONY : src/vendor/imGui/imgui.cpp.s
+
+src/vendor/imGui/imgui_demo.o: src/vendor/imGui/imgui_demo.cpp.o
+
+.PHONY : src/vendor/imGui/imgui_demo.o
+
+# target to build an object file
+src/vendor/imGui/imgui_demo.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_demo.cpp.o
+.PHONY : src/vendor/imGui/imgui_demo.cpp.o
+
+src/vendor/imGui/imgui_demo.i: src/vendor/imGui/imgui_demo.cpp.i
+
+.PHONY : src/vendor/imGui/imgui_demo.i
+
+# target to preprocess a source file
+src/vendor/imGui/imgui_demo.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_demo.cpp.i
+.PHONY : src/vendor/imGui/imgui_demo.cpp.i
+
+src/vendor/imGui/imgui_demo.s: src/vendor/imGui/imgui_demo.cpp.s
+
+.PHONY : src/vendor/imGui/imgui_demo.s
+
+# target to generate assembly for a file
+src/vendor/imGui/imgui_demo.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_demo.cpp.s
+.PHONY : src/vendor/imGui/imgui_demo.cpp.s
+
+src/vendor/imGui/imgui_draw.o: src/vendor/imGui/imgui_draw.cpp.o
+
+.PHONY : src/vendor/imGui/imgui_draw.o
+
+# target to build an object file
+src/vendor/imGui/imgui_draw.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_draw.cpp.o
+.PHONY : src/vendor/imGui/imgui_draw.cpp.o
+
+src/vendor/imGui/imgui_draw.i: src/vendor/imGui/imgui_draw.cpp.i
+
+.PHONY : src/vendor/imGui/imgui_draw.i
+
+# target to preprocess a source file
+src/vendor/imGui/imgui_draw.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_draw.cpp.i
+.PHONY : src/vendor/imGui/imgui_draw.cpp.i
+
+src/vendor/imGui/imgui_draw.s: src/vendor/imGui/imgui_draw.cpp.s
+
+.PHONY : src/vendor/imGui/imgui_draw.s
+
+# target to generate assembly for a file
+src/vendor/imGui/imgui_draw.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_draw.cpp.s
+.PHONY : src/vendor/imGui/imgui_draw.cpp.s
+
+src/vendor/imGui/imgui_impl_glfw.o: src/vendor/imGui/imgui_impl_glfw.cpp.o
+
+.PHONY : src/vendor/imGui/imgui_impl_glfw.o
+
+# target to build an object file
+src/vendor/imGui/imgui_impl_glfw.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_impl_glfw.cpp.o
+.PHONY : src/vendor/imGui/imgui_impl_glfw.cpp.o
+
+src/vendor/imGui/imgui_impl_glfw.i: src/vendor/imGui/imgui_impl_glfw.cpp.i
+
+.PHONY : src/vendor/imGui/imgui_impl_glfw.i
+
+# target to preprocess a source file
+src/vendor/imGui/imgui_impl_glfw.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_impl_glfw.cpp.i
+.PHONY : src/vendor/imGui/imgui_impl_glfw.cpp.i
+
+src/vendor/imGui/imgui_impl_glfw.s: src/vendor/imGui/imgui_impl_glfw.cpp.s
+
+.PHONY : src/vendor/imGui/imgui_impl_glfw.s
+
+# target to generate assembly for a file
+src/vendor/imGui/imgui_impl_glfw.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_impl_glfw.cpp.s
+.PHONY : src/vendor/imGui/imgui_impl_glfw.cpp.s
+
+src/vendor/imGui/imgui_impl_opengl3.o: src/vendor/imGui/imgui_impl_opengl3.cpp.o
+
+.PHONY : src/vendor/imGui/imgui_impl_opengl3.o
+
+# target to build an object file
+src/vendor/imGui/imgui_impl_opengl3.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_impl_opengl3.cpp.o
+.PHONY : src/vendor/imGui/imgui_impl_opengl3.cpp.o
+
+src/vendor/imGui/imgui_impl_opengl3.i: src/vendor/imGui/imgui_impl_opengl3.cpp.i
+
+.PHONY : src/vendor/imGui/imgui_impl_opengl3.i
+
+# target to preprocess a source file
+src/vendor/imGui/imgui_impl_opengl3.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_impl_opengl3.cpp.i
+.PHONY : src/vendor/imGui/imgui_impl_opengl3.cpp.i
+
+src/vendor/imGui/imgui_impl_opengl3.s: src/vendor/imGui/imgui_impl_opengl3.cpp.s
+
+.PHONY : src/vendor/imGui/imgui_impl_opengl3.s
+
+# target to generate assembly for a file
+src/vendor/imGui/imgui_impl_opengl3.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_impl_opengl3.cpp.s
+.PHONY : src/vendor/imGui/imgui_impl_opengl3.cpp.s
+
+src/vendor/imGui/imgui_tables.o: src/vendor/imGui/imgui_tables.cpp.o
+
+.PHONY : src/vendor/imGui/imgui_tables.o
+
+# target to build an object file
+src/vendor/imGui/imgui_tables.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_tables.cpp.o
+.PHONY : src/vendor/imGui/imgui_tables.cpp.o
+
+src/vendor/imGui/imgui_tables.i: src/vendor/imGui/imgui_tables.cpp.i
+
+.PHONY : src/vendor/imGui/imgui_tables.i
+
+# target to preprocess a source file
+src/vendor/imGui/imgui_tables.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_tables.cpp.i
+.PHONY : src/vendor/imGui/imgui_tables.cpp.i
+
+src/vendor/imGui/imgui_tables.s: src/vendor/imGui/imgui_tables.cpp.s
+
+.PHONY : src/vendor/imGui/imgui_tables.s
+
+# target to generate assembly for a file
+src/vendor/imGui/imgui_tables.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_tables.cpp.s
+.PHONY : src/vendor/imGui/imgui_tables.cpp.s
+
+src/vendor/imGui/imgui_widgets.o: src/vendor/imGui/imgui_widgets.cpp.o
+
+.PHONY : src/vendor/imGui/imgui_widgets.o
+
+# target to build an object file
+src/vendor/imGui/imgui_widgets.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_widgets.cpp.o
+.PHONY : src/vendor/imGui/imgui_widgets.cpp.o
+
+src/vendor/imGui/imgui_widgets.i: src/vendor/imGui/imgui_widgets.cpp.i
+
+.PHONY : src/vendor/imGui/imgui_widgets.i
+
+# target to preprocess a source file
+src/vendor/imGui/imgui_widgets.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_widgets.cpp.i
+.PHONY : src/vendor/imGui/imgui_widgets.cpp.i
+
+src/vendor/imGui/imgui_widgets.s: src/vendor/imGui/imgui_widgets.cpp.s
+
+.PHONY : src/vendor/imGui/imgui_widgets.s
+
+# target to generate assembly for a file
+src/vendor/imGui/imgui_widgets.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_widgets.cpp.s
+.PHONY : src/vendor/imGui/imgui_widgets.cpp.s
+
+src/vendor/stb_image/stb_image.o: src/vendor/stb_image/stb_image.cpp.o
+
+.PHONY : src/vendor/stb_image/stb_image.o
+
+# target to build an object file
+src/vendor/stb_image/stb_image.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/stb_image/stb_image.cpp.o
+.PHONY : src/vendor/stb_image/stb_image.cpp.o
+
+src/vendor/stb_image/stb_image.i: src/vendor/stb_image/stb_image.cpp.i
+
+.PHONY : src/vendor/stb_image/stb_image.i
+
+# target to preprocess a source file
+src/vendor/stb_image/stb_image.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/stb_image/stb_image.cpp.i
+.PHONY : src/vendor/stb_image/stb_image.cpp.i
+
+src/vendor/stb_image/stb_image.s: src/vendor/stb_image/stb_image.cpp.s
+
+.PHONY : src/vendor/stb_image/stb_image.s
+
+# target to generate assembly for a file
+src/vendor/stb_image/stb_image.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vendor/stb_image/stb_image.cpp.s
+.PHONY : src/vendor/stb_image/stb_image.cpp.s
+
+src/vertexArray.o: src/vertexArray.cpp.o
+
+.PHONY : src/vertexArray.o
+
+# target to build an object file
+src/vertexArray.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vertexArray.cpp.o
+.PHONY : src/vertexArray.cpp.o
+
+src/vertexArray.i: src/vertexArray.cpp.i
+
+.PHONY : src/vertexArray.i
+
+# target to preprocess a source file
+src/vertexArray.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vertexArray.cpp.i
+.PHONY : src/vertexArray.cpp.i
+
+src/vertexArray.s: src/vertexArray.cpp.s
+
+.PHONY : src/vertexArray.s
+
+# target to generate assembly for a file
+src/vertexArray.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vertexArray.cpp.s
+.PHONY : src/vertexArray.cpp.s
+
+src/vertexBuffer.o: src/vertexBuffer.cpp.o
+
+.PHONY : src/vertexBuffer.o
+
+# target to build an object file
+src/vertexBuffer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vertexBuffer.cpp.o
+.PHONY : src/vertexBuffer.cpp.o
+
+src/vertexBuffer.i: src/vertexBuffer.cpp.i
+
+.PHONY : src/vertexBuffer.i
+
+# target to preprocess a source file
+src/vertexBuffer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vertexBuffer.cpp.i
+.PHONY : src/vertexBuffer.cpp.i
+
+src/vertexBuffer.s: src/vertexBuffer.cpp.s
+
+.PHONY : src/vertexBuffer.s
+
+# target to generate assembly for a file
+src/vertexBuffer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vertexBuffer.cpp.s
+.PHONY : src/vertexBuffer.cpp.s
+
+src/vertexBufferElement.o: src/vertexBufferElement.cpp.o
+
+.PHONY : src/vertexBufferElement.o
+
+# target to build an object file
+src/vertexBufferElement.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vertexBufferElement.cpp.o
+.PHONY : src/vertexBufferElement.cpp.o
+
+src/vertexBufferElement.i: src/vertexBufferElement.cpp.i
+
+.PHONY : src/vertexBufferElement.i
+
+# target to preprocess a source file
+src/vertexBufferElement.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vertexBufferElement.cpp.i
+.PHONY : src/vertexBufferElement.cpp.i
+
+src/vertexBufferElement.s: src/vertexBufferElement.cpp.s
+
+.PHONY : src/vertexBufferElement.s
+
+# target to generate assembly for a file
+src/vertexBufferElement.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vertexBufferElement.cpp.s
+.PHONY : src/vertexBufferElement.cpp.s
+
+src/vertexBufferLayout.o: src/vertexBufferLayout.cpp.o
+
+.PHONY : src/vertexBufferLayout.o
+
+# target to build an object file
+src/vertexBufferLayout.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vertexBufferLayout.cpp.o
+.PHONY : src/vertexBufferLayout.cpp.o
+
+src/vertexBufferLayout.i: src/vertexBufferLayout.cpp.i
+
+.PHONY : src/vertexBufferLayout.i
+
+# target to preprocess a source file
+src/vertexBufferLayout.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vertexBufferLayout.cpp.i
+.PHONY : src/vertexBufferLayout.cpp.i
+
+src/vertexBufferLayout.s: src/vertexBufferLayout.cpp.s
+
+.PHONY : src/vertexBufferLayout.s
+
+# target to generate assembly for a file
+src/vertexBufferLayout.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/vertexBufferLayout.cpp.s
+.PHONY : src/vertexBufferLayout.cpp.s
+
+src/window.o: src/window.cpp.o
+
+.PHONY : src/window.o
+
+# target to build an object file
+src/window.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/window.cpp.o
+.PHONY : src/window.cpp.o
+
+src/window.i: src/window.cpp.i
+
+.PHONY : src/window.i
+
+# target to preprocess a source file
+src/window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/window.cpp.i
+.PHONY : src/window.cpp.i
+
+src/window.s: src/window.cpp.s
+
+.PHONY : src/window.s
+
+# target to generate assembly for a file
+src/window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/window.cpp.s
+.PHONY : src/window.cpp.s
 
 # Help Target
 help:
@@ -177,10 +771,76 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... MazeGenerator"
+	@echo "... TicTacToe"
+	@echo "... src/blender.o"
+	@echo "... src/blender.i"
+	@echo "... src/blender.s"
+	@echo "... src/board.o"
+	@echo "... src/board.i"
+	@echo "... src/board.s"
+	@echo "... src/dearImGui.o"
+	@echo "... src/dearImGui.i"
+	@echo "... src/dearImGui.s"
+	@echo "... src/events.o"
+	@echo "... src/events.i"
+	@echo "... src/events.s"
+	@echo "... src/indexBuffer.o"
+	@echo "... src/indexBuffer.i"
+	@echo "... src/indexBuffer.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/piece.o"
+	@echo "... src/piece.i"
+	@echo "... src/piece.s"
+	@echo "... src/renderer.o"
+	@echo "... src/renderer.i"
+	@echo "... src/renderer.s"
+	@echo "... src/shader.o"
+	@echo "... src/shader.i"
+	@echo "... src/shader.s"
+	@echo "... src/texture.o"
+	@echo "... src/texture.i"
+	@echo "... src/texture.s"
+	@echo "... src/vendor/imGui/imgui.o"
+	@echo "... src/vendor/imGui/imgui.i"
+	@echo "... src/vendor/imGui/imgui.s"
+	@echo "... src/vendor/imGui/imgui_demo.o"
+	@echo "... src/vendor/imGui/imgui_demo.i"
+	@echo "... src/vendor/imGui/imgui_demo.s"
+	@echo "... src/vendor/imGui/imgui_draw.o"
+	@echo "... src/vendor/imGui/imgui_draw.i"
+	@echo "... src/vendor/imGui/imgui_draw.s"
+	@echo "... src/vendor/imGui/imgui_impl_glfw.o"
+	@echo "... src/vendor/imGui/imgui_impl_glfw.i"
+	@echo "... src/vendor/imGui/imgui_impl_glfw.s"
+	@echo "... src/vendor/imGui/imgui_impl_opengl3.o"
+	@echo "... src/vendor/imGui/imgui_impl_opengl3.i"
+	@echo "... src/vendor/imGui/imgui_impl_opengl3.s"
+	@echo "... src/vendor/imGui/imgui_tables.o"
+	@echo "... src/vendor/imGui/imgui_tables.i"
+	@echo "... src/vendor/imGui/imgui_tables.s"
+	@echo "... src/vendor/imGui/imgui_widgets.o"
+	@echo "... src/vendor/imGui/imgui_widgets.i"
+	@echo "... src/vendor/imGui/imgui_widgets.s"
+	@echo "... src/vendor/stb_image/stb_image.o"
+	@echo "... src/vendor/stb_image/stb_image.i"
+	@echo "... src/vendor/stb_image/stb_image.s"
+	@echo "... src/vertexArray.o"
+	@echo "... src/vertexArray.i"
+	@echo "... src/vertexArray.s"
+	@echo "... src/vertexBuffer.o"
+	@echo "... src/vertexBuffer.i"
+	@echo "... src/vertexBuffer.s"
+	@echo "... src/vertexBufferElement.o"
+	@echo "... src/vertexBufferElement.i"
+	@echo "... src/vertexBufferElement.s"
+	@echo "... src/vertexBufferLayout.o"
+	@echo "... src/vertexBufferLayout.i"
+	@echo "... src/vertexBufferLayout.s"
+	@echo "... src/window.o"
+	@echo "... src/window.i"
+	@echo "... src/window.s"
 .PHONY : help
 
 

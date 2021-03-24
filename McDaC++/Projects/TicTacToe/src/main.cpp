@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "include/renderer.hpp"
 #include "include/vertexArray.hpp"
 #include "include/indexBuffer.hpp"
@@ -10,52 +12,76 @@
 #include "include/vertexBuffer.hpp"
 #include "include/vertexBufferLayout.hpp"
 #include "include/texture.hpp"
+#include "include/blender.hpp"
+#include "include/events.hpp"
+#include "include/window.hpp"
 
-#include "include/maze.hpp"
+#ifdef DEBUG
+#include "include/dearImGui.hpp"
+#endif
+
+#include "include/board.hpp"
+#include "include/piece.hpp"
+
+/*
+
+	Board Indexes:
+
+	6 	7 	8
+	3 	4 	5
+	0 	1 	2
+
+*/
 
 int main()
 {
-    GLFWwindow* window;
+	Window::initGlfw();
+	Window window(640, 640);
+	Window::initGL();
+	#ifdef DEBUG
+	DearImGui::init(window, ImGuiColor::dark);
+	#endif
+	{
+		const std::array<float, 16> board_verticies = {
+			0.0f, 	0.0f, 	0.0f, 0.0f,
+			640.0f, 0.0f, 	1.0f, 0.0f,
+			640.0f, 640.0f, 1.0f, 1.0f,
+			0.0f,	640.0f, 0.0f, 1.0f	
+		}; const std::array<unsigned int, 6> board_indices = {
+			0, 1, 2,
+			2, 3, 0
+		};
+		const Board board("res/textures/board.png", board_verticies, board_indices);
 
-    if (!glfwInit()) {
-        std::cout << "Failed to initilize glfw\n";
-        return -1;
-    }
+		const Blender blender(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		const Renderer renderer;
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+		const Shader shader("res/shaders/basic.vert", "res/shaders/basic.frag");
+		shader.bind();
 
-    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-    if (!window)
-    {
-        std::cout << "Failed to create window\n";
-        glfwTerminate();
-        return -1;
-    }
+		const glm::mat4 proj (glm::ortho(0.0f, 640.0f, 0.0f, 640.0f, -1.0f, 1.0f));
+		const glm::mat4 view (glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0)));
+		const glm::mat4 model(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0)));
+		const glm::mat4 mvp = proj * view * model;
 
-    glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
+		shader.setUniformMatf("u_MVP", mvp);
+		shader.setUniformVeci("u_Texture", 0);
 
-    glewExperimental = GL_TRUE;
-    if (glewInit())
-    {
-        std::cout << "Failed to initilize GLEW\n";
-        return -1;
-    }
+		MouseEvent mouse_events(window.window());
 
-    std::cout << "OPENGL Version: " << glGetString(GL_VERSION) << "\nGLSL Version: "
-    << reinterpret_cast<char *>(const_cast<GLubyte *>(glGetString(GL_SHADING_LANGUAGE_VERSION))) << '\n';
+		while (!window.shouldClose())
+		{
+			renderer.newFrame();
 
-    while (!glfwWindowShouldClose(window))
-    {
-        glClear(GL_COLOR_BUFFER_BIT);
+			board.render(renderer, shader);
 
-        glfwSwapBuffers(window);
+			#ifdef DEBUG
+			DearImGui::onUpdate(mouse_events);
+			#endif
 
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
+			window.swapBuffers();
+			window.pollEvents();
+		}
+	}
+	window.terminate();
 }

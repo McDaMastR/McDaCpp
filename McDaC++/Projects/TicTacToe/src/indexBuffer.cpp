@@ -4,7 +4,7 @@
 
 #include <GL/glew.h>
 
-IndexBuffer::IndexBuffer(const unsigned int * const data, const unsigned int count)
+IndexBuffer::IndexBuffer(const uint32_t * const data, const uint32_t count)
     : m_count(count)
 {
     GLCALL(glGenBuffers(1, &m_rendererID));  
@@ -27,7 +27,7 @@ void IndexBuffer::unBind() const
     GLCALL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
 }
 
-unsigned int IndexBuffer::getCount() const
+uint32_t IndexBuffer::getCount() const
 {
     return m_count;
 }

@@ -9,15 +9,18 @@
 #ifdef DEBUG
     #define ASSERT(x) if (!(x)) {std::exit(-2);}
     #define GLCALL(x)  clearErrors();\
-                        x;
+                        x;\
                         ASSERT(logCall(#x, __FILE__, __LINE__));
 #else
     #define ASSERT(x)
     #define GLCALL(x) x
 #endif
 
+#define BIT_SHIFT(x) 1 << x;
+
 void clearErrors();
-bool logCall(const char * const func, const char * const file, const unsigned int line);
+std::string errorType(const uint32_t type);
+bool logCall(const char * const func, const char * const file, const uint32_t line);
 
 class Renderer
 {
@@ -25,7 +28,6 @@ public:
     Renderer() = default;
     ~Renderer() = default;
 
-    void clear() const;
-    void setClearColor(const float r, const float g, const float b, const float a) const;
+	void newFrame() const;
     void draw(const VertexArray &va, const IndexBuffer &ib, const Shader &shader) const;
 };
