@@ -5,7 +5,7 @@
 class IndexBuffer
 {
 private:
-	uint32_t m_rendererID;
+	uint32_t m_ID;
 	uint32_t m_count;
 
 public:

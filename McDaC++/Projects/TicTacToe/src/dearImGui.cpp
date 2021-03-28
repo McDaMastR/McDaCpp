@@ -50,7 +50,7 @@ void DearImGui::onUpdate(const MouseEvent &mouse_events)
 	// if (mouse_events.isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT))
 	// 	outputText("Right mouse button pressed!");
 
-	mousePos(mouse_events);
+	mousePos(mouse_events); // TODO Say which X & O index the mouse is currently in
 	FPS();
 
 	end();

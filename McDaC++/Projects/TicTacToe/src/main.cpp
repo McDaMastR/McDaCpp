@@ -3,8 +3,6 @@
 
 #include <iostream>
 
-#include <glm/gtc/matrix_transform.hpp>
-
 #include "include/renderer.hpp"
 #include "include/vertexArray.hpp"
 #include "include/indexBuffer.hpp"
@@ -23,65 +21,109 @@
 #include "include/board.hpp"
 #include "include/piece.hpp"
 
+#define DEBUG_LOG(x) std::cout << x++ << '\n'
+
 /*
 
-	Board Indexes:
+Vertex buffer:
+	Pure data about graphical info (void *)
 
-	6 	7 	8
-	3 	4 	5
-	0 	1 	2
+Index buffer:
+	Placement of indices of triangle
+
+Vertex array:
+	Array of vertex buffer IDs
+
+Layout:
+	The structure of data in the vertex buffer
+
+Shader:
+	Program specifically for the GPU
+
+Ok to have multiple objects of all above types
 
 */
 
 int main()
 {
 	Window::initGlfw();
-	Window window(640, 640);
+	Window window(640, 640); // Aspect ratio: 1 : 1
 	Window::initGL();
 	#ifdef DEBUG
 	DearImGui::init(window, ImGuiColor::dark);
+	uint16_t debug_num = 0;
 	#endif
 	{
 		const std::array<float, 16> board_verticies = {
-			0.0f, 	0.0f, 	0.0f, 0.0f,
-			640.0f, 0.0f, 	1.0f, 0.0f,
-			640.0f, 640.0f, 1.0f, 1.0f,
-			0.0f,	640.0f, 0.0f, 1.0f	
-		}; const std::array<unsigned int, 6> board_indices = {
+			-1.0f, -1.0f, 0.0f, 0.0f,
+			 1.0f, -1.0f, 1.0f, 0.0f,
+			 1.0f,  1.0f, 1.0f, 1.0f,
+			-1.0f,  1.0f, 0.0f, 1.0f	
+		}; const std::array<uint32_t, 6> board_indices = {
 			0, 1, 2,
 			2, 3, 0
 		};
 		const Board board("res/textures/board.png", board_verticies, board_indices);
 
 		const Blender blender(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		const Renderer renderer;
+		Renderer renderer;
 
-		const Shader shader("res/shaders/basic.vert", "res/shaders/basic.frag");
+		const Shader shader("res/shaders/basic");
 		shader.bind();
 
-		const glm::mat4 proj (glm::ortho(0.0f, 640.0f, 0.0f, 640.0f, -1.0f, 1.0f));
-		const glm::mat4 view (glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0)));
-		const glm::mat4 model(glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0)));
-		const glm::mat4 mvp = proj * view * model;
-
-		shader.setUniformMatf("u_MVP", mvp);
 		shader.setUniformVeci("u_Texture", 0);
 
 		MouseEvent mouse_events(window.window());
+		PieceType turn = PieceType::X;
 
 		while (!window.shouldClose())
 		{
 			renderer.newFrame();
 
 			board.render(renderer, shader);
+			Piece::renderAll(renderer,shader);
 
 			#ifdef DEBUG
 			DearImGui::onUpdate(mouse_events);
 			#endif
 
+			switch (mouse_events.indexOfMousePos())
+			{
+			case 0:
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			case 7:
+				break;
+			default:
+				break;
+			}
+
+			if (mouse_events.isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+				// If cursor is over an X & O index and index is not already filled
+				if (true) {
+					Piece::addPiece(turn, {0, 1, 2, 2, 3, 0});
+				}
+				swapPiecetype(turn);
+			}
+
+			if (Piece::check())
+				break;
+
 			window.swapBuffers();
 			window.pollEvents();
 		}
+		Piece::deletePieces();
 	}
 	window.terminate();
 }

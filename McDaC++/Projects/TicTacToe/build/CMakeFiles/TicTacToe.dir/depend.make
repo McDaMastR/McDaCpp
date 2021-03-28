@@ -8,6 +8,8 @@ CMakeFiles/TicTacToe.dir/src/blender.cpp.o: ../src/include/renderer.hpp
 CMakeFiles/TicTacToe.dir/src/blender.cpp.o: ../src/include/shader.hpp
 CMakeFiles/TicTacToe.dir/src/blender.cpp.o: ../src/include/vertexArray.hpp
 CMakeFiles/TicTacToe.dir/src/blender.cpp.o: ../src/include/vertexBuffer.hpp
+CMakeFiles/TicTacToe.dir/src/blender.cpp.o: ../src/include/vertexBufferElement.hpp
+CMakeFiles/TicTacToe.dir/src/blender.cpp.o: ../src/include/vertexBufferLayout.hpp
 CMakeFiles/TicTacToe.dir/src/blender.cpp.o: /usr/local/include/GL/glew.h
 CMakeFiles/TicTacToe.dir/src/blender.cpp.o: /usr/local/include/glm/common.hpp
 CMakeFiles/TicTacToe.dir/src/blender.cpp.o: /usr/local/include/glm/detail/_fixes.hpp
@@ -331,6 +333,8 @@ CMakeFiles/TicTacToe.dir/src/dearImGui.cpp.o: ../src/include/renderer.hpp
 CMakeFiles/TicTacToe.dir/src/dearImGui.cpp.o: ../src/include/shader.hpp
 CMakeFiles/TicTacToe.dir/src/dearImGui.cpp.o: ../src/include/vertexArray.hpp
 CMakeFiles/TicTacToe.dir/src/dearImGui.cpp.o: ../src/include/vertexBuffer.hpp
+CMakeFiles/TicTacToe.dir/src/dearImGui.cpp.o: ../src/include/vertexBufferElement.hpp
+CMakeFiles/TicTacToe.dir/src/dearImGui.cpp.o: ../src/include/vertexBufferLayout.hpp
 CMakeFiles/TicTacToe.dir/src/dearImGui.cpp.o: ../src/include/window.hpp
 CMakeFiles/TicTacToe.dir/src/dearImGui.cpp.o: ../src/vendor/imGui/imconfig.h
 CMakeFiles/TicTacToe.dir/src/dearImGui.cpp.o: ../src/vendor/imGui/imgui.h
@@ -499,6 +503,8 @@ CMakeFiles/TicTacToe.dir/src/indexBuffer.cpp.o: ../src/include/renderer.hpp
 CMakeFiles/TicTacToe.dir/src/indexBuffer.cpp.o: ../src/include/shader.hpp
 CMakeFiles/TicTacToe.dir/src/indexBuffer.cpp.o: ../src/include/vertexArray.hpp
 CMakeFiles/TicTacToe.dir/src/indexBuffer.cpp.o: ../src/include/vertexBuffer.hpp
+CMakeFiles/TicTacToe.dir/src/indexBuffer.cpp.o: ../src/include/vertexBufferElement.hpp
+CMakeFiles/TicTacToe.dir/src/indexBuffer.cpp.o: ../src/include/vertexBufferLayout.hpp
 CMakeFiles/TicTacToe.dir/src/indexBuffer.cpp.o: ../src/indexBuffer.cpp
 CMakeFiles/TicTacToe.dir/src/indexBuffer.cpp.o: /usr/local/include/GL/glew.h
 CMakeFiles/TicTacToe.dir/src/indexBuffer.cpp.o: /usr/local/include/glm/common.hpp
@@ -730,8 +736,6 @@ CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/detail/type_vec4
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/detail/type_vec4.inl
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/detail/type_vec4_simd.inl
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/exponential.hpp
-CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/matrix_clip_space.hpp
-CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/matrix_clip_space.inl
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/matrix_double2x2.hpp
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/matrix_double2x2_precision.hpp
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/matrix_double2x3.hpp
@@ -768,11 +772,6 @@ CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/matrix_float
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/matrix_float4x3_precision.hpp
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/matrix_float4x4.hpp
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/matrix_float4x4_precision.hpp
-CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/matrix_projection.hpp
-CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/matrix_projection.inl
-CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/matrix_transform.hpp
-CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/scalar_constants.hpp
-CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/scalar_constants.inl
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/scalar_int_sized.hpp
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/scalar_uint_sized.hpp
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/vector_bool2.hpp
@@ -808,10 +807,6 @@ CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/ext/vector_uint4
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/fwd.hpp
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/geometric.hpp
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/glm.hpp
-CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/gtc/constants.hpp
-CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/gtc/constants.inl
-CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/gtc/matrix_transform.hpp
-CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/gtc/matrix_transform.inl
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/integer.hpp
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/mat2x2.hpp
 CMakeFiles/TicTacToe.dir/src/main.cpp.o: /usr/local/include/glm/mat2x3.hpp
@@ -1004,6 +999,8 @@ CMakeFiles/TicTacToe.dir/src/renderer.cpp.o: ../src/include/renderer.hpp
 CMakeFiles/TicTacToe.dir/src/renderer.cpp.o: ../src/include/shader.hpp
 CMakeFiles/TicTacToe.dir/src/renderer.cpp.o: ../src/include/vertexArray.hpp
 CMakeFiles/TicTacToe.dir/src/renderer.cpp.o: ../src/include/vertexBuffer.hpp
+CMakeFiles/TicTacToe.dir/src/renderer.cpp.o: ../src/include/vertexBufferElement.hpp
+CMakeFiles/TicTacToe.dir/src/renderer.cpp.o: ../src/include/vertexBufferLayout.hpp
 CMakeFiles/TicTacToe.dir/src/renderer.cpp.o: ../src/renderer.cpp
 CMakeFiles/TicTacToe.dir/src/renderer.cpp.o: /usr/local/include/GL/glew.h
 CMakeFiles/TicTacToe.dir/src/renderer.cpp.o: /usr/local/include/glm/common.hpp
@@ -1163,6 +1160,8 @@ CMakeFiles/TicTacToe.dir/src/shader.cpp.o: ../src/include/renderer.hpp
 CMakeFiles/TicTacToe.dir/src/shader.cpp.o: ../src/include/shader.hpp
 CMakeFiles/TicTacToe.dir/src/shader.cpp.o: ../src/include/vertexArray.hpp
 CMakeFiles/TicTacToe.dir/src/shader.cpp.o: ../src/include/vertexBuffer.hpp
+CMakeFiles/TicTacToe.dir/src/shader.cpp.o: ../src/include/vertexBufferElement.hpp
+CMakeFiles/TicTacToe.dir/src/shader.cpp.o: ../src/include/vertexBufferLayout.hpp
 CMakeFiles/TicTacToe.dir/src/shader.cpp.o: ../src/shader.cpp
 CMakeFiles/TicTacToe.dir/src/shader.cpp.o: /usr/local/include/GL/glew.h
 CMakeFiles/TicTacToe.dir/src/shader.cpp.o: /usr/local/include/glm/common.hpp
@@ -1692,6 +1691,8 @@ CMakeFiles/TicTacToe.dir/src/vertexBuffer.cpp.o: ../src/include/renderer.hpp
 CMakeFiles/TicTacToe.dir/src/vertexBuffer.cpp.o: ../src/include/shader.hpp
 CMakeFiles/TicTacToe.dir/src/vertexBuffer.cpp.o: ../src/include/vertexArray.hpp
 CMakeFiles/TicTacToe.dir/src/vertexBuffer.cpp.o: ../src/include/vertexBuffer.hpp
+CMakeFiles/TicTacToe.dir/src/vertexBuffer.cpp.o: ../src/include/vertexBufferElement.hpp
+CMakeFiles/TicTacToe.dir/src/vertexBuffer.cpp.o: ../src/include/vertexBufferLayout.hpp
 CMakeFiles/TicTacToe.dir/src/vertexBuffer.cpp.o: ../src/vertexBuffer.cpp
 CMakeFiles/TicTacToe.dir/src/vertexBuffer.cpp.o: /usr/local/include/GL/glew.h
 CMakeFiles/TicTacToe.dir/src/vertexBuffer.cpp.o: /usr/local/include/glm/common.hpp
@@ -1852,6 +1853,7 @@ CMakeFiles/TicTacToe.dir/src/vertexBufferElement.cpp.o: ../src/include/shader.hp
 CMakeFiles/TicTacToe.dir/src/vertexBufferElement.cpp.o: ../src/include/vertexArray.hpp
 CMakeFiles/TicTacToe.dir/src/vertexBufferElement.cpp.o: ../src/include/vertexBuffer.hpp
 CMakeFiles/TicTacToe.dir/src/vertexBufferElement.cpp.o: ../src/include/vertexBufferElement.hpp
+CMakeFiles/TicTacToe.dir/src/vertexBufferElement.cpp.o: ../src/include/vertexBufferLayout.hpp
 CMakeFiles/TicTacToe.dir/src/vertexBufferElement.cpp.o: ../src/vertexBufferElement.cpp
 CMakeFiles/TicTacToe.dir/src/vertexBufferElement.cpp.o: /usr/local/include/GL/glew.h
 CMakeFiles/TicTacToe.dir/src/vertexBufferElement.cpp.o: /usr/local/include/glm/common.hpp
@@ -2172,6 +2174,8 @@ CMakeFiles/TicTacToe.dir/src/window.cpp.o: ../src/include/renderer.hpp
 CMakeFiles/TicTacToe.dir/src/window.cpp.o: ../src/include/shader.hpp
 CMakeFiles/TicTacToe.dir/src/window.cpp.o: ../src/include/vertexArray.hpp
 CMakeFiles/TicTacToe.dir/src/window.cpp.o: ../src/include/vertexBuffer.hpp
+CMakeFiles/TicTacToe.dir/src/window.cpp.o: ../src/include/vertexBufferElement.hpp
+CMakeFiles/TicTacToe.dir/src/window.cpp.o: ../src/include/vertexBufferLayout.hpp
 CMakeFiles/TicTacToe.dir/src/window.cpp.o: ../src/include/window.hpp
 CMakeFiles/TicTacToe.dir/src/window.cpp.o: ../src/window.cpp
 CMakeFiles/TicTacToe.dir/src/window.cpp.o: /usr/local/include/GL/glew.h

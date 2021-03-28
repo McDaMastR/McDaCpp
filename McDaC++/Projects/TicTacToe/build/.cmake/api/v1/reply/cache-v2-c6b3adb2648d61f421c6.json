@@ -39,11 +39,11 @@
 			[
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel ..."
 				}
 			],
 			"type" : "STRING",
-			"value" : "Debug"
+			"value" : ""
 		},
 		{
 			"name" : "CMAKE_CACHEFILE_DIR",
@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe/build"
+			"value" : "/Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -91,7 +91,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "7"
+			"value" : "6"
 		},
 		{
 			"name" : "CMAKE_COLOR_MAKEFILE",
@@ -119,7 +119,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/usr/local/Cellar/cmake/3.19.7/bin/cmake"
+			"value" : "/usr/local/Cellar/cmake/3.19.6/bin/cmake"
 		},
 		{
 			"name" : "CMAKE_CPACK_COMMAND",
@@ -131,7 +131,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/usr/local/Cellar/cmake/3.19.7/bin/cpack"
+			"value" : "/usr/local/Cellar/cmake/3.19.6/bin/cpack"
 		},
 		{
 			"name" : "CMAKE_CTEST_COMMAND",
@@ -143,7 +143,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/usr/local/Cellar/cmake/3.19.7/bin/ctest"
+			"value" : "/usr/local/Cellar/cmake/3.19.6/bin/ctest"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER",
@@ -155,10 +155,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "CXX compiler"
 				}
 			],
-			"type" : "FILEPATH",
+			"type" : "STRING",
 			"value" : "/usr/bin/clang++"
 		},
 		{
@@ -251,10 +251,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "C compiler"
 				}
 			],
-			"type" : "FILEPATH",
+			"type" : "STRING",
 			"value" : "/usr/bin/clang"
 		},
 		{
@@ -363,7 +363,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/usr/local/Cellar/cmake/3.19.7/bin/ccmake"
+			"value" : "/usr/local/Cellar/cmake/3.19.6/bin/ccmake"
 		},
 		{
 			"name" : "CMAKE_EXECUTABLE_FORMAT",
@@ -467,11 +467,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "Enable/Disable output of compile commands during generation."
 				}
 			],
 			"type" : "BOOL",
-			"value" : "TRUE"
+			"value" : ""
 		},
 		{
 			"name" : "CMAKE_EXTRA_GENERATOR",
@@ -543,7 +543,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe"
+			"value" : "/Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe"
 		},
 		{
 			"name" : "CMAKE_INSTALL_NAME_TOOL",
@@ -871,7 +871,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/usr/local/Cellar/cmake/3.19.7/share/cmake"
+			"value" : "/usr/local/Cellar/cmake/3.19.6/share/cmake"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1203,7 +1203,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe/build"
+			"value" : "/Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build"
 		},
 		{
 			"name" : "TicTacToe_SOURCE_DIR",
@@ -1215,7 +1215,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe"
+			"value" : "/Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe"
 		},
 		{
 			"name" : "glfw3_DIR",

@@ -69,7 +69,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -F/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks "
+					"fragment" : " -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -F/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks "
 				},
 				{
 					"backtrace" : 4,
@@ -168,10 +168,6 @@
 	{
 		"commandFragments" : 
 		[
-			{
-				"fragment" : "-g",
-				"role" : "flags"
-			},
 			{
 				"fragment" : "",
 				"role" : "flags"

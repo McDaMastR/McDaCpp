@@ -5,7 +5,7 @@ Event::Event(GLFWwindow * const window)
 
 
 MouseEvent::MouseEvent(GLFWwindow * const window)
-	: Event(window) 
+	: Event(window), mouse_pressed_state(false)
 {
 	glfwSetCursorPosCallback(m_window, cursorPositionCallback);
 	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -15,10 +15,18 @@ MouseEvent::MouseEvent(GLFWwindow * const window)
 	glfwSetScrollCallback(m_window, mouseScrollCallback);
 }
 
-bool MouseEvent::isMouseButtonPressed(const int key) const
+bool MouseEvent::isMouseButtonPressed(const int key)
 {
-	int32_t state = glfwGetMouseButton(m_window, key);
-	return state == GLFW_PRESS;
+	uint16_t state = glfwGetMouseButton(m_window, key);
+	if (mouse_pressed_state) {
+		if (!(state == GLFW_PRESS))
+			mouse_pressed_state = false;
+		return false;
+	} if (state == GLFW_PRESS) {
+		mouse_pressed_state = true;
+		return true;
+	}
+	return false;
 }
 
 std::pair<double, double> MouseEvent::getMousePos() const
@@ -26,6 +34,11 @@ std::pair<double, double> MouseEvent::getMousePos() const
 	double x, y;
 	glfwGetCursorPos(m_window, &x, &y);
 	return {x, y};
+}
+
+uint16_t MouseEvent::indexOfMousePos()
+{
+
 }
 
 void MouseEvent::cursorPositionCallback(GLFWwindow *window, double x, double y)

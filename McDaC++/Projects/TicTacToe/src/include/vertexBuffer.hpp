@@ -5,7 +5,7 @@
 class VertexBuffer
 {
 private:
-    uint32_t m_rendererID;
+    uint32_t m_ID;
 
 public:
     VertexBuffer(const void * const data, const uint32_t size);

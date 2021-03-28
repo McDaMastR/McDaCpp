@@ -2,9 +2,10 @@
 
 #include "vertexArray.hpp"
 #include "indexBuffer.hpp"
+#include "vertexBufferLayout.hpp"
 #include "shader.hpp"
 
-#include <cstdlib>
+#include <unordered_map>
 
 #ifdef DEBUG
     #define ASSERT(x) if (!(x)) {std::exit(-2);}
@@ -20,6 +21,7 @@
 
 void clearErrors();
 std::string errorType(const uint32_t type);
+std::string getShaderType(const uint32_t type);
 bool logCall(const char * const func, const char * const file, const uint32_t line);
 
 class Renderer

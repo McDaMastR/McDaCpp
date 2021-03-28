@@ -29,13 +29,26 @@ std::string errorType(const uint32_t type)
 	}
 }
 
+std::string getShaderType(const uint32_t type)
+{
+	switch (type)
+	{
+		case GL_VERTEX_SHADER:
+			return "GL_VERTEX_SHADER";
+		case GL_FRAGMENT_SHADER:
+			return "GL_FRAGMENT_SHADER";
+		default:
+			return "UNKOWN SHADER TYPE";
+	}
+}
+
 bool logCall(const char * const func, const char * const file, const uint32_t line)
 {
    	uint32_t error;
 	bool isError = false;
 	while ((error = glGetError()))
 	{
-		std::cout << "OpenGL Error has occured\nError code: 0x" << std::hex << error << 
+		std::cerr << "OpenGL Error has occured\nError code: 0x" << std::hex << error << 
 		std::dec << "\nError type: " << errorType(error) << "\nFile: " << file << "\nLine: " << line << "\nFunction: " << func << '\n';
 		isError = true;
 	}

@@ -7,17 +7,17 @@
 Window::Window(const int32_t width, const int32_t height) noexcept
 	: m_width(width), m_height(height)
 {
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	#ifdef __APPLE__
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	#endif
 
-	m_window = glfwCreateWindow(m_width, m_height, "Hello World", nullptr, nullptr);
+	m_window = glfwCreateWindow(m_width, m_height, "TicTacToe", nullptr, nullptr);
     if (!m_window) {
-        std::cout << "Failed to create window\n";
+        std::cerr << "Failed to create window\n";
         glfwTerminate();
 		ASSERT(false);
     }

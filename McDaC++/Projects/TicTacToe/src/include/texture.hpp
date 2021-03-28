@@ -19,7 +19,7 @@ private:
 	VertexBufferLayout m_layout;
 	const IndexBuffer m_ibo;
 
-    uint32_t m_rendererID;
+    uint32_t m_ID;
     std::string m_filePath;
     unsigned char *m_localBuffer;
     int32_t m_width, m_height, m_BPP;
