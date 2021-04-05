@@ -8,11 +8,11 @@
 class Window
 {
 public:
-	Window(const int32_t width, const int32_t height) noexcept;
+	Window(const std::int32_t width, const std::int32_t height) noexcept;
 	~Window() noexcept = default;
 
 	GLFWwindow *window() const noexcept;
-	std::pair<int32_t, int32_t> dimensions() const;
+	std::pair<std::int32_t, std::int32_t> dimensions() const;
 	bool shouldClose() const;
 
 	void swapBuffers() const;
@@ -25,5 +25,5 @@ public:
 
 private:
 	GLFWwindow *m_window;
-	const int32_t m_width, m_height;
+	const std::uint32_t m_width, m_height;
 };

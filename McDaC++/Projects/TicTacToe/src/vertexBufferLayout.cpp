@@ -7,7 +7,7 @@
 VertexBufferLayout::VertexBufferLayout()
     : m_stride(0) {}
 
-unsigned int VertexBufferLayout::getStride() const
+std::uint32_t VertexBufferLayout::getStride() const
 {
     return m_stride;
 }
@@ -18,13 +18,13 @@ const std::vector<VertexBufferElement> &VertexBufferLayout::getElements() const
 }
 
 template <class T>
-void VertexBufferLayout::push(const uint32_t)
+void VertexBufferLayout::push(const std::uint32_t)
 {
-    ASSERT(false);
+    assert(false);
 }
 
 template <>
-void VertexBufferLayout::push<float>(const uint32_t count)
+void VertexBufferLayout::push<float>(const std::uint32_t count)
 {
     m_elements.emplace_back(VertexBufferElement{GL_FLOAT, count, GL_FALSE});
     m_stride += VertexBufferElement::typeSize(GL_FLOAT) * count;

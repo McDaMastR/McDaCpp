@@ -7,16 +7,16 @@
 class VertexBufferLayout
 {
 private:
-    uint32_t m_stride;
+    std::uint32_t m_stride;
     std::vector<VertexBufferElement> m_elements;
 
 public:
     VertexBufferLayout();
     ~VertexBufferLayout() = default;
 
-    unsigned int getStride() const;
+    std::uint32_t getStride() const;
     const std::vector<VertexBufferElement> &getElements() const;
 
     template <class T>
-    void push(const uint32_t);
+    void push(const std::uint32_t);
 };

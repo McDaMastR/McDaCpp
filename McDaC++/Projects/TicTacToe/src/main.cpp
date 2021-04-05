@@ -3,13 +3,10 @@
 
 #include <iostream>
 
-#include "include/renderer.hpp"
-#include "include/vertexArray.hpp"
-#include "include/indexBuffer.hpp"
-#include "include/shader.hpp"
-#include "include/vertexBuffer.hpp"
-#include "include/vertexBufferLayout.hpp"
+#include "include/GLclasses.hpp"
+
 #include "include/texture.hpp"
+#include "include/square.hpp"
 #include "include/blender.hpp"
 #include "include/events.hpp"
 #include "include/window.hpp"
@@ -21,7 +18,11 @@
 #include "include/board.hpp"
 #include "include/piece.hpp"
 
-#define DEBUG_LOG(x) std::cout << x++ << '\n'
+#ifdef DEBUG
+#define DEBUG_LOG(x) std::cout << x << '\n'
+#else
+#define DEBUG_LOG(x) 
+#endif
 
 /*
 
@@ -44,6 +45,15 @@ Ok to have multiple objects of all above types
 
 */
 
+/*
+
+X Y Plane:
+	6 7 8
+	3 4 5
+	0 1 2
+
+*/
+
 int main()
 {
 	Window::initGlfw();
@@ -51,7 +61,6 @@ int main()
 	Window::initGL();
 	#ifdef DEBUG
 	DearImGui::init(window, ImGuiColor::dark);
-	uint16_t debug_num = 0;
 	#endif
 	{
 		const std::array<float, 16> board_verticies = {
@@ -59,19 +68,25 @@ int main()
 			 1.0f, -1.0f, 1.0f, 0.0f,
 			 1.0f,  1.0f, 1.0f, 1.0f,
 			-1.0f,  1.0f, 0.0f, 1.0f	
-		}; const std::array<uint32_t, 6> board_indices = {
+		}; 
+		const std::array<std::uint32_t, 6> square_indices = {
 			0, 1, 2,
 			2, 3, 0
 		};
-		const Board board("res/textures/board.png", board_verticies, board_indices);
+		const Board board("res/textures/board.png", board_verticies, square_indices);
+		Square blue_square;
 
 		const Blender blender(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		Renderer renderer;
 
-		const Shader shader("res/shaders/basic");
-		shader.bind();
+		const VertexArray vao;
+		vao.bind();
+		const Shader board_shader("res/shaders/board");
+		const Shader background_shader("res/shaders/shadeBlue");
+		vao.unBind();
 
-		shader.setUniformVeci("u_Texture", 0);
+		board_shader.bind();
+		board_shader.setUniformVeci("u_Texture", 0);
 
 		MouseEvent mouse_events(window.window());
 		PieceType turn = PieceType::X;
@@ -80,45 +95,31 @@ int main()
 		{
 			renderer.newFrame();
 
-			board.render(renderer, shader);
-			Piece::renderAll(renderer,shader);
+			board_shader.bind();
+			DEBUG_LOG(0);
+			board.render(renderer);
+			DEBUG_LOG(1);
+			Piece::renderAll(renderer); // TODO fix OpenGL error here
+			DEBUG_LOG(2);
 
-			#ifdef DEBUG
-			DearImGui::onUpdate(mouse_events);
-			#endif
-
-			switch (mouse_events.indexOfMousePos())
-			{
-			case 0:
-				break;
-			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			case 7:
-				break;
-			default:
-				break;
-			}
+			background_shader.bind();
+			blue_square.changeVertices(mouse_events.indexOfMousePos());
+			blue_square.render(renderer);
 
 			if (mouse_events.isMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
 				// If cursor is over an X & O index and index is not already filled
 				if (true) {
 					Piece::addPiece(turn, {0, 1, 2, 2, 3, 0});
 				}
-				swapPiecetype(turn);
+				swapPieceType(turn);
 			}
 
 			if (Piece::check())
 				break;
+
+			#ifdef DEBUG
+			DearImGui::onUpdate(mouse_events);
+			#endif
 
 			window.swapBuffers();
 			window.pollEvents();

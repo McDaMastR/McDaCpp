@@ -4,25 +4,24 @@
 #include "indexBuffer.hpp"
 #include "vertexBufferLayout.hpp"
 #include "shader.hpp"
+#include "events.hpp"
 
 #include <unordered_map>
 
 #ifdef DEBUG
-    #define ASSERT(x) if (!(x)) {std::exit(-2);}
     #define GLCALL(x)  clearErrors();\
                         x;\
-                        ASSERT(logCall(#x, __FILE__, __LINE__));
+                        assert(logCall(#x, __FILE__, __LINE__));
 #else
-    #define ASSERT(x)
     #define GLCALL(x) x
 #endif
 
 #define BIT_SHIFT(x) 1 << x;
 
 void clearErrors();
-std::string errorType(const uint32_t type);
-std::string getShaderType(const uint32_t type);
-bool logCall(const char * const func, const char * const file, const uint32_t line);
+std::string errorType(const std::uint32_t type);
+std::string getShaderType(const std::uint32_t type);
+bool logCall(const char * const func, const char * const file, const std::uint32_t line);
 
 class Renderer
 {
@@ -31,5 +30,5 @@ public:
     ~Renderer() = default;
 
 	void newFrame() const;
-    void draw(const VertexArray &va, const IndexBuffer &ib, const Shader &shader) const;
+    void draw(const std::uint32_t count) const;
 };

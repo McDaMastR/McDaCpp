@@ -6,5 +6,5 @@ CXX_DEFINES = -DDEBUG -DGLEW_STATIC -DGL_SILENCE_DEPRECATION
 
 CXX_INCLUDES = -F/Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/System/Library/Frameworks -isystem /usr/local/include
 
-CXX_FLAGS =  -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -F/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks  -g -Og -Wall -Wextra -Wpedantic -Wno-deprecated-volatile -std=gnu++2a
+CXX_FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk -F/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks  -g -Og -Wall -Wextra -Wpedantic -Wno-deprecated-volatile -std=gnu++2a
 

@@ -1,19 +1,19 @@
 #pragma once
 
-#include <cstdint>
+#include <GL/glew.h>
 
 class IndexBuffer
 {
 private:
-	uint32_t m_ID;
-	uint32_t m_count;
+	GLuint m_ID;
+	std::uint32_t m_count;
 
 public:
-    IndexBuffer(const uint32_t * const data, const uint32_t count);
+    IndexBuffer(const std::uint32_t * const data, const std::uint32_t count);
     ~IndexBuffer();
 
     void   bind() const;
     void unBind() const;
 
-    uint32_t getCount() const;
+    std::uint32_t getCount() const;
 };

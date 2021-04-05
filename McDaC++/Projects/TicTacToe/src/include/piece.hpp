@@ -2,12 +2,13 @@
 
 #include "texture.hpp"
 
-enum class PieceType : uint8_t
+enum class PieceType : std::int8_t
 {
-	null, X, O
+	null = 0, 
+	X = -1, O = 1
 };
 
-void swapPiecetype(PieceType &type);
+void swapPieceType(PieceType &type);
 
 class Piece : public Texture
 {
@@ -19,17 +20,17 @@ private:
 		{nullptr, nullptr, nullptr}, 
 		{nullptr, nullptr, nullptr}
 	}};
-	inline static uint16_t index = 0;
+	inline static std::uint8_t index = 0;
 	inline static PieceType winner = PieceType::null;
 
 public:
-	Piece(const PieceType type, const std::array<uint32_t, 6> &indices);
+	Piece(const PieceType type, const std::array<std::uint32_t, 6> &indices);
 	~Piece() = default;
 
 	PieceType type() const;
 
-	static void addPiece(const PieceType type, const std::array<uint32_t, 6> &indices);
-	static void renderAll(const Renderer &renderer, const Shader &shader);
+	static void addPiece(const PieceType type, const std::array<std::uint32_t, 6> &indices);
+	static void renderAll(const Renderer &renderer);
 	static bool check();
 	static void deletePieces();
 };

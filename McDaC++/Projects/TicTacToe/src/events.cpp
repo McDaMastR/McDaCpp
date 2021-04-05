@@ -1,11 +1,12 @@
 #include "include/events.hpp"
+#include <iostream>
 
 Event::Event(GLFWwindow * const window)
 	: m_window(window) {}
 
 
 MouseEvent::MouseEvent(GLFWwindow * const window)
-	: Event(window), mouse_pressed_state(false)
+	: Event(window), m_mousePressedState(false)
 {
 	glfwSetCursorPosCallback(m_window, cursorPositionCallback);
 	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -15,15 +16,15 @@ MouseEvent::MouseEvent(GLFWwindow * const window)
 	glfwSetScrollCallback(m_window, mouseScrollCallback);
 }
 
-bool MouseEvent::isMouseButtonPressed(const int key)
+bool MouseEvent::isMouseButtonPressed(const std::int32_t key)
 {
-	uint16_t state = glfwGetMouseButton(m_window, key);
-	if (mouse_pressed_state) {
+	std::uint16_t state = glfwGetMouseButton(m_window, key);
+	if (m_mousePressedState) {
 		if (!(state == GLFW_PRESS))
-			mouse_pressed_state = false;
+			m_mousePressedState = false;
 		return false;
 	} if (state == GLFW_PRESS) {
-		mouse_pressed_state = true;
+		m_mousePressedState = true;
 		return true;
 	}
 	return false;
@@ -36,23 +37,25 @@ std::pair<double, double> MouseEvent::getMousePos() const
 	return {x, y};
 }
 
-uint16_t MouseEvent::indexOfMousePos()
+std::uint8_t MouseEvent::indexOfMousePos() const
 {
-
+	auto[pos_x, pos_y] = getMousePos();
+	float index_y = pos_y / (640.0f / 3.0f);
+	return 3 * (index_y == 1 ? index_y : (index_y == 0 ? 2 : 0)) + pos_x / (640.0f / 3.0f);
 }
 
-void MouseEvent::cursorPositionCallback(GLFWwindow *window, double x, double y)
-{
-}
-
-void MouseEvent::cursorEnterCallback(GLFWwindow *window, int32_t entered)
+void MouseEvent::cursorPositionCallback(GLFWwindow * const /* window */, double /* x */, double /* y */)
 {
 }
 
-void MouseEvent::mouseButtonCallback(GLFWwindow *window, int32_t button, int32_t action, int32_t mods)
+void MouseEvent::cursorEnterCallback(GLFWwindow * const /* window */, std::int32_t /* entered */)
 {
 }
 
-void MouseEvent::mouseScrollCallback(GLFWwindow *window, double x_offset, double y_offset)
+void MouseEvent::mouseButtonCallback(GLFWwindow * const /* window */, std::int32_t /* button */, std::int32_t /* action */, std::int32_t /* mods */)
+{
+}
+
+void MouseEvent::mouseScrollCallback(GLFWwindow * const /* window */, double /* x_offset */, double /* y_offset */)
 {
 }

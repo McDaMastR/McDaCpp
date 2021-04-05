@@ -12,6 +12,7 @@ set(PROJECT_SOURCE_FILES
     src/vertexBuffer.cpp
     src/vertexBufferLayout.cpp
     src/texture.cpp
+	src/square.cpp
     src/vertexBufferElement.cpp
 	src/blender.cpp
 	src/events.cpp

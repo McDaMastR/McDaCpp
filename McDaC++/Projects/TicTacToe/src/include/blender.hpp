@@ -5,6 +5,6 @@
 class Blender
 {
 public:
-	Blender(const uint32_t v0, const uint32_t v1);
+	Blender(const std::uint32_t v0, const std::uint32_t v1);
 	~Blender() = default;
 };

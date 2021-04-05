@@ -18,7 +18,7 @@
 					]
 				}
 			],
-			"name" : "",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -38,7 +38,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "TicTacToe::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-TicTacToe-6fb91fbc583563263f3f.json",
+					"jsonFile" : "target-TicTacToe-Debug-e2c851dc880c4bfd8587.json",
 					"name" : "TicTacToe",
 					"projectIndex" : 0
 				}
@@ -48,8 +48,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build",
-		"source" : "/Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe"
+		"build" : "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe/build",
+		"source" : "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe"
 	},
 	"version" : 
 	{

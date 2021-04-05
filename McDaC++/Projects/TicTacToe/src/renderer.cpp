@@ -8,7 +8,7 @@ void clearErrors()
     while (glGetError());
 }
 
-std::string errorType(const uint32_t type)
+std::string errorType(const std::uint32_t type)
 {
 	switch (type)
 	{
@@ -29,7 +29,7 @@ std::string errorType(const uint32_t type)
 	}
 }
 
-std::string getShaderType(const uint32_t type)
+std::string getShaderType(const std::uint32_t type)
 {
 	switch (type)
 	{
@@ -42,9 +42,9 @@ std::string getShaderType(const uint32_t type)
 	}
 }
 
-bool logCall(const char * const func, const char * const file, const uint32_t line)
+bool logCall(const char * const func, const char * const file, const std::uint32_t line)
 {
-   	uint32_t error;
+   	std::uint32_t error;
 	bool isError = false;
 	while ((error = glGetError()))
 	{
@@ -63,10 +63,7 @@ void Renderer::newFrame() const
 	GLCALL(glClear(GL_COLOR_BUFFER_BIT));
 }
 
-void Renderer::draw(const VertexArray &va, const IndexBuffer &ib, const Shader &shader) const
+void Renderer::draw(const std::uint32_t count) const
 {
-    shader.bind();
-    va.bind();
-    ib.bind();
-    GLCALL(glDrawElements(GL_TRIANGLES, ib.getCount(), GL_UNSIGNED_INT, nullptr));
+    GLCALL(glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr));
 }

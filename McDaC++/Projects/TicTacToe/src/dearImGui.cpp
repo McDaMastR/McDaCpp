@@ -50,7 +50,8 @@ void DearImGui::onUpdate(const MouseEvent &mouse_events)
 	// if (mouse_events.isMouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT))
 	// 	outputText("Right mouse button pressed!");
 
-	mousePos(mouse_events); // TODO Say which X & O index the mouse is currently in
+	mousePos(mouse_events); // TODO Say the x & y coords of the mouse
+	mouseIndex(mouse_events);
 	FPS();
 
 	end();
@@ -86,6 +87,11 @@ void DearImGui::mousePos(const MouseEvent &mouse_events)
 {
 	auto[x, y] = mouse_events.getMousePos();
 	outputText("X: %.3lf, Y: %.3lf", x, y);	
+}
+
+void DearImGui::mouseIndex(const MouseEvent &mouse_events)
+{
+	ImGui::Text("Index of mouse: %d", mouse_events.indexOfMousePos());
 }
 
 void DearImGui::FPS()

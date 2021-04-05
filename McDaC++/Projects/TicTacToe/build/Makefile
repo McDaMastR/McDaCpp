@@ -58,19 +58,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/local/Cellar/cmake/3.19.6/bin/cmake
+CMAKE_COMMAND = /usr/local/Cellar/cmake/3.19.7/bin/cmake
 
 # The command to remove a file.
-RM = /usr/local/Cellar/cmake/3.19.6/bin/cmake -E rm -f
+RM = /usr/local/Cellar/cmake/3.19.7/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe
+CMAKE_SOURCE_DIR = /Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build
+CMAKE_BINARY_DIR = /Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -78,7 +78,7 @@ CMAKE_BINARY_DIR = /Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/local/Cellar/cmake/3.19.6/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/3.19.7/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -89,7 +89,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/local/Cellar/cmake/3.19.6/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/Cellar/cmake/3.19.7/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -99,9 +99,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build/CMakeFiles /Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe/build/CMakeFiles /Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -384,6 +384,33 @@ src/shader.s: src/shader.cpp.s
 src/shader.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/shader.cpp.s
 .PHONY : src/shader.cpp.s
+
+src/square.o: src/square.cpp.o
+
+.PHONY : src/square.o
+
+# target to build an object file
+src/square.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/square.cpp.o
+.PHONY : src/square.cpp.o
+
+src/square.i: src/square.cpp.i
+
+.PHONY : src/square.i
+
+# target to preprocess a source file
+src/square.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/square.cpp.i
+.PHONY : src/square.cpp.i
+
+src/square.s: src/square.cpp.s
+
+.PHONY : src/square.s
+
+# target to generate assembly for a file
+src/square.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TicTacToe.dir/build.make CMakeFiles/TicTacToe.dir/src/square.cpp.s
+.PHONY : src/square.cpp.s
 
 src/texture.o: src/texture.cpp.o
 
@@ -799,6 +826,9 @@ help:
 	@echo "... src/shader.o"
 	@echo "... src/shader.i"
 	@echo "... src/shader.s"
+	@echo "... src/square.o"
+	@echo "... src/square.i"
+	@echo "... src/square.s"
 	@echo "... src/texture.o"
 	@echo "... src/texture.i"
 	@echo "... src/texture.s"

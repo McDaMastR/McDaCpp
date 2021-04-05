@@ -3,7 +3,7 @@
 
 #include <GL/glew.h>
 
-VertexBuffer::VertexBuffer(const void * const data, const uint32_t size)
+VertexBuffer::VertexBuffer(const void * const data, const std::uint32_t size)
 {
     GLCALL(glGenBuffers(1, &m_ID));
     GLCALL(glBindBuffer(GL_ARRAY_BUFFER, m_ID));

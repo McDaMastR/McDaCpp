@@ -1,13 +1,13 @@
 #pragma once
 
 #include "vertexBuffer.hpp"
-
-class VertexBufferLayout;
+#include "vertexBufferLayout.hpp"
 
 class VertexArray
 {
 private:
-    uint32_t m_ID;
+    GLuint m_ID;
+	// std::vector<VertexBuffer *> buffers;
 
 public:
     VertexArray();

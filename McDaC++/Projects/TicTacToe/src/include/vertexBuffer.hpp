@@ -1,14 +1,14 @@
 #pragma once
 
-#include <cstdint>
+#include <GL/glew.h>
 
 class VertexBuffer
 {
 private:
-    uint32_t m_ID;
+    GLuint m_ID;
 
 public:
-    VertexBuffer(const void * const data, const uint32_t size);
+    VertexBuffer(const void * const data, const std::uint32_t size);
     ~VertexBuffer();
 
     void   bind() const;

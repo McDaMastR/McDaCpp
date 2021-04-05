@@ -8,6 +8,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/TicTacToe.dir/src/piece.cpp.o"
   "CMakeFiles/TicTacToe.dir/src/renderer.cpp.o"
   "CMakeFiles/TicTacToe.dir/src/shader.cpp.o"
+  "CMakeFiles/TicTacToe.dir/src/square.cpp.o"
   "CMakeFiles/TicTacToe.dir/src/texture.cpp.o"
   "CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui.cpp.o"
   "CMakeFiles/TicTacToe.dir/src/vendor/imGui/imgui_demo.cpp.o"

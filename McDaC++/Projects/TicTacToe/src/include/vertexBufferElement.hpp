@@ -1,11 +1,13 @@
 #pragma once
 
+#include <GL/glew.h>
 #include <cstdint>
 
 struct VertexBufferElement
 {
-    uint32_t m_type, m_count;
-    uint16_t m_normalized;
+    GLuint m_type;
+	std::uint32_t m_count;
+    std::uint16_t m_normalized;
 
-    static uint32_t typeSize(const uint32_t type);
+    static std::uint32_t typeSize(const GLuint type);
 };

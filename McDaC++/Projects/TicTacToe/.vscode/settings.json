@@ -64,7 +64,8 @@
 		"tuple": "cpp",
 		"type_traits": "cpp",
 		"unordered_map": "cpp",
-		"vector": "cpp"
+		"vector": "cpp",
+		"test": "cpp"
 	},
 	"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
 }

@@ -1,11 +1,11 @@
 #include "include/shader.hpp"
 
-#include "include/renderer.hpp"
-
 #include <GL/glew.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
+#include "include/renderer.hpp"
 
 Shader::Shader(const std::string &file_path)
     : m_shaders({{ShaderType::vertex, parseShader(file_path + ".vert")}, 
@@ -29,7 +29,7 @@ void Shader::unBind() const
     GLCALL(glUseProgram(0));
 }
 
-void Shader::setUniformVeci(const std::string &name, const int32_t v0) const
+void Shader::setUniformVeci(const std::string &name, const std::int32_t v0) const
 {
     GLCALL(glUniform1i(getUniformLocation(name), v0));
 }
@@ -44,11 +44,11 @@ void Shader::setUniformMatf(const std::string &name, const glm::mat4 &matrix) co
     GLCALL(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &matrix[0][0]));
 }
 
-uint32_t Shader::getUniformLocation(const std::string &name) const
+std::uint32_t Shader::getUniformLocation(const std::string &name) const
 {
 	if (m_uniformLocationCache.find(name) != m_uniformLocationCache.end())
         return m_uniformLocationCache[name];
-	GLCALL(int32_t location = glGetUniformLocation(m_programID, name.c_str()));
+	GLCALL(std::int32_t location = glGetUniformLocation(m_programID, name.c_str()));
 	if (location == -1)
         std::cerr << "Warning: Uniform " << name << " does not exist\n";
     m_uniformLocationCache[name] = location;
@@ -68,8 +68,8 @@ std::string Shader::parseShader(const std::string &file_path) const
 void Shader::createProgram(const std::string &vertex_shader, const std::string &fragment_shader)
 {
 	GLCALL(m_programID = glCreateProgram());
-	const uint32_t vs = compileShader(GL_VERTEX_SHADER, vertex_shader);
-	const uint32_t fs = compileShader(GL_FRAGMENT_SHADER, fragment_shader);
+	const std::uint32_t vs = compileShader(GL_VERTEX_SHADER, vertex_shader);
+	const std::uint32_t fs = compileShader(GL_FRAGMENT_SHADER, fragment_shader);
 
 	GLCALL(glAttachShader(m_programID, vs));
 	GLCALL(glAttachShader(m_programID, fs));
@@ -85,12 +85,12 @@ void Shader::createProgram(const std::string &vertex_shader, const std::string &
 	checkError(GL_VALIDATE_STATUS, true);
 }
 
-uint32_t Shader::compileShader(const uint32_t type, const std::string &source_code) const
+std::uint32_t Shader::compileShader(const std::uint32_t type, const std::string &source_code) const
 {
-	GLCALL(const uint32_t shader_id = glCreateShader(type));
+	GLCALL(const std::uint32_t shader_id = glCreateShader(type));
 	if (!shader_id) {
 		std::cerr << getShaderType(type) << " Creation Error\n";
-		ASSERT(false);
+		assert(false);
 	}
 
 	const char * const src = source_code.c_str();
@@ -100,15 +100,15 @@ uint32_t Shader::compileShader(const uint32_t type, const std::string &source_co
 
 	return shader_id;
 }
-void Shader::checkError(const uint32_t flag, const bool is_program, const uint32_t shader_id, const uint32_t shader_type) const
+void Shader::checkError(const std::uint32_t flag, const bool is_program, const std::uint32_t shader_id, const std::uint32_t shader_type) const
 {
-	int32_t result;
+	std::int32_t result;
 
 	if (is_program) 
 	{
 		GLCALL(glGetProgramiv(m_programID, flag, &result));
 		if (!result) {
-			int32_t length;
+			std::int32_t length;
 			GLCALL(glGetProgramiv(m_programID, GL_INFO_LOG_LENGTH, &length));
 			char * const error_msg = new char[length];
 			GLCALL(glGetProgramInfoLog(m_programID, length, nullptr, error_msg));
@@ -116,7 +116,7 @@ void Shader::checkError(const uint32_t flag, const bool is_program, const uint32
 
 			GLCALL(glDeleteProgram(m_programID));
 			delete[] error_msg;
-			ASSERT(false);
+			assert(false);
 		}
 	}
 
@@ -124,7 +124,7 @@ void Shader::checkError(const uint32_t flag, const bool is_program, const uint32
 	{
 		GLCALL(glGetShaderiv(shader_id, flag, &result));
 		if (!result) {
-			int32_t length;
+			std::int32_t length;
 			GLCALL(glGetShaderiv(shader_id, GL_INFO_LOG_LENGTH, &length));
 			char * const error_msg = new char[length];
 			GLCALL(glGetShaderInfoLog(shader_id, length, nullptr, error_msg));
@@ -132,7 +132,7 @@ void Shader::checkError(const uint32_t flag, const bool is_program, const uint32
 
 			GLCALL(glDeleteShader(shader_id));
 			delete[] error_msg;
-			ASSERT(false);
+			assert(false);
 		}
 	}
 }

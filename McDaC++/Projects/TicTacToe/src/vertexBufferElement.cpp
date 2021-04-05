@@ -2,9 +2,7 @@
 
 #include "include/renderer.hpp"
 
-#include <GL/glew.h>
-
-unsigned int VertexBufferElement::typeSize(const uint32_t type)
+std::uint32_t VertexBufferElement::typeSize(const GLuint type)
 {
     switch (type)
     {
@@ -25,6 +23,6 @@ unsigned int VertexBufferElement::typeSize(const uint32_t type)
     case GL_UNSIGNED_INT:
         return sizeof(unsigned int);
     default:
-        ASSERT(false);
+        assert(false);
     }
 }

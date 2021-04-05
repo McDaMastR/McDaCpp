@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-Window::Window(const int32_t width, const int32_t height) noexcept
+Window::Window(const std::int32_t width, const std::int32_t height) noexcept
 	: m_width(width), m_height(height)
 {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -19,7 +19,7 @@ Window::Window(const int32_t width, const int32_t height) noexcept
     if (!m_window) {
         std::cerr << "Failed to create window\n";
         glfwTerminate();
-		ASSERT(false);
+		assert(false);
     }
 
 	glfwMakeContextCurrent(m_window);
@@ -30,7 +30,7 @@ GLFWwindow *Window::window() const noexcept
 	return m_window;
 }
 
-std::pair<int, int> Window::dimensions() const
+std::pair<std::int32_t, std::int32_t> Window::dimensions() const
 {
 	return {m_width, m_height};
 }
@@ -69,7 +69,7 @@ void Window::initGlfw()
 	#ifdef DEBUG
 	if (!glfwInit()) {
 		std::cerr << "Failed to initilize glfw\n";
-		ASSERT(false);
+		assert(false);
 	}
 	#else
 	glfwInit();
@@ -82,7 +82,7 @@ void Window::initGL()
 	#ifdef DEBUG
 	if (glewInit()) {
 		std::cerr << "Failed to initilize glew\n";
-		ASSERT(false);
+		assert(false);
 	}
 	#else
 	glewInit();
