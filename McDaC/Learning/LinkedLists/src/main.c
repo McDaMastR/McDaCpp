@@ -1,17 +1,25 @@
-#include "include/node.h"
+#include "include/nodeFuncs.h"
+#include "include/hashTable.h"
 
-#include <assert.h>
-
-/*
-
-To Compile:
-
-time clang -g -Og -DDEBUG src/main.c src/node.c -o bin/LinkedLists
-
-*/
+#include <stdio.h>
 
 int main()
 {
+	initHashTable(10);
+
+	node_t node1 = {.var1 = 3, .var2 = 9.4f}, 
+		   node2 = {.var1 = 7, .var2 = 4.7f}, 
+		   node3 = {.var1 = 5, .var2 = 0.1f};
+
+	hashTableInsert(&node1);
+	hashTableInsert(&node2);
+	hashTableInsert(&node3);
+
+	printHashTable();
+
+	freeHashTable();
+
+	/*
 	node_t *root;
 	initalizeRootNode(&root, 5, 9.4f);
 
@@ -19,17 +27,13 @@ int main()
 	root->next->back = root;
 	setNodeVal(root, 2, 7, 1.9f);
 
-	insertNode(&root, &root->next);
-
-	DEBUG_LOG("%p\n", root);
-	DEBUG_LOG("%p\n", root->next->back);
-	DEBUG_LOG("%p\n", root->next->next->back->back);
+	insertNode(root, root->next);
 
 	freeNodeEnd(root);
 
-
-	// printList(root);
+	printList(root);
 
 	freeAllNodes(root);
+	*/
 	return 0;
 }

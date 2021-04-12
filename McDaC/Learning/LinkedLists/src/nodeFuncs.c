@@ -1,74 +1,56 @@
-#include "include/node.h"
+#include "include/nodeFuncs.h"
 
 #include <stdlib.h>
-#include <assert.h>
-
-node_t *createRootNode()
-{
-	node_t *root = malloc(sizeof(node_t));
-	root->next = NULL;
-	root->back = NULL;
-	return root;
-}
+#include <stdio.h>
 
 node_t *createNode()
 {
-	node_t *temp = malloc(sizeof(node_t));
-	temp->next = NULL;
-	temp->back = NULL;
-	return temp;
+	node_t *node = (node_t *) malloc(sizeof(node_t));
+	node->next = NULL;
+	node->back = NULL;
+	return node;
 }
 
-void initalizeRootNode(node_t **root, const int var1, const float var2)
+void initalizeNode(node_t **new_node, const int var1, const float var2)
 {
-	*root = malloc(sizeof(node_t));
-	(*root)->next = NULL;
-	(*root)->back = NULL;
-	(*root)->var1 = var1;
-	(*root)->var2 = var2;
-}
-
-void initalizeNode(node_t **new_node, node_t * const previous_node, const int var1, const float var2)
-{
-	*new_node = malloc(sizeof(node_t));
+	*new_node = (node_t *) malloc(sizeof(node_t));
 	(*new_node)->next = NULL;
-	(*new_node)->back = previous_node;
+	(*new_node)->back = NULL;
 	(*new_node)->var1 = var1;
 	(*new_node)->var2 = var2;
 }
 
-void insertNode(node_t * const * const previous_node, node_t * const * const next_node)
+void insertNode(node_t * const previous_node, node_t * const next_node)
 {
-	node_t * const node = malloc(sizeof(node_t));
+	node_t * const node = (node_t *) malloc(sizeof(node_t));
 
-	node->back = *previous_node;
-	node->next = *next_node;
+	node->back = next_node->back;
+	node->next = previous_node->next;
 
-	(*previous_node)->next = node;
-	(*next_node)->back = node;
+	next_node->back = node;
+	previous_node->next = node;
 }
 
-void insertNodeEnd(node_t * const * const previous_node)
+void insertNodeEnd(node_t * const previous_node)
 {	
-	node_t *node = malloc(sizeof(node_t));
+	node_t *node = (node_t *) malloc(sizeof(node_t));
 
-	(*previous_node)->next = node;
-	node->back = *previous_node;
+	previous_node->next = node;
+	node->back = previous_node;
 }
 
 void freeNode(node_t * const node)
 {
-	node->back->next = node->next;
-	node->next->back = node->back;
+	if (node->back)
+		node->back->next = node->next;
+	if (node->next)
+		node->next->back = node->back;
 	free(node);
 }
 
 void freeNodeEnd(node_t * const node)
 {
 	node_t * const end_node = getLastNode(node);
-	// DEBUG_LOG("%p\n", node);
-	// DEBUG_LOG("%p\n", node->next->next->back);
-	// DEBUG_LOG("%p\n", end_node->back);
 	end_node->back->next = NULL;
 	free(end_node);
 }
@@ -76,8 +58,9 @@ void freeNodeEnd(node_t * const node)
 void freeAllNodes(node_t * const root)
 {
 	free(root);
-	if (root->next)
+	if (root->next) {
 		freeAllNodes(root->next);
+	}
 }
 
 void setNodeVal(node_t * const root, const int node_num, const int var1, const float var2)
