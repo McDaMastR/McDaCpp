@@ -35,6 +35,7 @@ namespace DearImGui
 	void stats();
 	void mousePos(const MouseEvent &mouse_events);
 	void mouseIndex(const MouseEvent &mouse_events);
+	void indexVerticies(const std::uint8_t index);
 	void FPS();
 	bool button(const char * const description);
 	bool checkbox(const char * const description);

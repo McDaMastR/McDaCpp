@@ -4,7 +4,9 @@
 #include <unordered_map>
 
 #include <GL/glew.h>
-#include <glm/glm.hpp>
+
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
 
 enum class ShaderType
 {

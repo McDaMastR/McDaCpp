@@ -7,7 +7,7 @@
 class Square
 {
 private:
-	std::array<float, 16> m_vertices;
+	std::array<float, 8> m_vertices;
 	const std::array<std::uint32_t, 6> m_indices;
 	const IndexBuffer m_ibo;
 

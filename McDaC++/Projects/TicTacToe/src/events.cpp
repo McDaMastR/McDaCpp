@@ -40,8 +40,9 @@ std::pair<double, double> MouseEvent::getMousePos() const
 std::uint8_t MouseEvent::indexOfMousePos() const
 {
 	auto[pos_x, pos_y] = getMousePos();
-	float index_y = pos_y / (640.0f / 3.0f);
-	return 3 * (index_y == 1 ? index_y : (index_y == 0 ? 2 : 0)) + pos_x / (640.0f / 3.0f);
+	std::uint8_t index_x = pos_x / (640.0f / 3.0f);
+	std::uint8_t index_y = pos_y / (640.0f / 3.0f);
+	return 3 * (index_y == 1 ? index_y : (index_y == 0 ? 2 : 0)) + index_x;
 }
 
 void MouseEvent::cursorPositionCallback(GLFWwindow * const /* window */, double /* x */, double /* y */)

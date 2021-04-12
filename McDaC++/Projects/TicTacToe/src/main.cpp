@@ -96,11 +96,8 @@ int main()
 			renderer.newFrame();
 
 			board_shader.bind();
-			DEBUG_LOG(0);
 			board.render(renderer);
-			DEBUG_LOG(1);
-			Piece::renderAll(renderer); // TODO fix OpenGL error here
-			DEBUG_LOG(2);
+			Piece::renderAll(renderer);
 
 			background_shader.bind();
 			blue_square.changeVertices(mouse_events.indexOfMousePos());

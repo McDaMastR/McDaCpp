@@ -42,11 +42,10 @@ Texture::Texture(const std::string &file_path, const std::array<float, 16> &vert
 
 	m_vao.bind();
 	m_vbo.bind();
-	m_ibo.bind();
 
 	m_layout.push<float>(2);
 	m_layout.push<float>(2);
-	m_vao.addBuffer(m_vbo, m_layout);
+	m_vao.addBuffer(m_layout);
 }
 
 Texture::Texture(const std::string &file_path, const std::uint8_t index, const std::array<std::uint32_t, 6> &indices)
@@ -70,9 +69,10 @@ Texture::Texture(const std::string &file_path, const std::uint8_t index, const s
 	
 	m_vao.bind();
 	m_vbo.bind();
+
 	m_layout.push<float>(2);
 	m_layout.push<float>(2);
-	m_vao.addBuffer(m_vbo, m_layout);
+	m_vao.addBuffer(m_layout);
 }
 
 Texture::~Texture()
@@ -84,6 +84,7 @@ void Texture::render(const Renderer &renderer) const
 {
 	bind();
 	m_vao.bind();
+	m_ibo.bind();
 	renderer.draw(m_ibo.getCount());
 }
 

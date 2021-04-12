@@ -25,10 +25,9 @@ void VertexArray::unBind() const
     GLCALL(glBindVertexArray(0));
 }
 
-void VertexArray::addBuffer(const VertexBuffer &vb, const VertexBufferLayout &layout)
+void VertexArray::addBuffer(const VertexBufferLayout &layout)
 {
     GLCALL(glBindVertexArray(m_ID));
-    vb.bind();
     const std::vector<VertexBufferElement> &elements = layout.getElements();
     std::uint32_t offset = 0;
 
@@ -40,6 +39,5 @@ void VertexArray::addBuffer(const VertexBuffer &vb, const VertexBufferLayout &la
         offset += element.m_count * VertexBufferElement::typeSize(element.m_type);
     }
     
-	vb.unBind();
 	GLCALL(glBindVertexArray(0));
 }

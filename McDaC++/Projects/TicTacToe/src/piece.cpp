@@ -2,13 +2,38 @@
 
 #include <iostream>
 
+std::ostream &operator<<(std::ostream &os, const PieceType type)
+{
+	switch(type)
+	{
+	case PieceType::null:
+		os << "NULL";
+		break;
+
+	case PieceType::X:
+		os << "X";
+		break;
+
+	default:
+		os << "O";
+		break;
+	}
+	return os;
+}
+
 void swapPieceType(PieceType &type)
 {
 	type = static_cast<PieceType>(static_cast<std::int8_t>(type) * -1);
 }
 
 Piece::Piece(const PieceType type, const std::array<std::uint32_t, 6> &indices)
-	: Texture((type == PieceType::X ? "res/textures/X.jpg" : "res/textures/O.jpg"), index, indices), m_type(type) {}
+	: Texture((type == PieceType::X ? "res/textures/X.jpg" : "res/textures/O.jpg"), current_index, indices), 
+	m_index(current_index), m_type(type) {}
+
+std::uint8_t Piece::index() const
+{
+	return m_index;
+}
 
 PieceType Piece::type() const
 {
@@ -17,8 +42,8 @@ PieceType Piece::type() const
 
 void Piece::addPiece(const PieceType type, const std::array<std::uint32_t, 6> &indices)
 {
-	pieces[index / 3][index % 3] = new Piece{type, indices};
-	index++;
+	pieces[current_index / 3][current_index % 3] = new Piece{type, indices};
+	current_index++;
 }
 
 void Piece::renderAll(const Renderer &renderer) // TODO batch rendering
@@ -28,16 +53,16 @@ void Piece::renderAll(const Renderer &renderer) // TODO batch rendering
 			if (pieces[i][j])
 				pieces[i][j]->render(renderer);
 			else
-				goto RenderEnd;
+				goto PieceRenderAllEnd;
 		}
 	}
-	RenderEnd:
+	PieceRenderAllEnd:
 		return;
 }
 
 bool Piece::check()
 {
-	if (index == 9)
+	if (current_index == 9)
 		return true;
 
 	std::uint8_t no_X = 0, no_O = 0;

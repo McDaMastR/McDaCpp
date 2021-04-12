@@ -1,5 +1,8 @@
 #pragma once
 
+// OpenGL Libs
+#include <GL/glew.h>
+
 // Vertex Array
 #include "vertexArray.hpp"
 

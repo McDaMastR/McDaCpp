@@ -52,6 +52,7 @@ void DearImGui::onUpdate(const MouseEvent &mouse_events)
 
 	mousePos(mouse_events); // TODO Say the x & y coords of the mouse
 	mouseIndex(mouse_events);
+	indexVerticies(mouse_events.indexOfMousePos());
 	FPS();
 
 	end();
@@ -92,6 +93,18 @@ void DearImGui::mousePos(const MouseEvent &mouse_events)
 void DearImGui::mouseIndex(const MouseEvent &mouse_events)
 {
 	ImGui::Text("Index of mouse: %d", mouse_events.indexOfMousePos());
+}
+
+void DearImGui::indexVerticies(const std::uint8_t index)
+{
+	auto getPos = [=](const bool x_axis, const bool right) -> float {
+		if (x_axis)
+			return ((index % 3) * 2.0f / 3.0f - 1.0f) + right * 2.0f / 3.0f;
+		return ((index / 3) * 2.0f / 3.0f - 1.0f) + right * 2.0f / 3.0f;
+	};
+
+	ImGui::Text("Verticies of current index:\nX: %.2f - %.2f\tY: %.2f - %.2f", 
+				getPos(true, false), getPos(true, true), getPos(false, false), getPos(false, true));
 }
 
 void DearImGui::FPS()

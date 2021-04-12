@@ -48,8 +48,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe/build",
-		"source" : "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Projects/TicTacToe"
+		"build" : "/Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe/build",
+		"source" : "/Users/seth/Dev/McDaStuff/McDaC++/Projects/TicTacToe"
 	},
 	"version" : 
 	{
