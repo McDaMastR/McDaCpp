@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20.2)
+cmake_minimum_required(VERSION 3.20.3)
 project(LearnVulkan LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -43,7 +43,7 @@ add_compile_options(${COMPILE_FLAGS})
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
-target_precompile_headers(${PROJECT_NAME} PRIVATE <vulkan/vulkan.hpp> <GLFW/glfw3.h> <optional> <iostream>)
+target_precompile_headers(${PROJECT_NAME} PRIVATE <vulkan/vulkan.hpp> <GLFW/glfw3.h>)
 target_include_directories(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
 target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan)
 target_link_libraries(${PROJECT_NAME} glfw)

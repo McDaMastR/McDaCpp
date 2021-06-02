@@ -4,6 +4,4 @@
 #ifdef __cplusplus
 #include <vulkan/vulkan.hpp>
 #include <GLFW/glfw3.h>
-#include <optional>
-#include <iostream>
 #endif // __cplusplus
