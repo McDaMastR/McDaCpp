@@ -1,0 +1,15 @@
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/bin/Debug/net5.0/GeneralLearning.deps.json
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/bin/Debug/net5.0/GeneralLearning.runtimeconfig.json
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/bin/Debug/net5.0/GeneralLearning.runtimeconfig.dev.json
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/bin/Debug/net5.0/GeneralLearning.dll
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/bin/Debug/net5.0/ref/GeneralLearning.dll
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/bin/Debug/net5.0/GeneralLearning.pdb
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/obj/Debug/net5.0/GeneralLearning.csproj.AssemblyReference.cache
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/obj/Debug/net5.0/GeneralLearning.GeneratedMSBuildEditorConfig.editorconfig
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/obj/Debug/net5.0/GeneralLearning.AssemblyInfoInputs.cache
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/obj/Debug/net5.0/GeneralLearning.AssemblyInfo.cs
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/obj/Debug/net5.0/GeneralLearning.csproj.CoreCompileInputs.cache
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/obj/Debug/net5.0/GeneralLearning.dll
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/obj/Debug/net5.0/ref/GeneralLearning.dll
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/obj/Debug/net5.0/GeneralLearning.pdb
+/Users/seth/Dev/McDaStuff/McDaC#/Learning/GeneralLearning/obj/Debug/net5.0/GeneralLearning.genruntimeconfig.cache

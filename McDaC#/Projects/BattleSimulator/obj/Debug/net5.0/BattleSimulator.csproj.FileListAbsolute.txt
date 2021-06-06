@@ -1,0 +1,15 @@
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/bin/Debug/net5.0/BattleSimulator.deps.json
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/bin/Debug/net5.0/BattleSimulator.runtimeconfig.json
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/bin/Debug/net5.0/BattleSimulator.runtimeconfig.dev.json
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/bin/Debug/net5.0/BattleSimulator.dll
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/bin/Debug/net5.0/ref/BattleSimulator.dll
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/bin/Debug/net5.0/BattleSimulator.pdb
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/obj/Debug/net5.0/BattleSimulator.csproj.AssemblyReference.cache
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/obj/Debug/net5.0/BattleSimulator.GeneratedMSBuildEditorConfig.editorconfig
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/obj/Debug/net5.0/BattleSimulator.AssemblyInfoInputs.cache
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/obj/Debug/net5.0/BattleSimulator.AssemblyInfo.cs
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/obj/Debug/net5.0/BattleSimulator.csproj.CoreCompileInputs.cache
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/obj/Debug/net5.0/BattleSimulator.dll
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/obj/Debug/net5.0/ref/BattleSimulator.dll
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/obj/Debug/net5.0/BattleSimulator.pdb
+/Users/seth/Dev/McDaStuff/McDaC#/Projects/BattleSimulator/obj/Debug/net5.0/BattleSimulator.genruntimeconfig.cache

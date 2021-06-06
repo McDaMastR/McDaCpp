@@ -2,17 +2,16 @@
 
 #include <vulkan/vulkan.hpp>
 #include <GLFW/glfw3.h>
-#include <GLFW/glfw3native.h>
 #include <optional>
 
 struct QueueFamilyIndices
 {
-    // Only want graphics family queue
-    std::optional<uint32_t> graphicsFamily;
-    std::optional<uint32_t> presentFamily;
+	// Only want graphics family queue
+	std::optional<uint32_t> graphicsFamily;
+	std::optional<uint32_t> presentFamily;
 
-    inline bool isComplete() const {return graphicsFamily.has_value() && presentFamily.has_value();}
-    constexpr inline uint32_t queueCount() const {return 1;} // Keep up to date! // graphics and present are 1 queue
+	inline bool isComplete() const {return graphicsFamily.has_value() && presentFamily.has_value();}
+	constexpr inline uint32_t queueCount() const {return 1;} // Keep up to date! // graphics and present are 1 queue
 };
 
 struct SwapChainSupportDetails
@@ -25,35 +24,33 @@ struct SwapChainSupportDetails
 class Application
 {
 public:
-    Application(const Application &) = delete;
-    Application(const Application &&) = delete;
-    void operator=(const Application &) = delete;
-    void operator=(const Application &&) = delete;
+	Application();
+	~Application();
 
-    inline static void run() {return app._run();}
+	void run();
 
-    inline static void printRequiredExtensions() {return app._printRequiredExtensions();}
-    inline static void printAllExtensions() {return app._printAllExtensions();}
-    inline static void printLayerSupport() {return app._printLayerSupport();}
+	void printRequiredExtensions();
+	void printAllExtensions();
+	void printLayerSupport();
 
 private:
-    Application();
-    ~Application();
-
-    void createWindow();
-    void initVulkan();
-    void createInstance();
-    void createDebugCallback();
-    void createSurface();
-    void getPhysicalDevice();
-    void createLogicalDevice();
+	void createWindow();
+	void initVulkan();
+	
+	void createInstance();
+	void createDebugCallback();
+	void createSurface();
+	void getPhysicalDevice();
+	void createLogicalDevice();
 	void createSwapChain();
+	void createImageViews();
+	void createGraphicsPipeline();
 
-    template <size_t S> 
-    bool areLayersSupported(const std::array<const char * const, S> &layers);
-    std::vector<const char *> getRequiredInstanceExtensions();
-    bool deviceSupportsRequirements(const vk::PhysicalDevice &device);
-    QueueFamilyIndices getQueueFamilies(const vk::PhysicalDevice &device);
+	template <size_t S> 
+	bool areLayersSupported(const std::array<const char * const, S> &layers);
+	std::vector<const char *> getRequiredInstanceExtensions();
+	bool deviceSupportsRequirements(const vk::PhysicalDevice &device);
+	QueueFamilyIndices getQueueFamilies(const vk::PhysicalDevice &device);
 	bool deviceSupportsExtensions(const vk::PhysicalDevice &device);
 
 	SwapChainSupportDetails querySwapChainSupport(const vk::PhysicalDevice &device);
@@ -62,28 +59,29 @@ private:
 	vk::PresentModeKHR chooseSwapPresentMode(const std::vector<vk::PresentModeKHR> &present_modes);
 	vk::Extent2D chooseSwapExtent(const vk::SurfaceCapabilitiesKHR &capabilities);
 
-    void _run();
-
-    void _printRequiredExtensions();
-    void _printAllExtensions();
-    void _printLayerSupport();
+	std::vector<char> readFile(const std::string_view &&filename);
+	vk::ShaderModule createShaderModule(const std::vector<char> &code);
 
 private:
-    // Vulkan
-    vk::ApplicationInfo m_appInfo;
-    vk::Instance m_instance;
-    vk::PhysicalDevice m_physicalDevice;
-    vk::Device m_logicalDevice;
-    vk::DebugUtilsMessengerEXT m_debugMessenger;
-    vk::SurfaceKHR m_surface;
-    vk::DispatchLoaderDynamic m_dynamicLoader;
+	// Vulkan
+	vk::ApplicationInfo m_appInfo;
+	vk::Instance m_instance;
+	vk::SurfaceKHR m_surface;
+	vk::PhysicalDevice m_physicalDevice;
+	vk::Device m_logicalDevice;
 
-    vk::Queue m_graphicsQueue;
-    vk::Queue m_presentQueue;
+	vk::DebugUtilsMessengerEXT m_debugMessenger;
+	vk::DispatchLoaderDynamic m_dynamicLoader;
 
-    // GLFW
-    GLFWwindow *m_window;
+	vk::Queue m_graphicsQueue;
+	vk::Queue m_presentQueue;
 
-    // Application
-    static Application app;
+	vk::SwapchainKHR m_swapChain;
+	vk::Extent2D m_swapChainExtent;
+	vk::Format m_swapChainImageFormat;
+	std::vector<vk::Image> m_swapChainImages;
+	std::vector<vk::ImageView> m_swapChainImageViews; // Possibly use pointers later
+
+	// GLFW
+	GLFWwindow *m_window;
 };

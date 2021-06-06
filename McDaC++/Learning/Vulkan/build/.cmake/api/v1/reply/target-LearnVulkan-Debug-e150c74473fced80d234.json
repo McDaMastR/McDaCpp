@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/bin/LearnVulkan"
+			"path" : "/Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/bin/LearnVulkan"
 		}
 	],
 	"backtrace" : 1,
@@ -29,43 +29,43 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 44,
+				"line" : 41,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 48,
+				"line" : 45,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 49,
+				"line" : 46,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 42,
+				"line" : 39,
 				"parent" : 0
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 41,
+				"line" : 38,
 				"parent" : 0
 			},
 			{
 				"command" : 4,
 				"file" : 0,
-				"line" : 47,
+				"line" : 44,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 0,
-				"line" : 46,
+				"line" : 43,
 				"parent" : 0
 			}
 		]
@@ -76,7 +76,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -mmacosx-version-min=11.2"
+					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk"
 				},
 				{
 					"backtrace" : 4,
@@ -142,7 +142,7 @@
 					"fragment" : "-std=gnu++2a"
 				},
 				{
-					"fragment" : "-Winvalid-pch -Xclang -emit-pch -Xclang -include -Xclang /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan.dir/cmake_pch.hxx -x c++-header"
+					"fragment" : "-Winvalid-pch -Xclang -emit-pch -Xclang -include -Xclang /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan.dir/cmake_pch.hxx -x c++-header"
 				}
 			],
 			"defines" : 
@@ -153,22 +153,14 @@
 				},
 				{
 					"backtrace" : 5,
-					"define" : "GLFW_EXPOSE_NATIVE_COCOA"
-				},
-				{
-					"backtrace" : 5,
 					"define" : "GLFW_INCLUDE_NONE"
-				},
-				{
-					"backtrace" : 5,
-					"define" : "VK_USE_PLATFORM_METAL_EXT"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 6,
-					"path" : "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/Vulkan::Vulkan"
+					"path" : "/Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/Vulkan::Vulkan"
 				},
 				{
 					"backtrace" : 2,
@@ -205,7 +197,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -mmacosx-version-min=11.2"
+					"fragment" : "-g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk"
 				},
 				{
 					"backtrace" : 4,
@@ -271,7 +263,7 @@
 					"fragment" : "-std=gnu++2a"
 				},
 				{
-					"fragment" : "-Winvalid-pch -Xclang -include-pch -Xclang /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan.dir/cmake_pch.hxx"
+					"fragment" : "-Winvalid-pch -Xclang -include-pch -Xclang /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan.dir/cmake_pch.hxx"
 				}
 			],
 			"defines" : 
@@ -282,22 +274,14 @@
 				},
 				{
 					"backtrace" : 5,
-					"define" : "GLFW_EXPOSE_NATIVE_COCOA"
-				},
-				{
-					"backtrace" : 5,
 					"define" : "GLFW_INCLUDE_NONE"
-				},
-				{
-					"backtrace" : 5,
-					"define" : "VK_USE_PLATFORM_METAL_EXT"
 				}
 			],
 			"includes" : 
 			[
 				{
 					"backtrace" : 6,
-					"path" : "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/Vulkan::Vulkan"
+					"path" : "/Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/Vulkan::Vulkan"
 				},
 				{
 					"backtrace" : 2,

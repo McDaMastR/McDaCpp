@@ -1,6 +1,6 @@
 CMakeFiles/LearnVulkan.dir/cmake_pch.hxx.pch: \
-  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan.dir/cmake_pch.hxx.cxx \
-  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan.dir/cmake_pch.hxx \
+  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan.dir/cmake_pch.hxx.cxx \
+  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan.dir/cmake_pch.hxx \
   /usr/local/include/vulkan/vulkan.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/algorithm \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__config \
@@ -229,13 +229,10 @@ CMakeFiles/LearnVulkan.dir/cmake_pch.hxx.pch: \
   /usr/local/include/vulkan/vulkan.h \
   /usr/local/include/vulkan/vk_platform.h \
   /usr/local/include/vulkan/vulkan_core.h \
-  /usr/local/include/vulkan/vulkan_metal.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/vector \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__split_buffer \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/dlfcn.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/stdbool.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/stdbool.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/compare \
-  /usr/local/include/GLFW/glfw3.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/optional \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/iostream
+  /usr/local/include/GLFW/glfw3.h
