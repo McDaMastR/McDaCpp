@@ -1,19 +1,16 @@
 CMakeFiles/LearnVulkan.dir/src/main.cpp.o: \
-  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan.dir/cmake_pch.hxx \
-  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan.dir/cmake_pch.hxx.cxx \
-  /usr/local/include/vulkan/vulkan.hpp \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/algorithm \
+  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/iostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__config \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/initializer_list \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/cstddef \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/version \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/pthread.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/ios \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/iosfwd \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/wchar.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/stddef.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/stddef.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/__stddef_max_align_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__nullptr \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/type_traits \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/cstring \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/string.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/string.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/wchar.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_types.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/cdefs.h \
@@ -25,9 +22,9 @@ CMakeFiles/LearnVulkan.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/Availability.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/AvailabilityVersions.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/AvailabilityInternal.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_size_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_null.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_rsize_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_size_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_mbstate_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/machine/types.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/i386/types.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_int8_t.h \
@@ -40,8 +37,44 @@ CMakeFiles/LearnVulkan.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_u_int64_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_intptr_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_uintptr_t.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_errno_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_ct_rune_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_rune_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_wchar_t.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/stdarg.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/stdio.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/stdio.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_stdio.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_va_list.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/stdio.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_ctermid.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_off_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_ssize_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/time.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_clock_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_time_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_timespec.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_wctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/__wctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_wint_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_types/_wctype_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/ctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/ctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_ctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/runetype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__locale \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/string \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/string_view \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__string \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/algorithm \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/initializer_list \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/cstddef \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/version \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/type_traits \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/cstring \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/string.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/string.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_rsize_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_errno_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/strings.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/utility \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__tuple \
@@ -56,34 +89,6 @@ CMakeFiles/LearnVulkan.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_types/_intmax_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_types/_uintmax_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__debug \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/iosfwd \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/wchar.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/stddef.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/wchar.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_mbstate_t.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_ct_rune_t.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_rune_t.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_wchar_t.h \
-  /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/stdarg.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/stdio.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/stdio.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_stdio.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_va_list.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/stdio.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_ctermid.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_off_t.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/time.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_clock_t.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_time_t.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_timespec.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_wctype.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/__wctype.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_wint_t.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_types/_wctype_t.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/ctype.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/ctype.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_ctype.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/runetype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/memory \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/typeinfo \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/exception \
@@ -140,8 +145,7 @@ CMakeFiles/LearnVulkan.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/errno.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/errno.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/errno.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/pthread.h \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sched.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/pthread/sched.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/pthread/pthread_impl.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_pthread/_pthread_cond_t.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_pthread/_pthread_condattr_t.h \
@@ -155,18 +159,11 @@ CMakeFiles/LearnVulkan.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/pthread/qos.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/qos.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_mach_port_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sched.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/cassert \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/assert.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/functional \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/bit \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/array \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/sstream \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/ostream \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/ios \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__locale \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/string \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/string_view \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__string \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/cstdio \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/cwchar \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/cwctype \
@@ -193,6 +190,8 @@ CMakeFiles/LearnVulkan.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/xlocale/_wchar.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/xlocale/_wctype.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/streambuf \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/istream \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/ostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/locale \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/nl_types.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/types.h \
@@ -224,7 +223,10 @@ CMakeFiles/LearnVulkan.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__bsd_locale_defaults.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/bitset \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__bit_reference \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/istream \
+  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.hpp \
+  /usr/local/include/vulkan/vulkan.hpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/array \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/sstream \
   /usr/local/include/vulkan/vulkan.h \
   /usr/local/include/vulkan/vk_platform.h \
   /usr/local/include/vulkan/vulkan_core.h \
@@ -235,7 +237,4 @@ CMakeFiles/LearnVulkan.dir/src/main.cpp.o: \
   /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/stdbool.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/compare \
   /usr/local/include/GLFW/glfw3.h \
-  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/iostream \
-  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/optional

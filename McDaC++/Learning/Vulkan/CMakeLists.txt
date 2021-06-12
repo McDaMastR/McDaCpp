@@ -29,8 +29,7 @@ set(COMPILE_FLAGS
     -Wformat=2)
 
 set(MACROS
-    DEBUG
-    GLFW_INCLUDE_NONE)
+    DEBUG)
 
 find_package(Vulkan REQUIRED)
 find_package(glfw3 3.3.4 REQUIRED)
@@ -40,7 +39,22 @@ add_compile_options(${COMPILE_FLAGS})
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
-target_precompile_headers(${PROJECT_NAME} PRIVATE <vulkan/vulkan.hpp> <GLFW/glfw3.h>)
+add_custom_command(
+	TARGET ${PROJECT_NAME}
+	DEPENDS ${CMAKE_SOURCE_DIR}/shaders/triangle.vert
+
+	COMMENT "[ __%] Compiling Vertex Shader"
+	COMMAND glslc ${CMAKE_SOURCE_DIR}/shaders/triangle.vert -o ${CMAKE_SOURCE_DIR}/bin/vert.spv
+)
+
+add_custom_command(
+	TARGET ${PROJECT_NAME}
+	DEPENDS ${CMAKE_SOURCE_DIR}/shaders/triangle.frag
+
+	COMMENT "[ __%] Compiling Fragment Shader"
+	COMMAND glslc ${CMAKE_SOURCE_DIR}/shaders/triangle.frag -o ${CMAKE_SOURCE_DIR}/bin/frag.spv
+)
+
 target_include_directories(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
 target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan)
 target_link_libraries(${PROJECT_NAME} glfw)

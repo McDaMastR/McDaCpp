@@ -82,6 +82,7 @@
 		"memory_resource": "cpp",
 		"filesystem": "cpp",
 		"*.ipp": "cpp",
-		"clocale": "cpp"
+		"clocale": "cpp",
+		"unordered_set": "cpp"
 	}
 }

@@ -1,8 +1,23 @@
 #pragma once
 
 #include <vulkan/vulkan.hpp>
+
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <optional>
+
+
+#ifdef DEBUG
+	#define NUM_VALIDATION_LAYERS 1
+#endif
+
+#ifdef __APPLE__
+	#define NUM_DEVICE_EXTENSIONS 2
+#else
+	#define NUM_DEVICE_EXTENSIONS 1
+#endif
+
+#define MAX_FRAMES_IN_FLIGHT 2
 
 struct QueueFamilyIndices
 {
@@ -11,7 +26,6 @@ struct QueueFamilyIndices
 	std::optional<uint32_t> presentFamily;
 
 	inline bool isComplete() const {return graphicsFamily.has_value() && presentFamily.has_value();}
-	constexpr inline uint32_t queueCount() const {return 1;} // Keep up to date! // graphics and present are 1 queue
 };
 
 struct SwapChainSupportDetails
@@ -32,24 +46,32 @@ public:
 	void printRequiredExtensions();
 	void printAllExtensions();
 	void printLayerSupport();
+	void printPhysicalDevices();
 
 private:
 	void createWindow();
 	void initVulkan();
+	void drawFrame();
+	void printFPS();
 	
 	void createInstance();
 	void createDebugCallback();
 	void createSurface();
-	void getPhysicalDevice();
+	void choosePhysicalDevice();
 	void createLogicalDevice();
 	void createSwapChain();
 	void createImageViews();
+	void createRenderPass();
 	void createGraphicsPipeline();
+	void createFrameBuffers();
+	void createCommandPool();
+	void createCommandBuffers();
+	void createSyncObjects();
 
 	template <size_t S> 
 	bool areLayersSupported(const std::array<const char * const, S> &layers);
 	std::vector<const char *> getRequiredInstanceExtensions();
-	bool deviceSupportsRequirements(const vk::PhysicalDevice &device);
+	bool physicalDeviceSupportsRequirements(const vk::PhysicalDevice &device);
 	QueueFamilyIndices getQueueFamilies(const vk::PhysicalDevice &device);
 	bool deviceSupportsExtensions(const vk::PhysicalDevice &device);
 
@@ -63,10 +85,13 @@ private:
 	vk::ShaderModule createShaderModule(const std::vector<char> &code);
 
 private:
+	// GLFW
+	GLFWwindow *m_window;
+
 	// Vulkan
-	vk::ApplicationInfo m_appInfo;
 	vk::Instance m_instance;
 	vk::SurfaceKHR m_surface;
+
 	vk::PhysicalDevice m_physicalDevice;
 	vk::Device m_logicalDevice;
 
@@ -75,13 +100,34 @@ private:
 
 	vk::Queue m_graphicsQueue;
 	vk::Queue m_presentQueue;
+	QueueFamilyIndices m_queueFamilyIndices;
 
 	vk::SwapchainKHR m_swapChain;
 	vk::Extent2D m_swapChainExtent;
 	vk::Format m_swapChainImageFormat;
 	std::vector<vk::Image> m_swapChainImages;
-	std::vector<vk::ImageView> m_swapChainImageViews; // Possibly use pointers later
+	std::vector<vk::ImageView> m_swapChainImageViews;
 
-	// GLFW
-	GLFWwindow *m_window;
+	vk::RenderPass m_renderPass;
+	vk::PipelineLayout m_pipelineLayout;
+	vk::Pipeline m_graphicsPipeline;
+	std::vector<vk::Framebuffer> m_swapChainFramebuffers;
+
+	vk::CommandPool m_commandPool;
+	std::vector<vk::CommandBuffer> m_commandBuffers;
+
+	vk::Semaphore m_imageAvailableSemaphores[MAX_FRAMES_IN_FLIGHT];
+	vk::Semaphore m_renderFinishedSemaphores[MAX_FRAMES_IN_FLIGHT];
+	vk::Fence m_inFlightFences[MAX_FRAMES_IN_FLIGHT];
+	std::vector<vk::Fence> m_imagesInFlight;
+	size_t m_currentFrame;
+
+#ifdef DEBUG
+	const char * const m_validationLayers[NUM_VALIDATION_LAYERS];
+#endif
+	const char * const m_deviceExtensions[NUM_DEVICE_EXTENSIONS];
+
+	// Preformance
+	double m_previousTimeFPS;
+	uint32_t m_frameCountFPS;
 };

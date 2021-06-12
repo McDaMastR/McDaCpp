@@ -57,10 +57,10 @@ RM = /usr/local/Cellar/cmake/3.20.3/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan
+CMAKE_SOURCE_DIR = /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build
+CMAKE_BINARY_DIR = /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -128,21 +128,6 @@ LearnVulkan: cmake_check_build_system
 LearnVulkan/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/build
 .PHONY : LearnVulkan/fast
-
-# target to build an object file
-cmake_pch.hxx.pch:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/cmake_pch.hxx.pch
-.PHONY : cmake_pch.hxx.pch
-
-# target to preprocess a source file
-cmake_pch.hxx.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/cmake_pch.hxx.i
-.PHONY : cmake_pch.hxx.i
-
-# target to generate assembly for a file
-cmake_pch.hxx.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/cmake_pch.hxx.s
-.PHONY : cmake_pch.hxx.s
 
 src/application.o: src/application.cpp.o
 .PHONY : src/application.o
@@ -201,9 +186,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... LearnVulkan"
-	@echo "... cmake_pch.hxx.pch"
-	@echo "... cmake_pch.hxx.i"
-	@echo "... cmake_pch.hxx.s"
 	@echo "... src/application.o"
 	@echo "... src/application.i"
 	@echo "... src/application.s"
