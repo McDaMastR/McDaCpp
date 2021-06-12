@@ -82,7 +82,7 @@
 #define DEBUG_CALLBACK(o, s, t, d) std::c ## o 	<< "Debug Callback:\n"\
 												<< "\tServerity: " << vk::to_string(s)\
 												<< "\n\tType: "    << vk::to_string(t)\
-												<< "\n\tMessage: \n\t\t" << d << '\n'
+												<< "\n\tMessage: \n\t\t" << d << "\n\n"
 
 
 static VKAPI_ATTR vk::Bool32 VKAPI_CALL vkDebugCallback(
@@ -106,9 +106,15 @@ static void glfwErrorCallback(int error_code, const char* description)
 			  << "\n\tError description: " << description << '\n';
 }
 
+static void glfwFramebufferResizeCallback(GLFWwindow* window, int /* width */, int /* height */)
+{
+	Application * const app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+	app->setFramebufferResized();
+}
+
 Application::Application()  
 	: m_dynamicLoader(vkGetInstanceProcAddr), 
-	m_currentFrame(0),
+	m_currentFrame(0), m_framebufferResized(false),
 #ifdef DEBUG
 	m_validationLayers{VK_LAYER_KHRONOS_VALIDATION_LAYER_NAME}, 
 #endif
@@ -138,19 +144,8 @@ Application::~Application()
 		m_logicalDevice.destroyFence(m_inFlightFences[i]);
 	}
 
+	destroySwapChain();
 	m_logicalDevice.destroyCommandPool(m_commandPool);
-
-	for (const auto &framebuffer : m_swapChainFramebuffers)
-		m_logicalDevice.destroyFramebuffer(framebuffer);
-
-	m_logicalDevice.destroyPipeline(m_graphicsPipeline);
-	m_logicalDevice.destroyPipelineLayout(m_pipelineLayout);
-	m_logicalDevice.destroyRenderPass(m_renderPass);
-
-	for (const auto &image_view : m_swapChainImageViews)
-		m_logicalDevice.destroyImageView(image_view);
-
-	m_logicalDevice.destroySwapchainKHR(m_swapChain);
 	m_logicalDevice.destroy();
 	
 	m_instance.destroySurfaceKHR(m_surface);
@@ -165,12 +160,15 @@ void Application::createWindow()
 	glfwInit();
 
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // Not using OpenGL
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // Resizing requires recreating the swapchain
+	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // Resizing requires recreating the swapchain
 
 	m_window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, APP_NAME, nullptr, nullptr);
 	glfwMakeContextCurrent(m_window);
 
 	glfwSetErrorCallback(glfwErrorCallback);
+	glfwSetWindowUserPointer(m_window, this); // Bind the application with the glfw window pointer
+	glfwSetFramebufferSizeCallback(m_window, glfwFramebufferResizeCallback);
+
 	assert(glfwVulkanSupported() && "VULKAN ASSERT: Vulkan not supported on device!");
 }
 
@@ -230,7 +228,6 @@ void Application::createInstance()
 	// Add debugging info
 	const vk::DebugUtilsMessengerCreateInfoEXT debug_messenger_create_info{
 		{}, 
-		// vk::DebugUtilsMessageSeverityFlagBitsEXT::eVerbose |
 		vk::DebugUtilsMessageSeverityFlagBitsEXT::eInfo | 
 		vk::DebugUtilsMessageSeverityFlagBitsEXT::eWarning | 
 		vk::DebugUtilsMessageSeverityFlagBitsEXT::eError,
@@ -358,7 +355,7 @@ void Application::createSwapChain()
 
 	const vk::SurfaceFormatKHR surface_format = chooseSwapSurfaceFormat(swap_chain_support.formats);
 	const vk::PresentModeKHR present_mode = chooseSwapPresentMode(swap_chain_support.presentModes);
-	extent = chooseSwapExtent(swap_chain_support.capabilities);
+	const vk::Extent2D extent = chooseSwapExtent(swap_chain_support.capabilities);
 
 	uint32_t image_count = swap_chain_support.capabilities.minImageCount + 1; // Amount of images to be stored in the queue (recommended to request at least 1 more than the minimum)
 
@@ -405,9 +402,10 @@ void Application::createSwapChain()
 
 void Application::createImageViews()
 {
-	m_swapChainImageViews.reserve(m_swapChainImages.size());
+	// Using resize not reserve so that when recreating the swap chain, we overwrite the first image views
+	m_swapChainImageViews.resize(m_swapChainImages.size());
 
-	for (const auto &image : m_swapChainImages) {
+	for (size_t i = 0; i < m_swapChainImages.size(); i++) {
 		// Allows you to swizzle the color channels around (Identity for default mapping)
 		const vk::ComponentMapping image_view_color_components{
 			vk::ComponentSwizzle::eIdentity,
@@ -427,14 +425,14 @@ void Application::createImageViews()
 
 		const vk::ImageViewCreateInfo image_view_create_info{
 			{}, // Flags
-			image, // Swap chain image
+			m_swapChainImages[i], // Swap chain image
 			vk::ImageViewType::e2D, // Treat images as 2D textures
 			m_swapChainImageFormat, // Chosen image format
 			image_view_color_components, // Color components
 			image_view_subresource_range // Subresource range
 		};
 
-		m_swapChainImageViews.emplace_back(m_logicalDevice.createImageView(image_view_create_info));
+		m_swapChainImageViews[i] = m_logicalDevice.createImageView(image_view_create_info);
 	}
 }
 
@@ -633,18 +631,18 @@ void Application::createGraphicsPipeline()
 		blend_constants // Blend constants
 	};
 
-	// States that can and have to be changed at drawing time
-	const vk::DynamicState dynamic_states[PIPELINE_DYNAMIC_STATE_COUNT] = {
-		vk::DynamicState::eViewport,
-		vk::DynamicState::eLineWidth
-	};
+	// States that can and have to be changed at drawing time (not using)
+	// const vk::DynamicState dynamic_states[PIPELINE_DYNAMIC_STATE_COUNT] = {
+	// 	vk::DynamicState::eViewport,
+	// 	vk::DynamicState::eLineWidth
+	// };
 
-	// Describes which pipeline configurations can be changed without recreating the pipeline
-	const vk::PipelineDynamicStateCreateInfo dynamic_state_create_info{
-		{}, // Flags
-		PIPELINE_DYNAMIC_STATE_COUNT, // Dynamic state count: number of dynamic states
-		dynamic_states // Dynamic states: pointer to array of dynamic states
-	};
+	// Describes which pipeline configurations can be changed without recreating the pipeline (not using)
+	// const vk::PipelineDynamicStateCreateInfo dynamic_state_create_info{
+	// 	{}, // Flags
+	// 	PIPELINE_DYNAMIC_STATE_COUNT, // Dynamic state count: number of dynamic states
+	// 	dynamic_states // Dynamic states: pointer to array of dynamic states
+	// };
 
 	// Infomation for the pipeline layout
 	const vk::PipelineLayoutCreateInfo pipeline_layout_create_info{
@@ -689,7 +687,8 @@ void Application::createGraphicsPipeline()
 
 void Application::createFrameBuffers()
 {
-	m_swapChainFramebuffers.reserve(m_swapChainImageViews.size()); // Create a framebuffer for each image
+	// Using resize not reserve so that when recreating the swap chain, we overwrite the first framebuffers
+	m_swapChainFramebuffers.resize(m_swapChainImageViews.size()); // Create a framebuffer for each image
 
 	for (size_t i = 0; i < m_swapChainImageViews.size(); ++i) {
 		const vk::ImageView attachments[FRAMEBUFFER_ATTACHMENT_COUNT] = {
@@ -706,7 +705,7 @@ void Application::createFrameBuffers()
 			FRAMEBUFFER_LAYER_COUNT // Layers: number of layers in image arrays (using single images)
 		};
 
-		m_swapChainFramebuffers.emplace_back(m_logicalDevice.createFramebuffer(framebuffer_create_info));
+		m_swapChainFramebuffers[i] = m_logicalDevice.createFramebuffer(framebuffer_create_info);
 	}
 }
 
@@ -1051,12 +1050,26 @@ void Application::drawFrame()
 	);
 
 	// Index refers to the vk::Image in the swap chain images array
-	const uint32_t image_index = m_logicalDevice.acquireNextImageKHR(
-		m_swapChain, // Swap Chain
-		std::numeric_limits<uint64_t>::max(), // Timeout: timeout in nanoseconds for an image to become available (uint64 max disables the timeout)
-		m_imageAvailableSemaphores[m_currentFrame], // Semaphore: synchronization object to be signaled when the presentation engine is finished using the image
-		nullptr // Fence: similar to semaphore (not using)
-	).value;
+	uint32_t image_index;
+
+	// Get the next image in the swap chain (using old method because newer method considers eErrorOutOfDateKHR as an exception)
+	const vk::Result aquire_next_image_result = m_logicalDevice.acquireNextImageKHR(
+		m_swapChain,
+		std::numeric_limits<uint64_t>::max(),
+		m_imageAvailableSemaphores[m_currentFrame],
+		nullptr,
+		&image_index
+	);
+
+	// Check result value for success
+	createResultValue(aquire_next_image_result, "Application::drawFrame::acquireNextImageKHR", {vk::Result::eSuccess, vk::Result::eTimeout, vk::Result::eNotReady, vk::Result::eSuboptimalKHR, vk::Result::eErrorOutOfDateKHR});
+
+	// Only recreate swap chain if out of date; because we already have the next image
+	if (aquire_next_image_result == vk::Result::eErrorOutOfDateKHR) {
+		m_framebufferResized = false;
+		recreateSwapChain();
+		return;
+	}
 
 	// Check if a previous frame is using this image; wait on it's fence
 	if (static_cast<bool>(m_imagesInFlight[image_index]))
@@ -1112,13 +1125,68 @@ void Application::drawFrame()
 	};
 
 	// Request the presentation of the image
-	[[maybe_unused]] const vk::Result present_result = m_presentQueue.presentKHR(present_info);
+	const vk::Result present_result = m_presentQueue.presentKHR(&present_info);
+
+	// Check result value for success
+	createResultValue(present_result, "Application::drawFrame::presentKHR", {vk::Result::eSuccess, vk::Result::eTimeout, vk::Result::eNotReady, vk::Result::eSuboptimalKHR, vk::Result::eErrorOutOfDateKHR});
+
+	// Recreate swap chain if
+	if (present_result == vk::Result::eErrorOutOfDateKHR || // Out of date
+		present_result == vk::Result::eSuboptimalKHR || // Of if the swap chain is not optimal
+		m_framebufferResized) { // Or if the framebuffer was resized
+		m_framebufferResized = false;
+		recreateSwapChain();
+	}
 
 	// Wait for image to be submitted
 	// m_presentQueue.waitIdle(); // Using fences instead
 
 	// Advance to the next frame
 	m_currentFrame = (m_currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
+}
+
+void Application::destroySwapChain()
+{
+	for (const auto &framebuffer : m_swapChainFramebuffers)
+		m_logicalDevice.destroyFramebuffer(framebuffer);
+
+	m_logicalDevice.freeCommandBuffers(m_commandPool, m_commandBuffers); // Free command buffers instead of destroying command pool
+
+	m_logicalDevice.destroyPipeline(m_graphicsPipeline);
+	m_logicalDevice.destroyPipelineLayout(m_pipelineLayout);
+	m_logicalDevice.destroyRenderPass(m_renderPass);
+
+	for (const auto &image_view : m_swapChainImageViews)
+		m_logicalDevice.destroyImageView(image_view);
+
+	m_logicalDevice.destroySwapchainKHR(m_swapChain);
+}
+
+void Application::recreateSwapChain()
+{
+	// Wait for window to be in the foreground
+	int width, height;
+	glfwGetFramebufferSize(m_window, &width, &height);
+	while (width == 0 && height == 0) {
+		glfwGetFramebufferSize(m_window, &width, &height);
+        glfwWaitEvents();
+	}
+
+	// Wait for gpu to finish
+	m_logicalDevice.waitIdle();
+
+	// Destroy the previous swap chain
+	destroySwapChain();
+
+	// Create the new swap chain
+	createSwapChain();
+
+	// Call creation functions that depend on the swap chain
+	createImageViews(); // Based directly on the swap chain images
+	createRenderPass(); // Depends on the format of the swap chain images
+	createGraphicsPipeline(); // Viewport and scissor rectangle size is specified (possible to avoid by using dynamic state)
+	createFrameBuffers(); // Directly depends on the swap chain images // HERE
+	createCommandBuffers(); // Directly depends on the swap chain images
 }
 
 void Application::printRequiredExtensions() 
@@ -1156,4 +1224,9 @@ void Application::printPhysicalDevices()
 	std::cout << "Physical Devices:\n";
 	for (const auto &device : devices)
 		std::cout << '\t' << static_cast<VkPhysicalDevice>(device) << '\n';
+}
+
+void Application::setFramebufferResized()
+{
+	m_framebufferResized = true;
 }

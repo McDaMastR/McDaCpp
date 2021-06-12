@@ -48,11 +48,15 @@ public:
 	void printLayerSupport();
 	void printPhysicalDevices();
 
+	void setFramebufferResized();
+
 private:
 	void createWindow();
 	void initVulkan();
 	void drawFrame();
 	void printFPS();
+	void destroySwapChain();
+	void recreateSwapChain();
 	
 	void createInstance();
 	void createDebugCallback();
@@ -120,7 +124,9 @@ private:
 	vk::Semaphore m_renderFinishedSemaphores[MAX_FRAMES_IN_FLIGHT];
 	vk::Fence m_inFlightFences[MAX_FRAMES_IN_FLIGHT];
 	std::vector<vk::Fence> m_imagesInFlight;
+
 	size_t m_currentFrame;
+	bool m_framebufferResized;
 
 #ifdef DEBUG
 	const char * const m_validationLayers[NUM_VALIDATION_LAYERS];
