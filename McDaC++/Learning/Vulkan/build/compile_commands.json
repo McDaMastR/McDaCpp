@@ -1,12 +1,12 @@
 [
 {
   "directory": "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build",
-  "command": "/usr/bin/clang++ -DDEBUG -I/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/Vulkan::Vulkan -isystem /usr/local/include -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -Og -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -Wold-style-cast -Wcast-align -Wunused -Wconversion -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat=2 -std=gnu++2a -o CMakeFiles/LearnVulkan.dir/src/main.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DDEBUG -I/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/Vulkan::Vulkan -isystem /usr/local/include -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -Og -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -Wold-style-cast -Wcast-align -Wunused -Wconversion -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat=2 -std=gnu++2a -o CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp",
   "file": "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp"
 },
 {
   "directory": "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build",
-  "command": "/usr/bin/clang++ -DDEBUG -I/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/Vulkan::Vulkan -isystem /usr/local/include -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -Og -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -Wold-style-cast -Wcast-align -Wunused -Wconversion -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat=2 -std=gnu++2a -o CMakeFiles/LearnVulkan.dir/src/application.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp",
+  "command": "/Library/Developer/CommandLineTools/usr/bin/c++ -DDEBUG -I/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/Vulkan::Vulkan -isystem /usr/local/include -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -Og -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -Wold-style-cast -Wcast-align -Wunused -Wconversion -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat=2 -std=gnu++2a -o CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp",
   "file": "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp"
 }
 ]

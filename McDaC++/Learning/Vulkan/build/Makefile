@@ -117,24 +117,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named LearnVulkan
+# Target rules for targets named LearnVulkan-DEBUG
 
 # Build rule for target.
-LearnVulkan: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LearnVulkan
-.PHONY : LearnVulkan
+LearnVulkan-DEBUG: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 LearnVulkan-DEBUG
+.PHONY : LearnVulkan-DEBUG
 
 # fast build rule for target.
-LearnVulkan/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/build
-.PHONY : LearnVulkan/fast
+LearnVulkan-DEBUG/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan-DEBUG.dir/build.make CMakeFiles/LearnVulkan-DEBUG.dir/build
+.PHONY : LearnVulkan-DEBUG/fast
 
 src/application.o: src/application.cpp.o
 .PHONY : src/application.o
 
 # target to build an object file
 src/application.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/src/application.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan-DEBUG.dir/build.make CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o
 .PHONY : src/application.cpp.o
 
 src/application.i: src/application.cpp.i
@@ -142,7 +142,7 @@ src/application.i: src/application.cpp.i
 
 # target to preprocess a source file
 src/application.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/src/application.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan-DEBUG.dir/build.make CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.i
 .PHONY : src/application.cpp.i
 
 src/application.s: src/application.cpp.s
@@ -150,7 +150,7 @@ src/application.s: src/application.cpp.s
 
 # target to generate assembly for a file
 src/application.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/src/application.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan-DEBUG.dir/build.make CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.s
 .PHONY : src/application.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -158,7 +158,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/src/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan-DEBUG.dir/build.make CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -166,7 +166,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/src/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan-DEBUG.dir/build.make CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -174,7 +174,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/src/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan-DEBUG.dir/build.make CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 # Help Target
@@ -185,7 +185,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... LearnVulkan"
+	@echo "... LearnVulkan-DEBUG"
 	@echo "... src/application.o"
 	@echo "... src/application.i"
 	@echo "... src/application.s"

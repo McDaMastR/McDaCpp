@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/bin/LearnVulkan"
+			"path" : "/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/bin/LearnVulkan-DEBUG"
 		}
 	],
 	"backtrace" : 1,
@@ -28,37 +28,37 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 40,
+				"line" : 56,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 59,
+				"line" : 75,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 60,
+				"line" : 76,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 38,
+				"line" : 54,
 				"parent" : 0
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 37,
+				"line" : 53,
 				"parent" : 0
 			},
 			{
 				"command" : 4,
 				"file" : 0,
-				"line" : 58,
+				"line" : 74,
 				"parent" : 0
 			}
 		]
@@ -170,7 +170,7 @@
 			]
 		}
 	],
-	"id" : "LearnVulkan::@6890427a1f51a3e7e1df",
+	"id" : "LearnVulkan-DEBUG::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -200,8 +200,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "LearnVulkan",
-	"nameOnDisk" : "LearnVulkan",
+	"name" : "LearnVulkan-DEBUG",
+	"nameOnDisk" : "LearnVulkan-DEBUG",
 	"paths" : 
 	{
 		"build" : ".",

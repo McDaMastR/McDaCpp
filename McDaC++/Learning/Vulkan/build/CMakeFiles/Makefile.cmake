@@ -49,5 +49,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/LearnVulkan.dir/DependInfo.cmake"
+  "CMakeFiles/LearnVulkan-DEBUG.dir/DependInfo.cmake"
   )

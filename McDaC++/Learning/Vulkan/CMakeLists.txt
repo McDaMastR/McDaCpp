@@ -1,6 +1,17 @@
 cmake_minimum_required(VERSION 3.20.3)
 project(LearnVulkan LANGUAGES CXX)
 
+set(DEBUG_ENABLE ON)
+
+if(DEBUG_ENABLE)
+	set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "" FORCE)
+	set(CMAKE_CONFIGURATION_TYPES "Debug" CACHE STRING "" FORCE)
+	set(PROJECT_NAME "LearnVulkan-DEBUG")
+else()
+	set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
+	set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING "" FORCE)
+endif()
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
@@ -11,25 +22,30 @@ set(SOURCE_FILES
     src/main.cpp
     src/application.cpp)
 
-set(COMPILE_FLAGS
-    -Og
-    -Wall 
-    -Wextra 
-    -Wpedantic 
-    -Wshadow
-    -Wnon-virtual-dtor 
-    -Woverloaded-virtual 
-    -Wold-style-cast 
-    -Wcast-align 
-    -Wunused 
-    -Wconversion 
-    -Wsign-conversion 
-    -Wnull-dereference 
-    -Wdouble-promotion 
-    -Wformat=2)
+if(DEBUG_ENABLE)
+	set(COMPILE_FLAGS
+		-Og
+		-Wall 
+		-Wextra 
+		-Wpedantic 
+		-Wshadow
+		-Wnon-virtual-dtor 
+		-Woverloaded-virtual 
+		-Wold-style-cast 
+		-Wcast-align 
+		-Wunused 
+		-Wconversion 
+		-Wsign-conversion 
+		-Wnull-dereference 
+		-Wdouble-promotion 
+		-Wformat=2)
 
-set(MACROS
-    DEBUG)
+	set(MACROS
+		DEBUG)
+else()
+	set(COMPILE_FLAGS)
+	set(MACROS)
+endif()
 
 find_package(Vulkan REQUIRED)
 find_package(glfw3 3.3.4 REQUIRED)

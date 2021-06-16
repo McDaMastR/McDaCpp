@@ -73,29 +73,29 @@ CMakeFiles/LearnVulkan.dir/src/main.cpp.o: CMakeFiles/LearnVulkan.dir/flags.make
 CMakeFiles/LearnVulkan.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/LearnVulkan.dir/src/main.cpp.o: CMakeFiles/LearnVulkan.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/LearnVulkan.dir/src/main.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/LearnVulkan.dir/src/main.cpp.o -MF CMakeFiles/LearnVulkan.dir/src/main.cpp.o.d -o CMakeFiles/LearnVulkan.dir/src/main.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/LearnVulkan.dir/src/main.cpp.o -MF CMakeFiles/LearnVulkan.dir/src/main.cpp.o.d -o CMakeFiles/LearnVulkan.dir/src/main.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp
 
 CMakeFiles/LearnVulkan.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LearnVulkan.dir/src/main.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp > CMakeFiles/LearnVulkan.dir/src/main.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp > CMakeFiles/LearnVulkan.dir/src/main.cpp.i
 
 CMakeFiles/LearnVulkan.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LearnVulkan.dir/src/main.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp -o CMakeFiles/LearnVulkan.dir/src/main.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp -o CMakeFiles/LearnVulkan.dir/src/main.cpp.s
 
 CMakeFiles/LearnVulkan.dir/src/application.cpp.o: CMakeFiles/LearnVulkan.dir/flags.make
 CMakeFiles/LearnVulkan.dir/src/application.cpp.o: ../src/application.cpp
 CMakeFiles/LearnVulkan.dir/src/application.cpp.o: CMakeFiles/LearnVulkan.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/LearnVulkan.dir/src/application.cpp.o"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/LearnVulkan.dir/src/application.cpp.o -MF CMakeFiles/LearnVulkan.dir/src/application.cpp.o.d -o CMakeFiles/LearnVulkan.dir/src/application.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/LearnVulkan.dir/src/application.cpp.o -MF CMakeFiles/LearnVulkan.dir/src/application.cpp.o.d -o CMakeFiles/LearnVulkan.dir/src/application.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp
 
 CMakeFiles/LearnVulkan.dir/src/application.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LearnVulkan.dir/src/application.cpp.i"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp > CMakeFiles/LearnVulkan.dir/src/application.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp > CMakeFiles/LearnVulkan.dir/src/application.cpp.i
 
 CMakeFiles/LearnVulkan.dir/src/application.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LearnVulkan.dir/src/application.cpp.s"
-	/usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp -o CMakeFiles/LearnVulkan.dir/src/application.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp -o CMakeFiles/LearnVulkan.dir/src/application.cpp.s
 
 # Object files for target LearnVulkan
 LearnVulkan_OBJECTS = \

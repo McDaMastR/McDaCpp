@@ -4,11 +4,8 @@
 #include <fstream>
 #include <unordered_set>
 
-#define VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME "VK_KHR_portability_subset"
-#define VK_LAYER_KHRONOS_VALIDATION_LAYER_NAME "VK_LAYER_KHRONOS_validation"
-
-#define SWAPCHAIN_IMAGE_ARRAY_LAYER_COUNT 1
-#define QUEUE_FAMILY_INDEX_COUNT 2
+#define SWAP_CHAIN_IMAGE_ARRAY_LAYER_COUNT 1
+#define SWAP_CHAIN_QUEUE_FAMILY_INDEX_COUNT 2
 
 #define IMAGE_VIEW_BASE_MIP_LEVEL 0
 #define IMAGE_VIEW_MIP_LEVEL_AMOUNT 1
@@ -25,9 +22,11 @@
 #define RENDER_PASS_SUBPASS_COUNT 1
 #define RENDER_PASS_DEPENDENCY_COUNT 1
 
+#define DESCRIPTOR_SET_LAYOUT_BINDING_COUNT 1
+
 #define PIPELINE_SHADER_STAGE_COUNT 2
-#define PIPELINE_VERTEX_BINDING_DESCRIPTION_COUNT 0
-#define PIPELINE_VERTEX_ATTRIBUTE_DESCRIPTION_COUNT 0
+#define PIPELINE_VERTEX_BINDING_DESCRIPTION_COUNT VERTEX_INPUT_BINDING_DESCRIPTION_COUNT
+#define PIPELINE_VERTEX_ATTRIBUTE_DESCRIPTION_COUNT VERTEX_INPUT_ATTRIBUTE_DESCRIPTION_COUNT
 #define PIPELINE_VIEWPORT_X 0.0f
 #define PIPELINE_VIEWPORT_Y 0.0f
 #define PIPELINE_VIEWPORT_MIN_DEPTH 0.0f
@@ -42,7 +41,7 @@
 #define PIPELINE_MULTISAMPLE_MIN_SAMPLE_SHADING 1.0f
 #define PIPELINE_COLOR_BLEND_ATTACHMENT_COUNT 1
 #define PIPELINE_DYNAMIC_STATE_COUNT 2
-#define PIPELINE_SET_LAYOUT_COUNT 0
+#define PIPELINE_SET_LAYOUT_COUNT 1
 #define PIPELINE_PUSH_CONSTANT_RANGE_COUNT 0
 
 #define FRAMEBUFFER_ATTACHMENT_COUNT 1
@@ -51,12 +50,16 @@
 #define COMMAND_BUFFER_RENDER_PASS_RENDER_AREA_OFFSET_X 0
 #define COMMAND_BUFFER_RENDER_PASS_RENDER_AREA_OFFSET_Y 0
 #define COMMAND_BUFFER_RENDER_PASS_CLEAR_VALUE_COUNT 1
+#define COMMAND_BUFFER_VERTEX_BUFFER_COUNT 1
+#define COMMAND_BUFFER_OFFSET_COUNT 1
 
-#define SUBMIT_INFO_WAIT_SEMAPHORE_COUNT 1
-#define SUBMIT_INFO_WAIT_STAGE_COUNT 1
-#define SUBMIT_INFO_COMMAND_BUFFER_COUNT 1
-#define SUBMIT_INFO_SIGNAL_SEMAPHORE_COUNT 1
-#define PRESENT_INFO_WAIT_SEMAPHORE_COUNT SUBMIT_INFO_WAIT_SEMAPHORE_COUNT
+#define DESCRIPTOR_POOL_POOL_SIZE_COUNT 1
+
+#define DRAW_FRAME_SUBMIT_INFO_WAIT_SEMAPHORE_COUNT 1
+#define DRAW_FRAME_SUBMIT_INFO_WAIT_STAGE_COUNT 1
+#define DRAW_FRAME_SUBMIT_INFO_COMMAND_BUFFER_COUNT 1
+#define DRAW_FRAME_SUBMIT_INFO_SIGNAL_SEMAPHORE_COUNT 1
+#define PRESENT_INFO_WAIT_SEMAPHORE_COUNT DRAW_FRAME_SUBMIT_INFO_WAIT_SEMAPHORE_COUNT
 #define PRESENT_INFO_SWAP_CHAIN_COUNT 1
 
 #define CLEAR_COLOR_R 0.0f
@@ -64,25 +67,24 @@
 #define CLEAR_COLOR_B 0.0f
 #define CLEAR_COLOR_A 1.0f
 
-#define COMMAND_BUFFER_DRAW_VERTEX_COUNT 3
-#define COMMAND_BUFFER_DRAW_INSTANCE_COUNT 1
-#define COMMAND_BUFFER_DRAW_FIRST_VERTEX 0
-#define COMMAND_BUFFER_DRAW_FIRST_INSTANCE 0
-
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
 
-#define APP_NAME "LearnVulkan"
-#define ENGINE_NAME "My Engine"
+#ifdef DEBUG
+	#define APP_NAME "LearnVulkan-DEBUG"
+#else
+	#define APP_NAME "LearnVulkan"
+#endif
+#define ENGINE_NAME "No Engine"
 
 #define APP_VERSION VK_MAKE_VERSION(0, 1, 0)
 #define ENGINE_VERSION VK_MAKE_VERSION(0, 1, 0)
 
 #define DEBUG_LOG(x) std::cout << "DEBUG_LOG: " << x << '\n';
-#define DEBUG_CALLBACK(o, s, t, d) std::c ## o 	<< "Debug Callback:\n"\
-												<< "\tServerity: " << vk::to_string(s)\
-												<< "\n\tType: "    << vk::to_string(t)\
-												<< "\n\tMessage: \n\t\t" << d << "\n\n"
+#define DEBUG_CALLBACK(o, s, t, d) std::c##o << "Debug Callback:\n"\
+											 << "\tServerity: " << vk::to_string(s)\
+											 << "\n\tType: "    << vk::to_string(t)\
+											 << "\n\tMessage: \n\t\t" << d << "\n\n"
 
 
 static VKAPI_ATTR vk::Bool32 VKAPI_CALL vkDebugCallback(
@@ -108,22 +110,12 @@ static void glfwErrorCallback(int error_code, const char* description)
 
 static void glfwFramebufferResizeCallback(GLFWwindow* window, int /* width */, int /* height */)
 {
-	Application * const app = reinterpret_cast<Application*>(glfwGetWindowUserPointer(window));
+	Application * const app = reinterpret_cast<Application *>(glfwGetWindowUserPointer(window));
 	app->setFramebufferResized();
 }
 
 Application::Application()  
-	: m_dynamicLoader(vkGetInstanceProcAddr), 
-	m_currentFrame(0), m_framebufferResized(false),
-#ifdef DEBUG
-	m_validationLayers{VK_LAYER_KHRONOS_VALIDATION_LAYER_NAME}, 
-#endif
-	m_deviceExtensions{
-		VK_KHR_SWAPCHAIN_EXTENSION_NAME
-#ifdef __APPLE__
-		, VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME
-#endif
-	}
+	: m_dynamicLoader(vkGetInstanceProcAddr)
 {
 	// GLFW
 	createWindow();
@@ -145,7 +137,15 @@ Application::~Application()
 	}
 
 	destroySwapChain();
-	m_logicalDevice.destroyCommandPool(m_commandPool);
+	m_logicalDevice.destroyDescriptorSetLayout(m_descriptorSetLayout);
+
+	m_logicalDevice.destroyBuffer(m_vertexBuffer);
+	m_logicalDevice.freeMemory(m_vertexBufferMemory); // Free buffer memory after the buffer is destroyed
+	m_logicalDevice.destroyBuffer(m_indexBuffer);
+	m_logicalDevice.freeMemory(m_indexBufferMemory);
+
+	m_logicalDevice.destroyCommandPool(m_graphicsCommandPool);
+	m_logicalDevice.destroyCommandPool(m_transferCommandPool);
 	m_logicalDevice.destroy();
 	
 	m_instance.destroySurfaceKHR(m_surface);
@@ -153,6 +153,16 @@ Application::~Application()
 	m_instance.destroyDebugUtilsMessengerEXT(m_debugMessenger, nullptr, m_dynamicLoader);
 #endif
 	m_instance.destroy();
+
+	// Memory cleanup
+	delete[] m_swapChainImages;
+	delete[] m_swapChainImageViews;
+	delete[] m_swapChainFramebuffers;
+	delete[] m_commandBuffers;
+	delete[] m_imagesInFlight;
+	delete[] m_uniformBuffers;
+	delete[] m_uniformBuffersMemory;
+	delete[] m_descriptorSets;
 }
 
 void Application::createWindow() 
@@ -175,21 +185,27 @@ void Application::createWindow()
 void Application::initVulkan() 
 {
 	// Functions HAVE to be called in this order
-	createInstance(); // Everything relies on the instance
+	createInstance();
 #ifdef DEBUG
-	createDebugCallback(); // Enable debugging
+	createDebugCallback();
 #endif
-	createSurface(); // Most of graphics relies on the surface
-	choosePhysicalDevice(); // Need a GPU to render
-	createLogicalDevice(); // Need to view the GPU
-	createSwapChain(); // Need to render images to the screen
-	createImageViews(); // Describes how to access the images in the swap chain
-	createRenderPass(); // Specify framebuffer attachments
-	createGraphicsPipeline(); // Creates the graphics pipeline
-	createFrameBuffers(); // Creates a framebuffer for each image in the swap chain
-	createCommandPool(); // Allocate memory for command buffers
-	createCommandBuffers(); // Creates buffers of commands
-	createSyncObjects(); // Synchronize the vulkan operations
+	createSurface(); 
+	choosePhysicalDevice();
+	createLogicalDevice(); 
+	createSwapChain();
+	createImageViews();
+	createRenderPass(); 
+	createDescriptorSetLayout();
+	createGraphicsPipeline();
+	createFrameBuffers();
+	createCommandPools();
+	createVertexBuffer();
+	createIndexBuffer(); 
+	createUniformBuffers();
+	createDescriptorPool();
+	createDescriptorSets();
+	createCommandBuffers();
+	createSyncObjects();
 }
 
 void Application::createInstance() 
@@ -289,8 +305,10 @@ void Application::choosePhysicalDevice()
     result = m_instance.enumeratePhysicalDevices(&physical_device_count, nullptr);
 	assert(physical_device_count && "VULKAN ASSERT: Failed to find GPU/s with Vulkan support!");
 
-	physical_devices = new vk::PhysicalDevice[physical_device_count];
-    result = m_instance.enumeratePhysicalDevices(&physical_device_count, physical_devices);
+	if (result == vk::Result::eSuccess) {
+		physical_devices = new vk::PhysicalDevice[physical_device_count];
+		result = m_instance.enumeratePhysicalDevices(&physical_device_count, physical_devices);
+	}
     physical_devices = createResultValue(result, physical_devices, "Application::getPhysicalDevice");
 
 	for (uint32_t i = 0; i < physical_device_count; ++i) {
@@ -310,26 +328,57 @@ void Application::createLogicalDevice()
 	m_queueFamilyIndices = getQueueFamilies(m_physicalDevice);
 	const vk::PhysicalDeviceFeatures features;
 
-	std::vector<vk::DeviceQueueCreateInfo> device_queue_create_infos;
+	const float queue_priority = 1.0f;
 	const std::unordered_set<uint32_t> queue_families = {
 		m_queueFamilyIndices.graphicsFamily.value(),
-		m_queueFamilyIndices.presentFamily.value()
+		m_queueFamilyIndices.presentFamily.value(),
+		m_queueFamilyIndices.transferFamily.value()
 	};
 
-	constexpr const float queue_priority = 1.0f;
-	if (m_queueFamilyIndices.graphicsFamily.value() == m_queueFamilyIndices.presentFamily.value()) {
-		for (const auto &queue_family : queue_families)
-			device_queue_create_infos.emplace_back(vk::DeviceQueueCreateInfo{{}, queue_family, 1, &queue_priority});
+	vk::DeviceQueueCreateInfo * const device_queue_create_infos = new vk::DeviceQueueCreateInfo[queue_families.size()];
+	if (queue_families.size() == 1) {
+		for (const auto &queue_family : queue_families) {
+			const vk::DeviceQueueCreateInfo device_queue_create_info{
+				{}, // Flags
+				queue_family, // Queue family index
+				1, // Queue count
+				&queue_priority // Queue priorities
+			};
+
+			device_queue_create_infos[0] = std::move(device_queue_create_info);
+		}
+	} else if (queue_families.size() == 2) {
+		uint8_t i = 0;
+		for (const auto &queue_family : queue_families) {
+			const vk::DeviceQueueCreateInfo device_queue_create_info{
+				{},
+				queue_family,
+				2, 
+				&queue_priority
+			};
+
+			device_queue_create_infos[i] = std::move(device_queue_create_info);
+			++i;
+		}
 	} else {
-		device_queue_create_infos.reserve(2);
-		for (const auto &queue_family : queue_families)
-			device_queue_create_infos.emplace_back(vk::DeviceQueueCreateInfo{{}, queue_family, 2, &queue_priority});
+		uint8_t i = 0;
+		for (const auto &queue_family : queue_families) {
+			const vk::DeviceQueueCreateInfo device_queue_create_info{
+				{}, 
+				queue_family, 
+				3, 
+				&queue_priority
+			};
+
+			device_queue_create_infos[i] = std::move(device_queue_create_info);
+			++i;
+		}
 	}
 
 	const vk::DeviceCreateInfo device_create_info{
 		{}, // Flags
-		static_cast<uint32_t>(device_queue_create_infos.size()), // Queue create info count: number of queue create infos
-		device_queue_create_infos.data(), // Queue create infos: array of queue create infos
+		static_cast<uint32_t>(queue_families.size()), // Queue create info count: number of queue create infos
+		device_queue_create_infos, // Queue create infos: array of queue create infos
 #ifdef DEBUG
 		NUM_VALIDATION_LAYERS, // Enabled layer count: number of validation layers
 		m_validationLayers, // Enabled layer names: required validation layers (when in debug)
@@ -345,8 +394,28 @@ void Application::createLogicalDevice()
 	// m_dynamicLoader.init(m_logicalDevice); // Add more functions to dynamic loader // Not needed right now
 
 	m_graphicsQueue = m_logicalDevice.getQueue(m_queueFamilyIndices.graphicsFamily.value(), 0);
-	m_presentQueue = m_logicalDevice.getQueue(m_queueFamilyIndices.presentFamily.value(), 0);
 
+	// Free memory
+	delete[] device_queue_create_infos;
+
+	// Create the right amount of queue family handles
+	if (queue_families.size() == 1) {
+		m_presentQueue = m_logicalDevice.getQueue(m_queueFamilyIndices.presentFamily.value(), 0);
+		m_transferQueue = m_logicalDevice.getQueue(m_queueFamilyIndices.transferFamily.value(), 0);
+		return;
+	} if (queue_families.size() == 2) {
+		if (m_queueFamilyIndices.graphicsFamily.value() == m_queueFamilyIndices.presentFamily.value()) {
+			m_presentQueue = m_logicalDevice.getQueue(m_queueFamilyIndices.presentFamily.value(), 0);
+			m_transferQueue = m_logicalDevice.getQueue(m_queueFamilyIndices.transferFamily.value(), 1);
+			return;
+		}
+
+		m_presentQueue = m_logicalDevice.getQueue(m_queueFamilyIndices.presentFamily.value(), 1);
+		m_transferQueue = m_logicalDevice.getQueue(m_queueFamilyIndices.transferFamily.value(), 0);
+		return;
+	}
+	m_presentQueue = m_logicalDevice.getQueue(m_queueFamilyIndices.presentFamily.value(), 1);
+	m_transferQueue = m_logicalDevice.getQueue(m_queueFamilyIndices.transferFamily.value(), 2);
 }
 
 void Application::createSwapChain()
@@ -370,9 +439,9 @@ void Application::createSwapChain()
 		surface_format.format, // Image format
 		surface_format.colorSpace, // Image color space
 		extent, // Image extent
-		SWAPCHAIN_IMAGE_ARRAY_LAYER_COUNT, // Image array layers: The amount of layers each image consists of
+		SWAP_CHAIN_IMAGE_ARRAY_LAYER_COUNT, // Image array layers: The amount of layers each image consists of
 		vk::ImageUsageFlagBits::eColorAttachment, // The kind of operations we'll use the images in the swap chain for (color attachment == render directly to them)
-		vk::SharingMode::eExclusive, // Image sharing mode: An image is owned by one queue family at a time and ownership must be explicitly transferred before using it in another queue family (offers the best performance)
+		vk::SharingMode::eExclusive, // Image sharing mode: whether images are owned by one queue family at a time, or multiple (one; offers the best performance)
 		{}, // Queue family index count
 		{}, // Queue family indices
 		swap_chain_support.capabilities.currentTransform, // Pre transform (current transform means add no transform)
@@ -384,28 +453,32 @@ void Application::createSwapChain()
 	
 	// Queue families
 	if (m_queueFamilyIndices.graphicsFamily != m_queueFamilyIndices.presentFamily) { // Use concurrent mode if queue families differ to avoid manual ownership transfer
-		const uint32_t queue_family_indices[QUEUE_FAMILY_INDEX_COUNT] = {
+		const uint32_t queue_family_indices[SWAP_CHAIN_QUEUE_FAMILY_INDEX_COUNT] = {
 			m_queueFamilyIndices.graphicsFamily.value(),
 			m_queueFamilyIndices.presentFamily.value()
 		};
 
 		swapchain_create_info.imageSharingMode = vk::SharingMode::eConcurrent; // Images can be used across multiple queue families without explicit ownership transfers
-		swapchain_create_info.queueFamilyIndexCount = QUEUE_FAMILY_INDEX_COUNT;
+		swapchain_create_info.queueFamilyIndexCount = SWAP_CHAIN_QUEUE_FAMILY_INDEX_COUNT;
 		swapchain_create_info.pQueueFamilyIndices = queue_family_indices;
 	}
-
 	m_swapChain = m_logicalDevice.createSwapchainKHR(swapchain_create_info);
-	m_swapChainImages = m_logicalDevice.getSwapchainImagesKHR(m_swapChain);
 	m_swapChainImageFormat = surface_format.format;
 	m_swapChainExtent = extent;
+
+	vk::Result result = m_logicalDevice.getSwapchainImagesKHR(m_swapChain, &m_swapChainImageCount, nullptr);
+	if (result == vk::Result::eSuccess) {
+		m_swapChainImages = new vk::Image[m_swapChainImageCount];
+		result = m_logicalDevice.getSwapchainImagesKHR(m_swapChain, &m_swapChainImageCount, m_swapChainImages);
+	}
+	m_swapChainImages = createResultValue(result, m_swapChainImages, "Application::createSwapChain");
 }
 
 void Application::createImageViews()
 {
-	// Using resize not reserve so that when recreating the swap chain, we overwrite the first image views
-	m_swapChainImageViews.resize(m_swapChainImages.size());
+	m_swapChainImageViews = new vk::ImageView[m_swapChainImageCount];
 
-	for (size_t i = 0; i < m_swapChainImages.size(); i++) {
+	for (uint32_t i = 0; i < m_swapChainImageCount; ++i) {
 		// Allows you to swizzle the color channels around (Identity for default mapping)
 		const vk::ComponentMapping image_view_color_components{
 			vk::ComponentSwizzle::eIdentity,
@@ -495,6 +568,28 @@ void Application::createRenderPass()
 	m_renderPass = m_logicalDevice.createRenderPass(render_pass_create_info);
 }
 
+void Application::createDescriptorSetLayout()
+{
+	// Information for the UBO bindings
+	const vk::DescriptorSetLayoutBinding ubo_layout_binding{
+		0, // Binding
+		vk::DescriptorType::eUniformBuffer, // Descriptor type
+		1, // Descriptor count: the number of values in the array of UBOs (only using 1)
+		vk::ShaderStageFlagBits::eVertex, // Stage flags: the shader stages the UBO is referenced in
+		nullptr // Immutable samplers: for image sampling
+	};
+
+	// Information for the creation of the descriptor set
+	const vk::DescriptorSetLayoutCreateInfo descriptor_set_layout_create_info{
+		{}, // Flags
+		DESCRIPTOR_SET_LAYOUT_BINDING_COUNT, // Binding count
+		&ubo_layout_binding // Bindings
+	};
+
+	// Create the descriptor set
+	m_descriptorSetLayout = m_logicalDevice.createDescriptorSetLayout(descriptor_set_layout_create_info);
+}
+
 void Application::createGraphicsPipeline()
 {
 	const std::vector<char> vertex_shader_code = readFile(std::move("bin/vert.spv"));
@@ -526,13 +621,16 @@ void Application::createGraphicsPipeline()
 		std::move(fragment_shader_stage_create_info)
 	};
 
+	const vk::VertexInputBindingDescription vertex_binding_description = Vertex::getBindingDescription();
+	const std::array<vk::VertexInputAttributeDescription, VERTEX_INPUT_ATTRIBUTE_DESCRIPTION_COUNT> vertex_attribute_descriptions = Vertex::getAttributeDescriptions();
+
 	// Describes the format of the vertex data that will be passed to the vertex shader
 	const vk::PipelineVertexInputStateCreateInfo vertex_input_state_create_info{
 		{}, // Flags
 		PIPELINE_VERTEX_BINDING_DESCRIPTION_COUNT, // Vertex binding description count (no data being passed into vertex shader)
-		nullptr, // Vertex binding descriptions: points to an array of structs that describe the details for loading vertex bindings (no data is being loaded)
+		&vertex_binding_description, // Vertex binding descriptions: points to an array of structs that describe the details for loading vertex bindings (no data is being loaded)
 		PIPELINE_VERTEX_ATTRIBUTE_DESCRIPTION_COUNT, // Vertex attribute description count (no data being passed into vertex shader)
-		nullptr // Vertex attribute descriptions: points to an array of structs that describe the details for loading vertex attributes (no data is being loaded)
+		vertex_attribute_descriptions.data() // Vertex attribute descriptions: points to an array of structs that describe the details for loading vertex attributes (no data is being loaded)
 	};
 
 	// Describes what kind of geometry will be drawn from the vertices and if primitive restart should be enabled
@@ -577,7 +675,7 @@ void Application::createGraphicsPipeline()
 		VK_FALSE, // Rasterizer discard enable: if true, then geometry never passes through the rasterizer stage; disables any output to the framebuffer
 		vk::PolygonMode::eFill, // Polygon mode: how fragments are generated for geometry (fill the area of the polygon with fragments)
 		vk::CullModeFlagBits::eBack, // Cull mode: the type of face culling to use (cull the back faces)
-		vk::FrontFace::eClockwise, // Front face: specifies the vertex order for faces to be considered front-facing (clockwise)
+		vk::FrontFace::eCounterClockwise, // Front face: specifies the vertex order for faces to be considered front-facing (clockwise)
 		VK_FALSE, // Depth bias enable: alters the depth values by adding a constant value or biasing them based on a fragment's slope (not using)
 		PIPELINE_RASTERIZATION_DEPTH_BIAS_CONSTANT_FACTOR, // Depth bias constant factor (not using)
 		PIPELINE_RASTERIZATION_DEPTH_BIAS_CLAMP, // Depth bias clamp (not using)
@@ -648,7 +746,7 @@ void Application::createGraphicsPipeline()
 	const vk::PipelineLayoutCreateInfo pipeline_layout_create_info{
 		{}, // Flags
 		PIPELINE_SET_LAYOUT_COUNT, // Set layout count
-		nullptr, // Set layouts
+		&m_descriptorSetLayout, // Set layouts
 		PIPELINE_PUSH_CONSTANT_RANGE_COUNT, // Push constant range count
 		nullptr // Push constant ranges
 	};
@@ -687,10 +785,10 @@ void Application::createGraphicsPipeline()
 
 void Application::createFrameBuffers()
 {
-	// Using resize not reserve so that when recreating the swap chain, we overwrite the first framebuffers
-	m_swapChainFramebuffers.resize(m_swapChainImageViews.size()); // Create a framebuffer for each image
+	if (m_swapChainFramebuffers == nullptr)
+		m_swapChainFramebuffers = new vk::Framebuffer[m_swapChainImageCount];
 
-	for (size_t i = 0; i < m_swapChainImageViews.size(); ++i) {
+	for (uint32_t i = 0; i < m_swapChainImageCount; ++i) {
 		const vk::ImageView attachments[FRAMEBUFFER_ATTACHMENT_COUNT] = {
 			m_swapChainImageViews[i]
 		};
@@ -709,30 +807,142 @@ void Application::createFrameBuffers()
 	}
 }
 
-void Application::createCommandPool()
+void Application::createCommandPools()
 {
-	const vk::CommandPoolCreateInfo command_pool_create_info{
+	// Information for the graphics command pool
+	const vk::CommandPoolCreateInfo graphics_command_pool_create_info{
 		{}, // Flags
 		m_queueFamilyIndices.graphicsFamily.value() // Queue family index
 	};
 
-	m_commandPool = m_logicalDevice.createCommandPool(command_pool_create_info);
+	// Information for the transfer command pool
+	const vk::CommandPoolCreateInfo transfer_command_pool_create_info{
+		vk::CommandPoolCreateFlagBits::eTransient, // Uses temporary/short-lived command buffers
+		m_queueFamilyIndices.transferFamily.value()
+	};
+
+	// Creating the command pools
+	m_graphicsCommandPool = m_logicalDevice.createCommandPool(graphics_command_pool_create_info);
+	m_transferCommandPool = m_logicalDevice.createCommandPool(transfer_command_pool_create_info);
+}
+
+void Application::createVertexBuffer()
+{
+	// Create and fill the vertex buffer
+	createAndFillBuffer<Vertex>( // Type of data (template arg)
+		m_vertices, // Data
+		VERTEX_COUNT, // Count
+		vk::BufferUsageFlagBits::eVertexBuffer, // Usage
+		m_vertexBuffer, // Buffer
+		m_vertexBufferMemory // Buffer memory
+	);
+}
+
+void Application::createIndexBuffer()
+{
+	createAndFillBuffer<Index>(
+		m_indices,
+		INDEX_COUNT,
+		vk::BufferUsageFlagBits::eIndexBuffer,
+		m_indexBuffer,
+		m_indexBufferMemory
+	);
+}
+
+void Application::createUniformBuffers()
+{
+	if (m_uniformBuffers == nullptr) {
+		m_uniformBuffers = new vk::Buffer[m_swapChainImageCount];
+		m_uniformBuffersMemory = new vk::DeviceMemory[m_swapChainImageCount];
+	}
+
+	for (uint32_t i = 0; i < m_swapChainImageCount; ++i) {
+		createBuffer(
+			sizeof(UniformBufferObject),
+			vk::BufferUsageFlagBits::eUniformBuffer,
+			vk::MemoryPropertyFlagBits::eHostVisible |
+			vk::MemoryPropertyFlagBits::eHostCoherent,
+			m_uniformBuffers[i],
+			m_uniformBuffersMemory[i]
+		);
+	}
+}
+
+void Application::createDescriptorPool()
+{
+	const vk::DescriptorPoolSize descriptor_pool_size{
+		vk::DescriptorType::eUniformBuffer, // Type
+		m_swapChainImageCount // Descriptor count
+	};
+
+	const vk::DescriptorPoolCreateInfo descriptor_pool_create_info{
+		{}, // Flags
+		m_swapChainImageCount, // Max sets
+		DESCRIPTOR_POOL_POOL_SIZE_COUNT, // Pool size count
+		&descriptor_pool_size // Pool sizes
+	};
+
+	m_descriptorPool = m_logicalDevice.createDescriptorPool(descriptor_pool_create_info);
+}
+
+void Application::createDescriptorSets()
+{
+	if (m_descriptorSets == nullptr)
+		m_descriptorSets = new vk::DescriptorSet[m_swapChainImageCount];
+
+	vk::DescriptorSetLayout * const descriptor_set_layouts = new vk::DescriptorSetLayout[m_swapChainImageCount];
+	for (uint32_t i = 0; i < m_swapChainImageCount; ++i)
+		descriptor_set_layouts[i] = m_descriptorSetLayout;
+
+	const vk::DescriptorSetAllocateInfo descriptor_set_allocate_info{
+		m_descriptorPool, // Descriptor pool
+		m_swapChainImageCount, // Descriptor set count
+		descriptor_set_layouts // Set layouts
+	};
+
+	const vk::Result result = m_logicalDevice.allocateDescriptorSets(&descriptor_set_allocate_info, m_descriptorSets);
+	m_descriptorSets = createResultValue(result, m_descriptorSets, "Application::createDescriptorSets");
+
+	for (uint32_t i = 0; i < m_swapChainImageCount; ++i) {
+		const vk::DescriptorBufferInfo descriptor_buffer_info{
+			m_uniformBuffers[i], // Buffer
+			0, // Offset
+			VK_WHOLE_SIZE // Range
+		};
+
+		const vk::WriteDescriptorSet write_descriptor_set{
+			m_descriptorSets[i], // Dst set: the descriptor set to update
+			0, // Dst binding: the uniform binding; layout(binding = 0)
+			0, // Dst array element: the first index in the array of uniform buffers that we want to update
+			1, // Descriptor count: how many array elements to update
+			vk::DescriptorType::eUniformBuffer, // Descriptor type
+			nullptr, // Image info: used if refering to image data
+			&descriptor_buffer_info, // Buffer info: used if refering to buffers
+			nullptr // Texel buffer view: used if refering to buffer views
+		};
+
+		m_logicalDevice.updateDescriptorSets(write_descriptor_set, {});
+	}
+
+	delete[] descriptor_set_layouts;
 }
 
 void Application::createCommandBuffers()
 {
-	m_commandBuffers.resize(m_swapChainFramebuffers.size());
+	if (m_commandBuffers == nullptr)
+		m_commandBuffers = new vk::CommandBuffer[m_swapChainImageCount];
 
 	// Infomation for allocating memory
 	const vk::CommandBufferAllocateInfo command_buffer_allocate_info{
-		m_commandPool, // Command pool
+		m_graphicsCommandPool, // Command pool
 		vk::CommandBufferLevel::ePrimary, // Level: if the allocated command buffers are primary or secondary command buffers
-		static_cast<uint32_t>(m_commandBuffers.size()) // Command buffer count
+		m_swapChainImageCount // Command buffer count
 	};
 
-	m_commandBuffers = m_logicalDevice.allocateCommandBuffers(command_buffer_allocate_info);
+	const vk::Result result = m_logicalDevice.allocateCommandBuffers(&command_buffer_allocate_info, m_commandBuffers);
+	m_commandBuffers = createResultValue(result, m_commandBuffers, "Application::createCommandBuffers");
 
-	for (size_t i = 0; i < m_commandBuffers.size(); ++i) {
+	for (uint32_t i = 0; i < m_swapChainImageCount; ++i) {
 		const vk::CommandBufferBeginInfo command_buffer_begin_info{
 			vk::CommandBufferUsageFlagBits::eSimultaneousUse, // Flags (use command buffers simultaniously)
 			nullptr // Inheritance info: which state to inherit from the calling primary command buffers (already are primary)
@@ -785,12 +995,52 @@ void Application::createCommandBuffers()
 		// Bind the graphics pipeline with the command buffer
 		m_commandBuffers[i].bindPipeline(vk::PipelineBindPoint::eGraphics, m_graphicsPipeline);
 
-		// DRAW THE TRIANGLE!!!!
-		m_commandBuffers[i].draw(
-			COMMAND_BUFFER_DRAW_VERTEX_COUNT, // Vertex count (drawing three verticies)
-			COMMAND_BUFFER_DRAW_INSTANCE_COUNT, // Instance count: used for instanced rendering (not doing, so 1)
-			COMMAND_BUFFER_DRAW_FIRST_VERTEX, // First vertex: an offset into the vertex buffer; defines the lowest value of gl_VertexIndex
-			COMMAND_BUFFER_DRAW_FIRST_INSTANCE // First instance: an offset for instanced rendering; defines the lowest value of gl_InstanceIndex
+		// Array of vertex buffers
+		const std::array<vk::Buffer, COMMAND_BUFFER_VERTEX_BUFFER_COUNT> vertex_buffers = {
+			m_vertexBuffer
+		};
+
+		// Array of offsets
+		const std::array<vk::DeviceSize, COMMAND_BUFFER_OFFSET_COUNT> offsets = {
+			0
+		};
+
+		// Bind the vertex buffers
+		m_commandBuffers[i].bindVertexBuffers(
+			0, // First binding: offset
+			vertex_buffers, // Buffers
+			offsets // Offsets: byte offset to start reading vertex data from
+		);
+
+		// Bind the index buffer (can only bind one)
+		m_commandBuffers[i].bindIndexBuffer(
+			m_indexBuffer, // Buffer
+			0, // Offset
+			vk::IndexType::eUint16 // Index type
+		);
+
+		// Vulkan-hpp array for descriptor sets
+		const vk::ArrayProxy<const vk::DescriptorSet> descriptor_sets{
+			1,
+			m_descriptorSets
+		};
+
+		// Bind the descriptor sets (uniform buffer)
+		m_commandBuffers[i].bindDescriptorSets(
+			vk::PipelineBindPoint::eGraphics, // Pipeline bind point: descriptor sets are not unique to graphics pipelines; specify if we want to bind descriptor sets to the graphics or compute pipeline
+			m_pipelineLayout, // Layout: the layout that the descriptors are based on
+			0, // First set: the index of the first descriptor set
+			descriptor_sets, // Descriptor sets
+			nullptr // Dynamic offsets
+		);
+
+		// DRAW THE GEOMETRY!!!!
+		m_commandBuffers[i].drawIndexed(
+			INDEX_COUNT, // Index count
+			1, // Instance count: used for instanced rendering (not doing, so 1)
+			0, // First index: a value offset into the index buffer
+			0, // Vertex offset: an offset to add to the indices in the index buffer
+			0 // First instance: an offset for instanced rendering; defines the lowest value of gl_InstanceIndex
 		);
 
 		// End the render pass
@@ -804,7 +1054,8 @@ void Application::createCommandBuffers()
 void Application::createSyncObjects()
 {
 	// Create the right amount of fences
-	m_imagesInFlight.resize(m_swapChainImages.size(), nullptr); // Initalize to no fence
+	if (m_imagesInFlight == nullptr)
+		m_imagesInFlight = new vk::Fence[m_swapChainImageCount]{nullptr};
 
 	// Information for semaphore creation (currently there is basically no info required)
 	const vk::SemaphoreCreateInfo semaphore_create_info{
@@ -836,8 +1087,10 @@ bool Application::areLayersSupported(const std::array<const char * const, S> &ne
     vk::Result result;
 
     result = vk::enumerateInstanceLayerProperties(&layer_property_count, nullptr);
-	layer_properties = new vk::LayerProperties[layer_property_count];
-    result = vk::enumerateInstanceLayerProperties(&layer_property_count, layer_properties);
+	if (result == vk::Result::eSuccess) {
+		layer_properties = new vk::LayerProperties[layer_property_count];
+		result = vk::enumerateInstanceLayerProperties(&layer_property_count, layer_properties);
+	}
     layer_properties = createResultValue(result, layer_properties, "Application::areLayersSupported");
 
 	bool found;
@@ -882,7 +1135,6 @@ bool Application::physicalDeviceSupportsRequirements(const vk::PhysicalDevice &d
 			swapChainAdequate(querySwapChainSupport(device));
 }
 
-// Maybe cache somewhere
 QueueFamilyIndices Application::getQueueFamilies(const vk::PhysicalDevice &device)
 {
 	QueueFamilyIndices indices;
@@ -891,12 +1143,12 @@ QueueFamilyIndices Application::getQueueFamilies(const vk::PhysicalDevice &devic
 	for (uint32_t i = 0; i < queue_families.size(); ++i) {
 		if (queue_families[i].queueFlags & vk::QueueFlagBits::eGraphics)
 			indices.graphicsFamily = i;
+		
+		if (queue_families[i].queueFlags & vk::QueueFlagBits::eTransfer)
+			indices.transferFamily = i;
 
-		if (device.getSurfaceSupportKHR(i, m_surface))
+		if (device.getSurfaceSupportKHR(i, m_surface)) // Check is GPU supports present family with given surface
 			indices.presentFamily = i;
-
-		if (indices.isComplete())
-			return indices;
 	}
 
 	return indices;
@@ -912,8 +1164,10 @@ bool Application::deviceSupportsExtensions(const vk::PhysicalDevice &device)
     vk::Result result;
 
     result = device.enumerateDeviceExtensionProperties(nullptr, &extension_property_count, nullptr);
-	extension_properties = new vk::ExtensionProperties[extension_property_count];
-    result = device.enumerateDeviceExtensionProperties(nullptr, &extension_property_count, extension_properties);
+	if (result == vk::Result::eSuccess) {
+		extension_properties = new vk::ExtensionProperties[extension_property_count];
+		result = device.enumerateDeviceExtensionProperties(nullptr, &extension_property_count, extension_properties);
+	}
     extension_properties = createResultValue(result, extension_properties, "Application::deviceSupportsExtensions");
 	
 	std::unordered_set<std::string_view> required_extensions(&m_deviceExtensions[0], &m_deviceExtensions[NUM_DEVICE_EXTENSIONS - 1]);
@@ -1011,10 +1265,25 @@ vk::ShaderModule Application::createShaderModule(const std::vector<char> &code)
 	return shader_module;
 }
 
+uint32_t Application::findMemoryType(const uint32_t type_filter, const vk::MemoryPropertyFlags required_properties)
+{
+	// Get the memory properties of the GPU being used
+	const vk::PhysicalDeviceMemoryProperties gpu_memory_properties = m_physicalDevice.getMemoryProperties();
+
+	for (uint32_t i = 0; i < gpu_memory_properties.memoryTypeCount; ++i) {
+		if (type_filter & (1 << i) && (gpu_memory_properties.memoryTypes[i].propertyFlags & required_properties) == required_properties) {
+			return i;
+		}
+	}
+	
+	assert(false && "VULKAN ASSERT: failed to find suitable memory type!");
+	return std::numeric_limits<uint32_t>::max();
+}
+
 void Application::run() 
 {
 	// Set up FPS counter
-	m_previousTimeFPS = glfwGetTime();
+	m_previousTimeFPS = std::chrono::high_resolution_clock::now();
 	m_frameCountFPS = 0;
 
 	// Main game loop
@@ -1029,10 +1298,11 @@ void Application::run()
 
 void Application::printFPS()
 {
-	const double current_time = glfwGetTime();
+	const std::chrono::steady_clock::time_point current_time = std::chrono::high_resolution_clock::now();
+	const float duration = std::chrono::duration<float>(current_time - m_previousTimeFPS).count();
 	++m_frameCountFPS;
 
-	if (current_time - m_previousTimeFPS >= 1.0) {
+	if (duration >= 1.0f) {
 		std::cout << std::setprecision(4) << "Application Average: " << 1000.0f / m_frameCountFPS << "ms\t(" << m_frameCountFPS << " FPS)\n";
 
 		m_frameCountFPS = 0;
@@ -1078,26 +1348,29 @@ void Application::drawFrame()
 	// Mark image as now being in use by this frame
 	m_imagesInFlight[image_index] = m_inFlightFences[m_currentFrame];
 
-	const vk::Semaphore wait_semaphores[SUBMIT_INFO_WAIT_SEMAPHORE_COUNT] = {
+	// Update uniform buffer
+	updateUniformBuffer(image_index);
+
+	const vk::Semaphore wait_semaphores[DRAW_FRAME_SUBMIT_INFO_WAIT_SEMAPHORE_COUNT] = {
 		m_imageAvailableSemaphores[m_currentFrame]
 	};
 
-	const vk::PipelineStageFlags wait_stages[SUBMIT_INFO_WAIT_STAGE_COUNT] = {
+	const vk::PipelineStageFlags wait_stages[DRAW_FRAME_SUBMIT_INFO_WAIT_STAGE_COUNT] = {
 		vk::PipelineStageFlagBits::eColorAttachmentOutput
 	};
 
-	const vk::Semaphore signal_semaphores[SUBMIT_INFO_SIGNAL_SEMAPHORE_COUNT] = {
+	const vk::Semaphore signal_semaphores[DRAW_FRAME_SUBMIT_INFO_SIGNAL_SEMAPHORE_COUNT] = {
 		m_renderFinishedSemaphores[m_currentFrame]
 	};
 
 	// Information for submitting to the graphics queue
 	const vk::SubmitInfo submit_info{
-		SUBMIT_INFO_WAIT_SEMAPHORE_COUNT, // Wait semaphore count
+		DRAW_FRAME_SUBMIT_INFO_WAIT_SEMAPHORE_COUNT, // Wait semaphore count
 		wait_semaphores, // Wait semaphores: which semaphores to wait on before execution begins
 		wait_stages, // Wait dst stage mask: which stages of the graphics pipeline to wait on before execution; corresponds to the wait_semaphores
-		SUBMIT_INFO_COMMAND_BUFFER_COUNT, // Command buffer count
+		DRAW_FRAME_SUBMIT_INFO_COMMAND_BUFFER_COUNT, // Command buffer count
 		&m_commandBuffers[image_index], // Command buffers: which command buffers to actually submit for execution
-		SUBMIT_INFO_SIGNAL_SEMAPHORE_COUNT, // Signal semaphore count
+		DRAW_FRAME_SUBMIT_INFO_SIGNAL_SEMAPHORE_COUNT, // Signal semaphore count
 		signal_semaphores // Signal semaphores: which semaphores to signal once the command buffer/s have finished execution
 	};
 
@@ -1147,17 +1420,23 @@ void Application::drawFrame()
 
 void Application::destroySwapChain()
 {
-	for (const auto &framebuffer : m_swapChainFramebuffers)
-		m_logicalDevice.destroyFramebuffer(framebuffer);
+	m_logicalDevice.freeCommandBuffers(m_graphicsCommandPool, m_swapChainImageCount, m_commandBuffers); // Free command buffers instead of destroying command pool
+	m_logicalDevice.destroyDescriptorPool(m_descriptorPool);
 
-	m_logicalDevice.freeCommandBuffers(m_commandPool, m_commandBuffers); // Free command buffers instead of destroying command pool
+	for (uint32_t i = 0; i < m_swapChainImageCount; ++i) {
+		m_logicalDevice.destroyBuffer(m_uniformBuffers[i]);
+		m_logicalDevice.freeMemory(m_uniformBuffersMemory[i]);
+	}
+
+	for (uint32_t i = 0; i < m_swapChainImageCount; ++i)
+		m_logicalDevice.destroyFramebuffer(m_swapChainFramebuffers[i]);
 
 	m_logicalDevice.destroyPipeline(m_graphicsPipeline);
 	m_logicalDevice.destroyPipelineLayout(m_pipelineLayout);
 	m_logicalDevice.destroyRenderPass(m_renderPass);
 
-	for (const auto &image_view : m_swapChainImageViews)
-		m_logicalDevice.destroyImageView(image_view);
+	for (uint32_t i = 0; i < m_swapChainImageCount; ++i)
+		m_logicalDevice.destroyImageView(m_swapChainImageViews[i]);
 
 	m_logicalDevice.destroySwapchainKHR(m_swapChain);
 }
@@ -1185,8 +1464,182 @@ void Application::recreateSwapChain()
 	createImageViews(); // Based directly on the swap chain images
 	createRenderPass(); // Depends on the format of the swap chain images
 	createGraphicsPipeline(); // Viewport and scissor rectangle size is specified (possible to avoid by using dynamic state)
-	createFrameBuffers(); // Directly depends on the swap chain images // HERE
+	createFrameBuffers(); // Directly depends on the swap chain images
+	createUniformBuffers(); // Directly depends on the swap chain images
+	createDescriptorPool(); // Directly depends on the swap chain images
+	createDescriptorSets(); // Directly depends on the swap chain images
 	createCommandBuffers(); // Directly depends on the swap chain images
+}
+
+template <class T>
+void Application::createAndFillBuffer(const T * const buffer_data, const size_t count, const vk::BufferUsageFlags usage, vk::Buffer &buffer, vk::DeviceMemory &buffer_memory)
+{
+	// Create the staging buffer handles (vertex buffer in CPU visible memory)
+	vk::Buffer staging_buffer;
+	vk::DeviceMemory staging_buffer_memory;
+
+	// Create the staging buffer
+	createBuffer(
+		sizeof(buffer_data[0]) * count, // Size
+		vk::BufferUsageFlagBits::eTransferSrc, // Usage (transfer source)
+		vk::MemoryPropertyFlagBits::eHostVisible | // Properties (Visible to CPU)
+		vk::MemoryPropertyFlagBits::eHostCoherent,// (Writes to buffer are visible immediately)
+		staging_buffer, // Buffer
+		staging_buffer_memory // Buffer memory
+	);
+
+	// Map the staging buffer into CPU accessable memory
+	void * const mapped_data = m_logicalDevice.mapMemory(
+		staging_buffer_memory, // Memory
+		0, // Offset
+		VK_WHOLE_SIZE, // Size
+		{} // Flags
+	);
+
+	// Copy the staging data into the mapped memory
+	memcpy(mapped_data, buffer_data, sizeof(buffer_data[0]) * count);
+
+	// Unmpa the data
+	m_logicalDevice.unmapMemory(staging_buffer_memory);
+
+	// Create the requested buffer
+	createBuffer(
+		sizeof(buffer_data[0]) * count,
+		usage | vk::BufferUsageFlagBits::eTransferDst,
+		vk::MemoryPropertyFlagBits::eDeviceLocal,
+		buffer,
+		buffer_memory
+	);
+
+	// Copy the data from the staging buffer to the GPU-local buffer
+	copyBuffer(staging_buffer, buffer, sizeof(buffer_data[0]) * count);
+
+	// Memory cleanup
+	m_logicalDevice.destroyBuffer(staging_buffer);
+	m_logicalDevice.freeMemory(staging_buffer_memory);
+}
+
+void Application::createBuffer(const vk::DeviceSize size, const vk::BufferUsageFlags usage, const vk::MemoryPropertyFlags properties, vk::Buffer &buffer, vk::DeviceMemory &buffer_memory)
+{
+	// Possibly needed queue families
+	const uint32_t buffer_queue_family_indices[2] = {
+		m_queueFamilyIndices.graphicsFamily.value(),
+		m_queueFamilyIndices.transferFamily.value()
+	};
+
+	// Information for the buffer
+	vk::BufferCreateInfo buffer_create_info{
+		{}, // Flags
+		size, // Size: the size of the buffer in bytes
+		usage, // Usage: which purposes the data in the buffer is going to be used for
+		{}, // Sharing mode: whether the buffer is used by one queue family at a time or shared between multiple concurrently
+		{}, // Queue family index count
+		buffer_queue_family_indices // Queue family indices
+	};
+
+	// Check if queue familes are different
+	if (m_queueFamilyIndices.graphicsFamily.value() == m_queueFamilyIndices.transferFamily.value()) {
+		buffer_create_info.sharingMode = vk::SharingMode::eExclusive;
+		buffer_create_info.queueFamilyIndexCount = 1;
+	} else {
+		buffer_create_info.sharingMode = vk::SharingMode::eConcurrent;
+		buffer_create_info.queueFamilyIndexCount = 2;
+	}
+
+	// Creating the buffer
+	buffer = m_logicalDevice.createBuffer(buffer_create_info);
+
+	// Get the memory requirements for the buffer
+	const vk::MemoryRequirements buffer_memory_requirements = m_logicalDevice.getBufferMemoryRequirements(buffer);
+
+	// Memory type index
+	const uint32_t buffer_memory_type_index = findMemoryType(buffer_memory_requirements.memoryTypeBits, properties);
+
+	// Information for allocating memory
+	const vk::MemoryAllocateInfo buffer_memory_allocate_info{
+		buffer_memory_requirements.size, // Allocation size
+		buffer_memory_type_index // Memory type index
+	};
+
+	// Allocate memory for the buffer
+	buffer_memory = m_logicalDevice.allocateMemory(buffer_memory_allocate_info);
+
+	// Bind the allocated memory with the buffer
+	m_logicalDevice.bindBufferMemory(buffer, buffer_memory, 0); // The 3rd parameter is the offset within the reigon of memory
+}
+
+void Application::copyBuffer(const vk::Buffer &src_buffer, const vk::Buffer &dst_buffer, const vk::DeviceSize size)
+{
+	const vk::CommandBufferAllocateInfo command_buffer_allocate_info{
+		m_transferCommandPool,
+		vk::CommandBufferLevel::ePrimary,
+		1
+	};
+
+	const vk::CommandBuffer command_buffer = m_logicalDevice.allocateCommandBuffers(command_buffer_allocate_info)[0];
+
+	const vk::CommandBufferBeginInfo command_buffer_begin_info{
+		vk::CommandBufferUsageFlagBits::eOneTimeSubmit // Only submitting to the comamnd buffer once
+	};
+
+	command_buffer.begin(command_buffer_begin_info);
+
+	// Information about the copying of memory
+	const vk::BufferCopy buffer_copy_region{
+		0, // Src offset
+		0, // Dst offset
+		size // Size
+	};
+
+	// Copy the data
+	command_buffer.copyBuffer(src_buffer, dst_buffer, buffer_copy_region);
+
+	command_buffer.end();
+
+	const vk::SubmitInfo submit_info{
+		0,
+		nullptr,
+		nullptr,
+		1,
+		&command_buffer
+	};
+
+	m_transferQueue.submit(submit_info);
+	m_transferQueue.waitIdle();
+
+	m_logicalDevice.freeCommandBuffers(m_transferCommandPool, command_buffer);
+}
+
+void Application::updateUniformBuffer(const uint32_t current_image)
+{
+	// Deltatime
+	static std::chrono::steady_clock::time_point start_time = std::chrono::high_resolution_clock::now();
+	const std::chrono::steady_clock::time_point current_time = std::chrono::high_resolution_clock::now();
+	const float duration = std::chrono::duration<float, std::chrono::seconds::period>(current_time - start_time).count();
+
+	// Uniform buffer object
+	UniformBufferObject UBO{
+		.model = glm::rotate(glm::mat4(1.0f), duration * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), // Rotate around the Z-axis at 90 degrees/second
+		.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)), // Look at the geometry from above at a 45 degree angle
+		.proj = glm::perspective(glm::radians(45.0f), m_swapChainExtent.width / static_cast<float>(m_swapChainExtent.height), 0.1f, 10.0f) // Perspective projection with a 45 degree vertical field-of-view
+	};
+
+	// Flip the sign on the scaling factor of the Y axis to render geometry right way up
+	UBO.proj[1][1] *= -1;
+
+	// Update the uniform buffer
+	void * const mapped_data = m_logicalDevice.mapMemory(
+		m_uniformBuffersMemory[current_image], // Memory
+		0, // Offset
+		VK_WHOLE_SIZE, // Size
+		{} // Flags
+	);
+
+	// Copy the uniform data into the mapped memory
+	memcpy(mapped_data, &UBO, sizeof(UBO));
+
+	// Unmpa the data
+	m_logicalDevice.unmapMemory(m_uniformBuffersMemory[current_image]);
 }
 
 void Application::printRequiredExtensions() 

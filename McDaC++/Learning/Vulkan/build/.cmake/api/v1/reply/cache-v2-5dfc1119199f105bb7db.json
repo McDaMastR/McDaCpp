@@ -31,7 +31,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/ar"
+			"value" : "/Library/Developer/CommandLineTools/usr/bin/ar"
 		},
 		{
 			"name" : "CMAKE_BUILD_TYPE",
@@ -39,7 +39,7 @@
 			[
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : ""
 				}
 			],
 			"type" : "STRING",
@@ -122,6 +122,18 @@
 			"value" : "/usr/local/Cellar/cmake/3.20.3/bin/cmake"
 		},
 		{
+			"name" : "CMAKE_CONFIGURATION_TYPES",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : ""
+				}
+			],
+			"type" : "STRING",
+			"value" : "Debug"
+		},
+		{
 			"name" : "CMAKE_CPACK_COMMAND",
 			"properties" : 
 			[
@@ -155,11 +167,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "CXX compiler"
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/clang++"
+			"value" : "/Library/Developer/CommandLineTools/usr/bin/c++"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS",
@@ -251,7 +263,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/clang"
+			"value" : "/usr/local/bin/x86_64-apple-darwin20-gcc-11.1.0"
 		},
 		{
 			"name" : "CMAKE_DLLTOOL",
@@ -499,7 +511,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/ld"
+			"value" : "/Library/Developer/CommandLineTools/usr/bin/ld"
 		},
 		{
 			"name" : "CMAKE_MAKE_PROGRAM",
@@ -611,7 +623,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/nm"
+			"value" : "/Library/Developer/CommandLineTools/usr/bin/nm"
 		},
 		{
 			"name" : "CMAKE_NUMBER_OF_MAKEFILES",
@@ -655,7 +667,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/objdump"
+			"value" : "/Library/Developer/CommandLineTools/usr/bin/objdump"
 		},
 		{
 			"name" : "CMAKE_OSX_ARCHITECTURES",
@@ -755,7 +767,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/ranlib"
+			"value" : "/Library/Developer/CommandLineTools/usr/bin/ranlib"
 		},
 		{
 			"name" : "CMAKE_READELF",
@@ -991,7 +1003,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "/usr/bin/strip"
+			"value" : "/Library/Developer/CommandLineTools/usr/bin/strip"
 		},
 		{
 			"name" : "CMAKE_UNAME",

@@ -63,7 +63,7 @@ CMAKE_BINARY_DIR = /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/bui
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/LearnVulkan.dir/all
+all: CMakeFiles/LearnVulkan-DEBUG.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -71,34 +71,34 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/LearnVulkan.dir/clean
+clean: CMakeFiles/LearnVulkan-DEBUG.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/LearnVulkan.dir
+# Target rules for target CMakeFiles/LearnVulkan-DEBUG.dir
 
 # All Build rule for target.
-CMakeFiles/LearnVulkan.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles --progress-num=1,2,3 "Built target LearnVulkan"
-.PHONY : CMakeFiles/LearnVulkan.dir/all
+CMakeFiles/LearnVulkan-DEBUG.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan-DEBUG.dir/build.make CMakeFiles/LearnVulkan-DEBUG.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan-DEBUG.dir/build.make CMakeFiles/LearnVulkan-DEBUG.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles --progress-num=1,2,3 "Built target LearnVulkan-DEBUG"
+.PHONY : CMakeFiles/LearnVulkan-DEBUG.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/LearnVulkan.dir/rule: cmake_check_build_system
+CMakeFiles/LearnVulkan-DEBUG.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles 3
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/LearnVulkan.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/LearnVulkan-DEBUG.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles 0
-.PHONY : CMakeFiles/LearnVulkan.dir/rule
+.PHONY : CMakeFiles/LearnVulkan-DEBUG.dir/rule
 
 # Convenience name for target.
-LearnVulkan: CMakeFiles/LearnVulkan.dir/rule
-.PHONY : LearnVulkan
+LearnVulkan-DEBUG: CMakeFiles/LearnVulkan-DEBUG.dir/rule
+.PHONY : LearnVulkan-DEBUG
 
 # clean rule for target.
-CMakeFiles/LearnVulkan.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan.dir/build.make CMakeFiles/LearnVulkan.dir/clean
-.PHONY : CMakeFiles/LearnVulkan.dir/clean
+CMakeFiles/LearnVulkan-DEBUG.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LearnVulkan-DEBUG.dir/build.make CMakeFiles/LearnVulkan-DEBUG.dir/clean
+.PHONY : CMakeFiles/LearnVulkan-DEBUG.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
