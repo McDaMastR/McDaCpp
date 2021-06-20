@@ -1,0 +1,15 @@
+{
+	"files.associations": {
+		"stdio.h": "c",
+		"stdlib.h": "c",
+		"__hash_table": "c",
+		"__string": "c",
+		"algorithm": "c",
+		"functional": "c",
+		"locale": "c",
+		"utility": "c",
+		"*.tcc": "c",
+		"mutex": "c",
+		"stop_token": "c"
+	}
+}
