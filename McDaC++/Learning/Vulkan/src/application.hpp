@@ -1,10 +1,17 @@
 #pragma once
 
+#ifdef NDEBUG
+	#define VULKAN_HPP_NO_EXCEPTIONS // Disable exceptions (only use assertions)
+#endif
+
+#define VULKAN_HPP_DISABLE_ENHANCED_MODE // Only allow object-oriented versions of existing functions and nothing else
+#define RELEASE_NOEXCEPT VULKAN_HPP_NOEXCEPT_WHEN_NO_EXCEPTIONS // Noexcept if noexceptions in vulkan hpp (in release)
 #include <vulkan/vulkan.hpp>
 
 #define GLFW_INCLUDE_NONE // GLFW doesn't include any OpenGL or Vulkan headers
 #include <GLFW/glfw3.h>
 #include <optional>
+#include <vector>
 #include <chrono>
 
 #define GLM_FORCE_RADIANS // GLM functions use radians instead of degrees
@@ -12,7 +19,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	#define NUM_VALIDATION_LAYERS 1
 #endif
 
@@ -26,17 +33,19 @@
 #define VK_LAYER_KHRONOS_VALIDATION_LAYER_NAME "VK_LAYER_KHRONOS_validation"
 
 #define VERTEX_INPUT_BINDING_DESCRIPTION_COUNT 1
-#define VERTEX_INPUT_ATTRIBUTE_DESCRIPTION_COUNT 2
+#define VERTEX_INPUT_ATTRIBUTE_DESCRIPTION_COUNT 3
 
 #define VERTEX_INPUT_POSITION_ATTRIBUTE_LOCATION 0
 #define VERTEX_INPUT_POSITION_ATTRIBUTE_BINDING 0
 #define VERTEX_INPUT_POSITION_ATTRIBUTE_FORMAT vk::Format::eR32G32Sfloat
-#define VERTEX_INPUT_POSITION_ATTRIBUTE_OFFSET offsetof(Vertex, position)
 
 #define VERTEX_INPUT_COLOR_ATTRIBUTE_LOCATION 1
 #define VERTEX_INPUT_COLOR_ATTRIBUTE_BINDING 0
 #define VERTEX_INPUT_COLOR_ATTRIBUTE_FORMAT vk::Format::eR32G32B32Sfloat
-#define VERTEX_INPUT_COLOR_ATTRIBUTE_OFFSET offsetof(Vertex, color)
+
+#define VERTEX_INPUT_TEX_COORD_ATTRIBUTE_LOCATION 2
+#define VERTEX_INPUT_TEX_COORD_ATTRIBUTE_BINDING 0
+#define VERTEX_INPUT_TEX_COORD_ATTRIBUTE_FORMAT vk::Format::eR32G32Sfloat
 
 #define MAX_FRAMES_IN_FLIGHT 2
 #define VERTEX_COUNT 4
@@ -49,14 +58,22 @@ struct QueueFamilyIndices
 	std::optional<uint32_t> presentFamily;
 	std::optional<uint32_t> transferFamily;
 
-	constexpr bool isComplete() const {return graphicsFamily.has_value() && presentFamily.has_value() && transferFamily.has_value();}
+	constexpr bool isComplete() const noexcept {return graphicsFamily.has_value() && presentFamily.has_value() && transferFamily.has_value();}
 };
 
 struct SwapChainSupportDetails
 {
+	~SwapChainSupportDetails() noexcept
+	{
+		delete[] formats;
+		delete[] presentModes;
+	}
+
 	vk::SurfaceCapabilitiesKHR capabilities; // Basic surface capabilities (min/max number of images in swap chain, min/max width and height of images)
-	std::vector<vk::SurfaceFormatKHR> formats; // Surface formats (pixel format, color space)
-	std::vector<vk::PresentModeKHR> presentModes; // Available presentation modes
+	uint32_t formatCount;
+	vk::SurfaceFormatKHR *formats = nullptr; // Surface formats (pixel format, color space)
+	uint32_t presentModeCount;
+	vk::PresentModeKHR *presentModes = nullptr; // Available presentation modes
 };
 
 struct UniformBufferObject
@@ -70,8 +87,9 @@ struct Vertex
 {
 	glm::vec2 position;
 	glm::vec3 color;
+	glm::vec2 texCoord;
 
-	constexpr static vk::VertexInputBindingDescription getBindingDescription()
+	constexpr static vk::VertexInputBindingDescription getBindingDescription() noexcept
 	{
 		// Describes at which rate to load data from memory throughout the vertices
 		const vk::VertexInputBindingDescription vertex_input_binding_description{
@@ -83,26 +101,34 @@ struct Vertex
 		return vertex_input_binding_description;
 	}
 
-	constexpr static std::array<vk::VertexInputAttributeDescription, VERTEX_INPUT_ATTRIBUTE_DESCRIPTION_COUNT> getAttributeDescriptions()
+	constexpr static std::array<vk::VertexInputAttributeDescription, VERTEX_INPUT_ATTRIBUTE_DESCRIPTION_COUNT> getAttributeDescriptions() noexcept
 	{
 		// Describes how to extract a vertex attribute from a chunk of vertex data originating from a binding description
 		const vk::VertexInputAttributeDescription position_attribute{
 			VERTEX_INPUT_POSITION_ATTRIBUTE_LOCATION, // Location: references the location directive of the input in the vertex shader
 			VERTEX_INPUT_POSITION_ATTRIBUTE_BINDING, // Binding: which binding (vk::VertexInputBindingDescription) the per-vertex data comes
 			VERTEX_INPUT_POSITION_ATTRIBUTE_FORMAT, // Format: the type of data for the attribute; specified using the same enumeration as color formats
-			VERTEX_INPUT_POSITION_ATTRIBUTE_OFFSET // Offset: the number of bytes since the start of the per-vertex data to read from (using the offsetof() macro)
+			offsetof(Vertex, position) // Offset: the number of bytes since the start of the per-vertex data to read from (using the offsetof() macro)
 		};
 
 		const vk::VertexInputAttributeDescription color_attribute{
 			VERTEX_INPUT_COLOR_ATTRIBUTE_LOCATION,
 			VERTEX_INPUT_COLOR_ATTRIBUTE_BINDING,
 			VERTEX_INPUT_COLOR_ATTRIBUTE_FORMAT,
-			VERTEX_INPUT_COLOR_ATTRIBUTE_OFFSET
+			offsetof(Vertex, color)
+		};
+
+		const vk::VertexInputAttributeDescription tex_coord_attribute{
+			VERTEX_INPUT_TEX_COORD_ATTRIBUTE_LOCATION,
+			VERTEX_INPUT_TEX_COORD_ATTRIBUTE_BINDING,
+			VERTEX_INPUT_TEX_COORD_ATTRIBUTE_FORMAT,
+			offsetof(Vertex, texCoord)
 		};
 
 		const std::array<vk::VertexInputAttributeDescription, VERTEX_INPUT_ATTRIBUTE_DESCRIPTION_COUNT> vertex_input_attribute_descriptions{
 			std::move(position_attribute),
-			std::move(color_attribute)
+			std::move(color_attribute),
+			std::move(tex_coord_attribute)
 		};
 
 		return vertex_input_attribute_descriptions;
@@ -114,71 +140,78 @@ using Index = uint16_t;
 class Application
 {
 public:
-	Application();
-	~Application();
+	Application() RELEASE_NOEXCEPT;
+	~Application() RELEASE_NOEXCEPT;
 
-	void run();
-
-	void printRequiredExtensions();
-	void printAllExtensions();
-	void printLayerSupport();
-	void printPhysicalDevices();
-
-	void setFramebufferResized();
+	void run() RELEASE_NOEXCEPT;
+	void setFramebufferResized() RELEASE_NOEXCEPT;
 
 private:
-	void createWindow();
-	void initVulkan();
-	void drawFrame();
-	void printFPS();
-	void destroySwapChain();
-	void recreateSwapChain();
+	void createWindow() RELEASE_NOEXCEPT;
+	void initVulkan() RELEASE_NOEXCEPT;
+	void drawFrame() RELEASE_NOEXCEPT;
+	void printFPS() RELEASE_NOEXCEPT;
+	void destroySwapChain() RELEASE_NOEXCEPT;
+	void recreateSwapChain() RELEASE_NOEXCEPT;
 
 	template <class T>
-	void createAndFillBuffer(const T * const buffer_data, const size_t count, const vk::BufferUsageFlags usage, vk::Buffer &buffer, vk::DeviceMemory &buffer_memory);
-	void createBuffer(const vk::DeviceSize size, const vk::BufferUsageFlags usage, const vk::MemoryPropertyFlags properties, vk::Buffer &buffer, vk::DeviceMemory &bufferMemory);
-	void copyBuffer(const vk::Buffer &src_buffer, const vk::Buffer &dst_buffer, const vk::DeviceSize size);
-	void updateUniformBuffer(const uint32_t current_image);
+	void createAndFillBuffer(const T * const buffer_data, const size_t count, const vk::BufferUsageFlags usage, vk::Buffer &buffer, vk::DeviceMemory &buffer_memory) RELEASE_NOEXCEPT;
+	void createBuffer(const vk::DeviceSize size, const vk::BufferUsageFlags usage, const vk::MemoryPropertyFlags properties, vk::Buffer &buffer, vk::DeviceMemory &buffer_memory) RELEASE_NOEXCEPT;
+	void copyBuffer(const vk::Buffer &src_buffer, const vk::Buffer &dst_buffer, const vk::DeviceSize size) RELEASE_NOEXCEPT;
+	void updateUniformBuffer(const uint32_t current_image) RELEASE_NOEXCEPT;
+
+	void createImage(const uint32_t width, const uint32_t height, const vk::Format format, const vk::ImageTiling tiling, const vk::ImageUsageFlags usage, const vk::MemoryPropertyFlags properties, vk::Image &image, vk::DeviceMemory &image_memory) RELEASE_NOEXCEPT;
+	void transitionImageLayout(const vk::Image image, const vk::Format format, const vk::ImageLayout old_layout, const vk::ImageLayout new_layout) RELEASE_NOEXCEPT;
+	void copyBufferToImage(const vk::Buffer src_buffer, const vk::Image dst_image, const uint32_t width, const uint32_t height) RELEASE_NOEXCEPT;
+
+	vk::CommandBuffer beginSingleTimeCommand() RELEASE_NOEXCEPT;
+	void endSingleTimeCommand(const vk::CommandBuffer command_buffer) RELEASE_NOEXCEPT;
 	
-	void createInstance();
+	void createInstance() RELEASE_NOEXCEPT;
+#ifdef _DEBUG
 	void createDebugCallback();
-	void createSurface();
-	void choosePhysicalDevice();
-	void createLogicalDevice();
-	void createSwapChain();
-	void createImageViews();
-	void createRenderPass();
-	void createDescriptorSetLayout();
-	void createGraphicsPipeline();
-	void createFrameBuffers();
-	void createCommandPools();
-	void createVertexBuffer();
-	void createIndexBuffer();
-	void createUniformBuffers();
-	void createDescriptorPool();
-	void createDescriptorSets();
-	void createCommandBuffers();
-	void createSyncObjects();
+#endif
+	void createSurface() RELEASE_NOEXCEPT;
+	void choosePhysicalDevice() RELEASE_NOEXCEPT;
+	void createLogicalDevice() RELEASE_NOEXCEPT;
+	void createSwapChain() RELEASE_NOEXCEPT;
+	void createSwapChainImageViews() RELEASE_NOEXCEPT;
+	void createRenderPass() RELEASE_NOEXCEPT;
+	void createDescriptorSetLayout() RELEASE_NOEXCEPT;
+	void createGraphicsPipeline() RELEASE_NOEXCEPT;
+	void createFrameBuffers() RELEASE_NOEXCEPT;
+	void createCommandPools() RELEASE_NOEXCEPT;
+	void createTextureImage() RELEASE_NOEXCEPT;
+	void createTextureImageView() RELEASE_NOEXCEPT;
+	void createTextureSampler() RELEASE_NOEXCEPT;
+	void createVertexBuffer() RELEASE_NOEXCEPT;
+	void createIndexBuffer() RELEASE_NOEXCEPT;
+	void createUniformBuffers() RELEASE_NOEXCEPT;
+	void createDescriptorPool() RELEASE_NOEXCEPT;
+	void createDescriptorSets() RELEASE_NOEXCEPT;
+	void createCommandBuffers() RELEASE_NOEXCEPT;
+	void createSyncObjects() RELEASE_NOEXCEPT;
 
 	template <size_t S> 
-	bool areLayersSupported(const std::array<const char * const, S> &layers);
-	std::vector<const char *> getRequiredInstanceExtensions();
-	bool deviceSupportsExtensions(const vk::PhysicalDevice &device);
+	bool areLayersSupported(const char * const * const layers) RELEASE_NOEXCEPT;
+	std::vector<const char *> getRequiredInstanceExtensions() RELEASE_NOEXCEPT;
+	bool physicalDeviceSupportsExtensions(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT;
 
-	bool physicalDeviceSupportsRequirements(const vk::PhysicalDevice &device);
-	SwapChainSupportDetails querySwapChainSupport(const vk::PhysicalDevice &device);
-	bool swapChainAdequate(const SwapChainSupportDetails &details);
+	bool physicalDeviceSupportsRequirements(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT;
+	SwapChainSupportDetails querySwapChainSupport(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT;
+	bool swapChainAdequate(const SwapChainSupportDetails &details) RELEASE_NOEXCEPT;
 
-	QueueFamilyIndices getQueueFamilies(const vk::PhysicalDevice &device);
+	QueueFamilyIndices getQueueFamilies(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT;
 
-	vk::SurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<vk::SurfaceFormatKHR> &formats);
-	vk::PresentModeKHR chooseSwapPresentMode(const std::vector<vk::PresentModeKHR> &present_modes);
-	vk::Extent2D chooseSwapExtent(const vk::SurfaceCapabilitiesKHR &capabilities);
+	vk::SurfaceFormatKHR chooseSwapSurfaceFormat(const vk::SurfaceFormatKHR * const formats, const uint32_t count) RELEASE_NOEXCEPT;
+	vk::PresentModeKHR chooseSwapPresentMode(const vk::PresentModeKHR * const present_modes, const uint32_t count) RELEASE_NOEXCEPT;
+	vk::Extent2D chooseSwapExtent(const vk::SurfaceCapabilitiesKHR &capabilities) RELEASE_NOEXCEPT;
 
-	std::vector<char> readFile(const std::string_view &&filename);
-	vk::ShaderModule createShaderModule(const std::vector<char> &code);
+	std::vector<char> readFile(const std::string_view &&filename) RELEASE_NOEXCEPT;
+	vk::ShaderModule createShaderModule(const std::vector<char> &code) RELEASE_NOEXCEPT;
 
-	uint32_t findMemoryType(const uint32_t type_filter, const vk::MemoryPropertyFlags required_properties);
+	uint32_t findMemoryType(const uint32_t type_filter, const vk::MemoryPropertyFlags required_properties) RELEASE_NOEXCEPT;
+	vk::ImageView createImageView(const vk::Image image, const vk::Format format) RELEASE_NOEXCEPT;
 
 private:
 	// GLFW
@@ -189,6 +222,8 @@ private:
 	vk::SurfaceKHR m_surface;
 
 	vk::PhysicalDevice m_physicalDevice;
+	vk::PhysicalDeviceProperties m_physicalDeviceProperties;
+	vk::PhysicalDeviceFeatures m_physicalDeviceFeatures;
 	vk::Device m_logicalDevice;
 
 	vk::DebugUtilsMessengerEXT m_debugMessenger;
@@ -229,24 +264,30 @@ private:
 	vk::DeviceMemory m_vertexBufferMemory;
 	vk::Buffer m_indexBuffer;
 	vk::DeviceMemory m_indexBufferMemory;
+
 	vk::Buffer *m_uniformBuffers = nullptr;
-	vk::DeviceMemory *m_uniformBuffersMemory;
+	vk::DeviceMemory *m_uniformBuffersMemory = nullptr;
+
+	vk::Image m_textureImage;
+	vk::DeviceMemory m_textureImageMemory;
+	vk::ImageView m_textureImageView;
+	vk::Sampler m_textureSampler;
 
 	vk::DescriptorPool m_descriptorPool;
 	vk::DescriptorSet *m_descriptorSets = nullptr;
 
 	const Vertex m_vertices[VERTEX_COUNT] = {
-		{{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-		{{ 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-		{{ 0.5f,  0.5f}, {0.0f, 0.0f, 1.0f}},
-		{{-0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}}
+		{{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}},
+		{{ 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
+		{{ 0.5f,  0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
+		{{-0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}}
 	};
 
 	const Index m_indices[INDEX_COUNT] = {
 		0, 1, 2, 2, 3, 0
 	};
 
-#ifdef DEBUG
+#ifdef _DEBUG
 	const char * const m_validationLayers[NUM_VALIDATION_LAYERS] = {
 		VK_LAYER_KHRONOS_VALIDATION_LAYER_NAME
 	};

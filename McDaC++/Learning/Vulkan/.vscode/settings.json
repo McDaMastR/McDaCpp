@@ -93,6 +93,7 @@
 		"semaphore": "cpp",
 		"*.tcc": "cpp",
 		"stop_token": "cpp",
-		"cinttypes": "cpp"
+		"cinttypes": "cpp",
+		"cfenv": "cpp"
 	}
 }

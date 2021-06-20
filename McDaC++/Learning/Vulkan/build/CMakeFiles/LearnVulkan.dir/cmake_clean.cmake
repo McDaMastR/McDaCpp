@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "../bin/LearnVulkan.pdb"
   "CMakeFiles/LearnVulkan.dir/src/application.cpp.o"
   "CMakeFiles/LearnVulkan.dir/src/application.cpp.o.d"
+  "CMakeFiles/LearnVulkan.dir/src/libraries.cpp.o"
+  "CMakeFiles/LearnVulkan.dir/src/libraries.cpp.o.d"
   "CMakeFiles/LearnVulkan.dir/src/main.cpp.o"
   "CMakeFiles/LearnVulkan.dir/src/main.cpp.o.d"
 )

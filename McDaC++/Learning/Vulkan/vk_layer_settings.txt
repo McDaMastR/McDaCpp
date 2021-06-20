@@ -1,0 +1,4 @@
+# This is the settings file for the enabled vulkan layers
+
+# Enable best practice validation
+# khronos_validation.enables = VK_VALIDATION_FEATURE_ENABLE_BEST_PRACTICES_EXT
