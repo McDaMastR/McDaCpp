@@ -1,6 +1,6 @@
 CMakeFiles/LearnVulkan.dir/src/application.cpp.o: \
-  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp \
-  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.hpp \
+  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp \
+  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.hpp \
   /usr/local/include/vulkan/vulkan.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/algorithm \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__config \
@@ -414,7 +414,7 @@ CMakeFiles/LearnVulkan.dir/src/application.cpp.o: \
   /usr/local/include/glm/gtc/../geometric.hpp \
   /usr/local/include/glm/gtc/../trigonometric.hpp \
   /usr/local/include/glm/gtc/../matrix.hpp \
-  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/stb_image.h \
+  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/stb_image.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/iostream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/fstream \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/filesystem \

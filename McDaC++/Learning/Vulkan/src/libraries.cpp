@@ -9,3 +9,6 @@ SUPRESS_WARNING(-Wimplicit-int-conversion)
 
 #define STB_IMAGE_IMPLEMENTATION // Define the stb_image functions
 #include "stb_image.h"
+
+#define TINYOBJLOADER_IMPLEMENTATION // Define the tiny_obj functions
+#include "tiny_obj_loader.h"

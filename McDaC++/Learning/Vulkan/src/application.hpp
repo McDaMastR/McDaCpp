@@ -15,6 +15,7 @@
 #include <chrono>
 
 #define GLM_FORCE_RADIANS // GLM functions use radians instead of degrees
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE // GLM uses depths of (0.0 - 1.0) instead of (-1.0 - 1.0)
 // #define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES // GLM data types use glsl allignment requirements // Better to be explicit
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -37,7 +38,7 @@
 
 #define VERTEX_INPUT_POSITION_ATTRIBUTE_LOCATION 0
 #define VERTEX_INPUT_POSITION_ATTRIBUTE_BINDING 0
-#define VERTEX_INPUT_POSITION_ATTRIBUTE_FORMAT vk::Format::eR32G32Sfloat
+#define VERTEX_INPUT_POSITION_ATTRIBUTE_FORMAT vk::Format::eR32G32B32Sfloat
 
 #define VERTEX_INPUT_COLOR_ATTRIBUTE_LOCATION 1
 #define VERTEX_INPUT_COLOR_ATTRIBUTE_BINDING 0
@@ -48,8 +49,9 @@
 #define VERTEX_INPUT_TEX_COORD_ATTRIBUTE_FORMAT vk::Format::eR32G32Sfloat
 
 #define MAX_FRAMES_IN_FLIGHT 2
-#define VERTEX_COUNT 4
-#define INDEX_COUNT 6
+#define SPRITE_COUNT 9
+#define VERTEX_COUNT 4 * SPRITE_COUNT
+#define INDEX_COUNT 6 * SPRITE_COUNT
 
 struct QueueFamilyIndices
 {
@@ -58,12 +60,12 @@ struct QueueFamilyIndices
 	std::optional<uint32_t> presentFamily;
 	std::optional<uint32_t> transferFamily;
 
-	constexpr bool isComplete() const noexcept {return graphicsFamily.has_value() && presentFamily.has_value() && transferFamily.has_value();}
+	[[nodiscard]] constexpr bool isComplete() const noexcept {return graphicsFamily.has_value() && presentFamily.has_value() && transferFamily.has_value();}
 };
 
 struct SwapChainSupportDetails
 {
-	~SwapChainSupportDetails() noexcept
+	constexpr ~SwapChainSupportDetails() noexcept
 	{
 		delete[] formats;
 		delete[] presentModes;
@@ -85,11 +87,11 @@ struct UniformBufferObject
 
 struct Vertex
 {
-	glm::vec2 position;
+	glm::vec3 position;
 	glm::vec3 color;
 	glm::vec2 texCoord;
 
-	constexpr static vk::VertexInputBindingDescription getBindingDescription() noexcept
+	[[nodiscard]] constexpr static vk::VertexInputBindingDescription getBindingDescription() noexcept
 	{
 		// Describes at which rate to load data from memory throughout the vertices
 		const vk::VertexInputBindingDescription vertex_input_binding_description{
@@ -101,7 +103,7 @@ struct Vertex
 		return vertex_input_binding_description;
 	}
 
-	constexpr static std::array<vk::VertexInputAttributeDescription, VERTEX_INPUT_ATTRIBUTE_DESCRIPTION_COUNT> getAttributeDescriptions() noexcept
+	[[nodiscard]] constexpr static std::array<vk::VertexInputAttributeDescription, VERTEX_INPUT_ATTRIBUTE_DESCRIPTION_COUNT> getAttributeDescriptions() noexcept
 	{
 		// Describes how to extract a vertex attribute from a chunk of vertex data originating from a binding description
 		const vk::VertexInputAttributeDescription position_attribute{
@@ -161,10 +163,10 @@ private:
 	void updateUniformBuffer(const uint32_t current_image) RELEASE_NOEXCEPT;
 
 	void createImage(const uint32_t width, const uint32_t height, const vk::Format format, const vk::ImageTiling tiling, const vk::ImageUsageFlags usage, const vk::MemoryPropertyFlags properties, vk::Image &image, vk::DeviceMemory &image_memory) RELEASE_NOEXCEPT;
-	void transitionImageLayout(const vk::Image image, const vk::Format format, const vk::ImageLayout old_layout, const vk::ImageLayout new_layout) RELEASE_NOEXCEPT;
+	void transitionImageLayout(const vk::Image image, const vk::Format format, const vk::ImageAspectFlags image_aspect_flags, const vk::ImageLayout old_layout, const vk::ImageLayout new_layout) RELEASE_NOEXCEPT;
 	void copyBufferToImage(const vk::Buffer src_buffer, const vk::Image dst_image, const uint32_t width, const uint32_t height) RELEASE_NOEXCEPT;
 
-	vk::CommandBuffer beginSingleTimeCommand() RELEASE_NOEXCEPT;
+	[[nodiscard]] vk::CommandBuffer beginSingleTimeCommand() RELEASE_NOEXCEPT;
 	void endSingleTimeCommand(const vk::CommandBuffer command_buffer) RELEASE_NOEXCEPT;
 	
 	void createInstance() RELEASE_NOEXCEPT;
@@ -181,6 +183,7 @@ private:
 	void createGraphicsPipeline() RELEASE_NOEXCEPT;
 	void createFrameBuffers() RELEASE_NOEXCEPT;
 	void createCommandPools() RELEASE_NOEXCEPT;
+	void createDepthResources() RELEASE_NOEXCEPT;
 	void createTextureImage() RELEASE_NOEXCEPT;
 	void createTextureImageView() RELEASE_NOEXCEPT;
 	void createTextureSampler() RELEASE_NOEXCEPT;
@@ -193,25 +196,28 @@ private:
 	void createSyncObjects() RELEASE_NOEXCEPT;
 
 	template <size_t S> 
-	bool areLayersSupported(const char * const * const layers) RELEASE_NOEXCEPT;
-	std::vector<const char *> getRequiredInstanceExtensions() RELEASE_NOEXCEPT;
-	bool physicalDeviceSupportsExtensions(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT;
+	[[nodiscard]] bool areLayersSupported(const char * const * const layers) RELEASE_NOEXCEPT;
+	[[nodiscard]] std::vector<const char *> getRequiredInstanceExtensions() RELEASE_NOEXCEPT;
+	[[nodiscard]] bool physicalDeviceSupportsExtensions(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT;
 
-	bool physicalDeviceSupportsRequirements(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT;
-	SwapChainSupportDetails querySwapChainSupport(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT;
-	bool swapChainAdequate(const SwapChainSupportDetails &details) RELEASE_NOEXCEPT;
+	[[nodiscard]] bool physicalDeviceSupportsRequirements(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT;
+	[[nodiscard]] SwapChainSupportDetails querySwapChainSupport(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT;
+	[[nodiscard]] bool swapChainAdequate(const SwapChainSupportDetails &details) RELEASE_NOEXCEPT;
 
-	QueueFamilyIndices getQueueFamilies(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT;
+	[[nodiscard]] QueueFamilyIndices getQueueFamilies(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT;
 
-	vk::SurfaceFormatKHR chooseSwapSurfaceFormat(const vk::SurfaceFormatKHR * const formats, const uint32_t count) RELEASE_NOEXCEPT;
-	vk::PresentModeKHR chooseSwapPresentMode(const vk::PresentModeKHR * const present_modes, const uint32_t count) RELEASE_NOEXCEPT;
-	vk::Extent2D chooseSwapExtent(const vk::SurfaceCapabilitiesKHR &capabilities) RELEASE_NOEXCEPT;
+	[[nodiscard]] vk::SurfaceFormatKHR chooseSwapSurfaceFormat(const vk::SurfaceFormatKHR * const formats, const uint32_t count) RELEASE_NOEXCEPT;
+	[[nodiscard]] vk::PresentModeKHR chooseSwapPresentMode(const vk::PresentModeKHR * const present_modes, const uint32_t count) RELEASE_NOEXCEPT;
+	[[nodiscard]] vk::Extent2D chooseSwapExtent(const vk::SurfaceCapabilitiesKHR &capabilities) RELEASE_NOEXCEPT;
 
-	std::vector<char> readFile(const std::string_view &&filename) RELEASE_NOEXCEPT;
-	vk::ShaderModule createShaderModule(const std::vector<char> &code) RELEASE_NOEXCEPT;
+	[[nodiscard]] std::vector<char> readFile(const std::string_view &&filename) RELEASE_NOEXCEPT;
+	[[nodiscard]] vk::ShaderModule createShaderModule(const std::vector<char> &code) RELEASE_NOEXCEPT;
 
-	uint32_t findMemoryType(const uint32_t type_filter, const vk::MemoryPropertyFlags required_properties) RELEASE_NOEXCEPT;
-	vk::ImageView createImageView(const vk::Image image, const vk::Format format) RELEASE_NOEXCEPT;
+	[[nodiscard]] uint32_t findMemoryType(const uint32_t type_filter, const vk::MemoryPropertyFlags required_properties) RELEASE_NOEXCEPT;
+	[[nodiscard]] vk::ImageView createImageView(const vk::Image image, const vk::Format format, const vk::ImageAspectFlags aspect_flags) RELEASE_NOEXCEPT;
+	[[nodiscard]] vk::Format findSupportedFormat(const vk::Format * const candidate_formats, const uint32_t count, const vk::ImageTiling tiling, const vk::FormatFeatureFlags features) RELEASE_NOEXCEPT;
+	[[nodiscard]] vk::Format findDepthFormat() RELEASE_NOEXCEPT;
+	[[nodiscard]] bool hasStencilComponent(const vk::Format format) RELEASE_NOEXCEPT;
 
 private:
 	// GLFW
@@ -273,18 +279,70 @@ private:
 	vk::ImageView m_textureImageView;
 	vk::Sampler m_textureSampler;
 
+	vk::Image m_depthImage;
+	vk::DeviceMemory m_depthImageMemory;
+	vk::ImageView m_depthImageView;
+
 	vk::DescriptorPool m_descriptorPool;
 	vk::DescriptorSet *m_descriptorSets = nullptr;
 
 	const Vertex m_vertices[VERTEX_COUNT] = {
-		{{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f}},
-		{{ 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f}},
-		{{ 0.5f,  0.5f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f}},
-		{{-0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}}
+		{ {-1.0f, -0.5f, -0.8f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
+		{ { 0.0f, -0.5f, -0.8f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
+		{ { 0.0f,  0.5f, -0.8f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
+		{ {-1.0f,  0.5f, -0.8f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
+
+		{ {0.0f, -0.5f, -0.6f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
+		{ {1.0f, -0.5f, -0.6f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
+		{ {1.0f,  0.5f, -0.6f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
+		{ {0.0f,  0.5f, -0.6f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
+
+		{ {-1.0f, -0.5f, -0.4f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
+		{ { 0.0f, -0.5f, -0.4f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
+		{ { 0.0f,  0.5f, -0.4f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
+		{ {-1.0f,  0.5f, -0.4f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
+
+		{ {0.0f, -0.5f, -0.2f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
+		{ {1.0f, -0.5f, -0.2f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
+		{ {1.0f,  0.5f, -0.2f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
+		{ {0.0f,  0.5f, -0.2f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
+
+		{ {-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} }, // Original
+		{ { 0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
+		{ { 0.5f,  0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
+		{ {-0.5f,  0.5f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
+
+		{ {-1.0f, -0.5f, 0.2f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
+		{ { 0.0f, -0.5f, 0.2f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
+		{ { 0.0f,  0.5f, 0.2f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
+		{ {-1.0f,  0.5f, 0.2f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
+
+		{ {0.0f, -0.5f, 0.4f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
+		{ {1.0f, -0.5f, 0.4f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
+		{ {1.0f,  0.5f, 0.4f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
+		{ {0.0f,  0.5f, 0.4f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
+
+		{ {-1.0f, -0.5f, 0.6f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
+		{ { 0.0f, -0.5f, 0.6f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
+		{ { 0.0f,  0.5f, 0.6f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
+		{ {-1.0f,  0.5f, 0.6f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
+
+		{ {0.0f, -0.5f, 0.8f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
+		{ {1.0f, -0.5f, 0.8f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
+		{ {1.0f,  0.5f, 0.8f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
+		{ {0.0f,  0.5f, 0.8f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} }
 	};
 
 	const Index m_indices[INDEX_COUNT] = {
-		0, 1, 2, 2, 3, 0
+		0, 1, 2, 2, 3, 0,
+		4, 5, 6, 6, 7, 4,
+		8, 9, 10, 10, 11, 8,
+		12, 13, 14, 14, 15, 12,
+		16, 17, 18, 18, 19, 16,
+		20, 21, 22, 22, 23, 20,
+		24, 25, 26, 26, 27, 24,
+		28, 29, 30, 30, 31, 28,
+		32, 33, 34, 34, 35, 32
 	};
 
 #ifdef _DEBUG

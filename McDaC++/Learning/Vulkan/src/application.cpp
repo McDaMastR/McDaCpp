@@ -1,5 +1,6 @@
 #include "application.hpp"
 #include "stb_image.h"
+#include "tiny_obj_loader.h"
 
 #include <iostream>
 #include <fstream>
@@ -7,7 +8,7 @@
 
 #define SWAP_CHAIN_QUEUE_FAMILY_INDEX_COUNT 2
 #define PIPELINE_SHADER_STAGE_COUNT 2
-#define FRAMEBUFFER_ATTACHMENT_COUNT 1
+#define FRAMEBUFFER_ATTACHMENT_COUNT 2
 #define DRAW_FRAME_SUBMIT_INFO_WAIT_SEMAPHORE_COUNT 1
 #define DRAW_FRAME_SUBMIT_INFO_SIGNAL_SEMAPHORE_COUNT 1
 #define PRESENT_INFO_SWAP_CHAIN_COUNT 1
@@ -15,6 +16,9 @@
 #define DESCRIPTOR_POOL_SIZE_COUNT 2
 #define VERTEX_BUFFER_COUNT 1
 #define DESCRIPTOR_SET_WRITE_COUNT 2
+#define DEPTH_FORMAT_COUNT 3
+#define RENDER_PASS_ATTACHMENT_COUNT 2
+#define CLEAR_VALUE_COUNT 2
 
 #define CLEAR_COLOR_R 0.0f
 #define CLEAR_COLOR_G 0.0f
@@ -54,9 +58,9 @@ static VKAPI_ATTR vk::Bool32 VKAPI_CALL vkDebugCallback(
 	const vk::DebugUtilsMessengerCallbackDataEXT *pCallbackData,
 	[[maybe_unused]] void *pUserData) noexcept
 {
-	if (messageSeverity == vk::DebugUtilsMessageSeverityFlagBitsEXT::eError)
+	if (messageSeverity == vk::DebugUtilsMessageSeverityFlagBitsEXT::eError) [[unlikely]]
 		DEBUG_CALLBACK(err, messageSeverity, messageType, pCallbackData->pMessage);
-	else
+	else [[likely]]
 		DEBUG_CALLBACK(out, messageSeverity, messageType, pCallbackData->pMessage);
 
 	// Can pass data into pUserData if needed
@@ -167,8 +171,9 @@ void Application::initVulkan() RELEASE_NOEXCEPT
 	createRenderPass();
 	createDescriptorSetLayout();
 	createGraphicsPipeline();
-	createFrameBuffers();
 	createCommandPools();
+	createDepthResources();
+	createFrameBuffers();
 	createTextureImage();
 	createTextureImageView();
 	createTextureSampler();
@@ -458,7 +463,7 @@ void Application::createLogicalDevice() RELEASE_NOEXCEPT
 		return;
 	} 
 	if (queue_families.size() == 2) {
-		if (m_queueFamilyIndices.graphicsFamily.value() == m_queueFamilyIndices.presentFamily.value()) {
+		if (m_queueFamilyIndices.graphicsFamily.value() == m_queueFamilyIndices.presentFamily.value()) [[likely]] {
 			m_logicalDevice.getQueue(m_queueFamilyIndices.presentFamily.value(), 0, &m_presentQueue);
 			m_logicalDevice.getQueue(m_queueFamilyIndices.transferFamily.value(), 1, &m_transferQueue);
 			return;
@@ -542,7 +547,8 @@ void Application::createSwapChainImageViews() RELEASE_NOEXCEPT
 	for (uint32_t i = 0; i < m_swapChainImageCount; ++i) {
 		m_swapChainImageViews[i] = createImageView(
 			m_swapChainImages[i], // Image
-			m_swapChainImageFormat // Format
+			m_swapChainImageFormat, // Format
+			vk::ImageAspectFlagBits::eColor
 		);
 	}
 }
@@ -564,10 +570,33 @@ void Application::createRenderPass() RELEASE_NOEXCEPT
 		vk::ImageLayout::ePresentSrcKHR // Final layout: the layout to automatically transition to when the render pass finishes (images to be presented in the swap chain)
 	};
 
+	// Depth buffer attachment
+	const vk::AttachmentDescription depth_attachment{
+		{}, 
+		findDepthFormat(), 
+		vk::SampleCountFlagBits::e1,
+		vk::AttachmentLoadOp::eClear,
+		vk::AttachmentStoreOp::eDontCare, 
+		vk::AttachmentLoadOp::eDontCare, 
+		vk::AttachmentStoreOp::eDontCare,
+		vk::ImageLayout::eUndefined, 
+		vk::ImageLayout::eDepthStencilAttachmentOptimal
+	};
+
+	const vk::AttachmentDescription attachment_descriptions[RENDER_PASS_ATTACHMENT_COUNT] = {
+		std::move(color_attachment),
+		std::move(depth_attachment)
+	};
+
 	// Reference attachments using the indices of an array of attachments
 	const vk::AttachmentReference color_attachment_reference{
-		0, // Attachment: which attachment to reference by its index in the attachment descriptions array (only using 1, so index 0)
+		0, // Attachment: which attachment to reference by its index in the attachment descriptions array
 		vk::ImageLayout::eColorAttachmentOptimal // Layout: which layout we would like the attachment to have during a subpass that uses this reference (using color buffer and wanting optimal preformance)
+	};
+
+	const vk::AttachmentReference depth_attachment_reference{
+		1, 
+		vk::ImageLayout::eDepthStencilAttachmentOptimal
 	};
 
 	// Subsequent rendering operations that depend on the contents of framebuffers in previous passes
@@ -579,7 +608,7 @@ void Application::createRenderPass() RELEASE_NOEXCEPT
 		1, // Color attachment count: number of color attachments (using 1)
 		&color_attachment_reference, // Color attachments: attachments used for outputing pixel color (this is index 0 of the color attachment array, referenced from the fragment shader: layout(location = 0) out vec4 color)
 		nullptr, // Resolve attachments: Attachments used for multisampling color attachments (not using any)
-		nullptr, // Depth stencil attachment: Attachment for depth and stencil data (not using)
+		&depth_attachment_reference, // Depth stencil attachment: Attachment for depth and stencil data (not using)
 		0, // Preserve attachment count: number of preserve attachments (not using any)
 		nullptr // Preserve attachments: attachments that are not used by this subpass, but for which the data must be preserved (not using any)
 	};
@@ -588,17 +617,20 @@ void Application::createRenderPass() RELEASE_NOEXCEPT
 	const vk::SubpassDependency subpass_dependency{
 		VK_SUBPASS_EXTERNAL, // Src subpass (VK_SUBPASS_EXTERNAL refers to the implicit subpass before or after the render pass)
 		0, // Dst subpass; must always be higher than srcSubpass to prevent cycles in the dependency graph; except for VK_SUBPASS_EXTERNAL (index 0 refers to the only created subpass)
-		vk::PipelineStageFlagBits::eColorAttachmentOutput, // Src stage mask: the stages to wait on
-		vk::PipelineStageFlagBits::eColorAttachmentOutput, // Dst stage mask
+		vk::PipelineStageFlagBits::eColorAttachmentOutput |
+		vk::PipelineStageFlagBits::eEarlyFragmentTests, // Src stage mask: the stages to wait on
+		vk::PipelineStageFlagBits::eColorAttachmentOutput |
+		vk::PipelineStageFlagBits::eEarlyFragmentTests, // Dst stage mask
 		{}, // Src access mask: the operations to wait on
-		vk::AccessFlagBits::eColorAttachmentWrite, // Dst access mask
+		vk::AccessFlagBits::eColorAttachmentWrite|
+		vk::AccessFlagBits::eDepthStencilAttachmentWrite, // Dst access mask
 		{} // Dependency flags
 	};
 
 	const vk::RenderPassCreateInfo render_pass_create_info{
 		{}, // Flags
-		1, // Attachment count: number of attachments (using 1)
-		&color_attachment, // Attachments: the array of attachments (using 1)
+		RENDER_PASS_ATTACHMENT_COUNT, // Attachment count: number of attachments (using 1)
+		attachment_descriptions, // Attachments: the array of attachments (using 1)
 		1, // Subpass count: number of subpasses (using 1)
 		&subpass, // Subpasses: array of subpasses (using 1)
 		1, // Dependency count: number of dependecies (using 1)
@@ -763,8 +795,18 @@ void Application::createGraphicsPipeline() RELEASE_NOEXCEPT
 	};
 
 	// Configures the depth and stencil tests
-	// Not using depth or stencil tests, so struct is disabled
-	// const vk::PipelineDepthStencilStateCreateInfo depth_stencil_state_create_info{};
+	const vk::PipelineDepthStencilStateCreateInfo depth_stencil_state_create_info{
+		{}, // Flags
+		VK_TRUE, // Depth test enable: whether the depth of new fragments should be compared to the depth buffer to see if they should be discarded
+		VK_TRUE, // Depth write enable: whether the new depth of fragments that pass the depth test should actually be written to the depth buffer
+		vk::CompareOp::eLess, // Depth compare op: the comparison that is performed to keep or discard fragments (less; lower depth = closer)
+		VK_FALSE, // Depth bounds test enable
+		VK_FALSE, // Stencil test enable
+		{}, // Front
+		{}, // Back
+		0.0f, // Min depth bounds
+		1.0f // Max depth bounds
+	};
 
 	// Contains the color blending configuration per attached framebuffer
 	// Not using blending, so struct is disabled
@@ -833,7 +875,7 @@ void Application::createGraphicsPipeline() RELEASE_NOEXCEPT
 		&viewport_state_create_info, // Viewport state
 		&rasterization_state_create_info, // Rasterization state
 		&multisample_state_create_info, // Multisample state
-		nullptr, // Depth stencil state
+		&depth_stencil_state_create_info, // Depth stencil state
 		&color_blend_state_create_info, // Color blend state
 		nullptr, // Dynamic state
 		m_pipelineLayout, // Layout
@@ -856,12 +898,13 @@ void Application::createFrameBuffers() RELEASE_NOEXCEPT
 {
 	vk::Result result;
 
-	if (m_swapChainFramebuffers == nullptr)
+	if (m_swapChainFramebuffers == nullptr) [[unlikely]] // Unlikely because this function may be called many times, but this branch will only be gone into once
 		m_swapChainFramebuffers = new vk::Framebuffer[m_swapChainImageCount];
 
 	for (uint32_t i = 0; i < m_swapChainImageCount; ++i) {
 		const vk::ImageView attachments[FRAMEBUFFER_ATTACHMENT_COUNT] = {
-			m_swapChainImageViews[i]
+			m_swapChainImageViews[i],
+			m_depthImageView
 		};
 
 		const vk::FramebufferCreateInfo framebuffer_create_info{
@@ -902,6 +945,54 @@ void Application::createCommandPools() RELEASE_NOEXCEPT
 
 	result = m_logicalDevice.createCommandPool(&transfer_command_pool_create_info, nullptr, &m_transferCommandPool);
 	createResultValue(result, "vk::Device::createCommandPool");
+}
+
+void Application::createDepthResources() RELEASE_NOEXCEPT
+{
+	// Get the supported depth format
+	const vk::Format depth_format = findDepthFormat();
+
+	// Create the depth image
+	createImage(
+		m_swapChainExtent.width,
+		m_swapChainExtent.height,
+		depth_format,
+		vk::ImageTiling::eOptimal,
+		vk::ImageUsageFlagBits::eDepthStencilAttachment,
+		vk::MemoryPropertyFlagBits::eDeviceLocal,
+		m_depthImage,
+		m_depthImageMemory
+	);
+
+	// Create the depth image view
+	m_depthImageView = createImageView(
+		m_depthImage,
+		depth_format,
+		vk::ImageAspectFlagBits::eDepth
+	);
+
+	// Explicitly transitioning the image is not needed, as it will happen in the render pass, but is good to keep here for learning
+#if 0
+	if (hasStencilComponent(depth_format)) [[likely]] {
+		transitionImageLayout(
+			m_depthImage,
+			depth_format,
+			vk::ImageAspectFlagBits::eDepth |
+			vk::ImageAspectFlagBits::eStencil,
+			vk::ImageLayout::eUndefined,
+			vk::ImageLayout::eDepthStencilAttachmentOptimal
+		);
+	} 
+	else [[unlikely]] {
+		transitionImageLayout(
+			m_depthImage,
+			depth_format,
+			vk::ImageAspectFlagBits::eDepth,
+			vk::ImageLayout::eUndefined,
+			vk::ImageLayout::eDepthStencilAttachmentOptimal
+		);
+	}
+#endif
 }
 
 void Application::createTextureImage() RELEASE_NOEXCEPT
@@ -967,6 +1058,7 @@ void Application::createTextureImage() RELEASE_NOEXCEPT
 	transitionImageLayout(
 		m_textureImage, // Image
 		vk::Format::eR8G8B8A8Srgb, // Format
+		vk::ImageAspectFlagBits::eColor, // Image aspect flags
 		vk::ImageLayout::eUndefined, // Old layout
 		vk::ImageLayout::eTransferDstOptimal // New layout
 	);
@@ -983,6 +1075,7 @@ void Application::createTextureImage() RELEASE_NOEXCEPT
 	transitionImageLayout(
 		m_textureImage,
 		vk::Format::eR8G8B8A8Srgb,
+		vk::ImageAspectFlagBits::eColor,
 		vk::ImageLayout::eTransferDstOptimal,
 		vk::ImageLayout::eShaderReadOnlyOptimal
 	);
@@ -995,7 +1088,7 @@ void Application::createTextureImage() RELEASE_NOEXCEPT
 void Application::createTextureImageView() RELEASE_NOEXCEPT
 {
 	// vk::Result result;
-	m_textureImageView = createImageView(m_textureImage, vk::Format::eR8G8B8A8Srgb);
+	m_textureImageView = createImageView(m_textureImage, vk::Format::eR8G8B8A8Srgb, vk::ImageAspectFlagBits::eColor);
 }
 
 void Application::createTextureSampler() RELEASE_NOEXCEPT
@@ -1058,7 +1151,7 @@ void Application::createUniformBuffers() RELEASE_NOEXCEPT
 {
 	// vk::Result result;
 
-	if (m_uniformBuffers == nullptr) {
+	if (m_uniformBuffers == nullptr) [[unlikely]] {
 		m_uniformBuffers = new vk::Buffer[m_swapChainImageCount];
 		m_uniformBuffersMemory = new vk::DeviceMemory[m_swapChainImageCount];
 	}
@@ -1110,7 +1203,7 @@ void Application::createDescriptorSets() RELEASE_NOEXCEPT
 {
 	vk::Result result;
 
-	if (m_descriptorSets == nullptr)
+	if (m_descriptorSets == nullptr) [[unlikely]]
 		m_descriptorSets = new vk::DescriptorSet[m_swapChainImageCount];
 
 	vk::DescriptorSetLayout * const descriptor_set_layouts = new vk::DescriptorSetLayout[m_swapChainImageCount];
@@ -1179,7 +1272,7 @@ void Application::createCommandBuffers() RELEASE_NOEXCEPT
 {
 	vk::Result result;
 
-	if (m_commandBuffers == nullptr)
+	if (m_commandBuffers == nullptr) [[unlikely]]
 		m_commandBuffers = new vk::CommandBuffer[m_swapChainImageCount];
 
 	// Infomation for allocating memory
@@ -1231,13 +1324,29 @@ void Application::createCommandBuffers() RELEASE_NOEXCEPT
 			clear_color_value
 		};
 
+		// Wrapper over depth stencil clear values
+		const vk::ClearDepthStencilValue clear_depth_stencil_value{
+			1.0f, // Depth
+			0 // Stencil
+		};
+
+		const vk::ClearValue clear_depth_stencil{
+			clear_depth_stencil_value
+		};
+
+		// Create array of clear values
+		const vk::ClearValue clear_values[CLEAR_VALUE_COUNT] = {
+			std::move(clear_color),
+			std::move(clear_depth_stencil)
+		};
+
 		// Command to render to the screen
 		const vk::RenderPassBeginInfo render_pass_begin_info{
 			m_renderPass, // Render pass
 			m_swapChainFramebuffers[i], // Framebuffer
 			render_area, // Render area
-			1, // Clear value count
-			&clear_color // Clear values
+			CLEAR_VALUE_COUNT, // Clear value count
+			clear_values // Clear values
 		};
 
 		// Begin the render pass
@@ -1300,7 +1409,7 @@ void Application::createSyncObjects() RELEASE_NOEXCEPT
 	vk::Result result;
 
 	// Create the right amount of fences
-	if (m_imagesInFlight == nullptr)
+	if (m_imagesInFlight == nullptr) [[unlikely]]
 		m_imagesInFlight = new vk::Fence[m_swapChainImageCount]{nullptr};
 
 	// Information for semaphore creation (currently there is basically no info required)
@@ -1351,7 +1460,8 @@ bool Application::areLayersSupported(const char * const * const layers) RELEASE_
 				break;
 			}
 		}
-		if (!found) {
+
+		if (!found) [[unlikely]] {
 			delete[] layer_properties;
 			return false;
 		}
@@ -1404,7 +1514,7 @@ QueueFamilyIndices Application::getQueueFamilies(const vk::PhysicalDevice &physi
 		result = physical_device.getSurfaceSupportKHR(i, m_surface, &surface_support); // Check is GPU supports present family with given surface
 		createResultValue(result, "vk::PhysicalDevice::getSurfaceSupportKHR");
 
-		if (queue_family_properties[i].queueCount == 0)
+		if (queue_family_properties[i].queueCount == 0) [[unlikely]]
 			continue;
 
 		if (queue_family_properties[i].queueFlags & vk::QueueFlagBits::eGraphics)
@@ -1416,13 +1526,13 @@ QueueFamilyIndices Application::getQueueFamilies(const vk::PhysicalDevice &physi
 		if (surface_support)
 			indices.presentFamily = i;
 		
-		if (indices.isComplete()) {
+		if (indices.isComplete()) [[unlikely]] {
 			delete[] queue_family_properties;
 			return indices;
 		}
 	}
 
-	if(indices.graphicsFamily.has_value() && indices.transferFamily.has_value() == false)
+	if (indices.graphicsFamily.has_value() && !(indices.transferFamily.has_value()))
         indices.transferFamily = indices.graphicsFamily;
 
 	delete[] queue_family_properties;
@@ -1573,10 +1683,54 @@ uint32_t Application::findMemoryType(const uint32_t type_filter, const vk::Memor
 	}
 	
 	assert(false && "VULKAN ASSERT: failed to find suitable memory type!");
+#ifdef NDEBUG
 	return std::numeric_limits<uint32_t>::max();
+#endif
 }
 
-vk::ImageView Application::createImageView(const vk::Image image, const vk::Format format) RELEASE_NOEXCEPT
+vk::Format Application::findSupportedFormat(const vk::Format * const candidate_formats, const uint32_t count, const vk::ImageTiling tiling, const vk::FormatFeatureFlags features) RELEASE_NOEXCEPT
+{
+	for (uint32_t i = 0; i < count; ++i) {
+		vk::FormatProperties format_properties;
+		m_physicalDevice.getFormatProperties(candidate_formats[i], &format_properties);
+
+		if (tiling == vk::ImageTiling::eLinear && (format_properties.linearTilingFeatures & features) == features)
+			return candidate_formats[i];
+		
+		if (tiling == vk::ImageTiling::eOptimal && (format_properties.optimalTilingFeatures & features) == features)
+			return candidate_formats[i];
+	}
+
+	assert(false && "VULKAN ASSERT: Failed to find supported format!");
+#ifdef NDEBUG
+	return {};
+#endif
+}
+
+vk::Format Application::findDepthFormat() RELEASE_NOEXCEPT
+{
+	const vk::Format requested_formats[DEPTH_FORMAT_COUNT] = {
+		vk::Format::eD32Sfloat,
+		vk::Format::eD32SfloatS8Uint,
+		vk::Format::eD24UnormS8Uint
+	};
+
+	const vk::Format format = findSupportedFormat(
+		requested_formats,
+		DEPTH_FORMAT_COUNT,
+		vk::ImageTiling::eOptimal,
+		vk::FormatFeatureFlagBits::eDepthStencilAttachment
+	);
+
+	return format;
+}
+
+bool Application::hasStencilComponent(const vk::Format format) RELEASE_NOEXCEPT
+{
+	return format != vk::Format::eD32Sfloat;
+}
+
+vk::ImageView Application::createImageView(const vk::Image image, const vk::Format format, const vk::ImageAspectFlags aspect_flags) RELEASE_NOEXCEPT
 {
 	vk::Result result;
 
@@ -1590,7 +1744,7 @@ vk::ImageView Application::createImageView(const vk::Image image, const vk::Form
 
 	// Describes what the image's purpose is and which parts of the image should be accessed
 	const vk::ImageSubresourceRange image_view_subresource_range{
-		vk::ImageAspectFlagBits::eColor, // Aspect mask (using color targets)
+		aspect_flags, // Aspect mask (using color targets)
 		0, // Base mip level (first mipmapping level)
 		1, // Mip level amount (one mipmapping level)
 		0, // Base array layer (first array layer)
@@ -1640,7 +1794,7 @@ void Application::printFPS() RELEASE_NOEXCEPT
 	const float duration = std::chrono::duration<float>(current_time - m_previousTimeFPS).count();
 	++m_frameCountFPS;
 
-	if (duration >= 1.0f) {
+	if (duration >= 1.0f) [[unlikely]] {
 		std::cout << std::setprecision(4) << "Application Average: " << 1000.0f / m_frameCountFPS << "ms\t(" << m_frameCountFPS << " FPS)\n";
 
 		m_frameCountFPS = 0;
@@ -1678,7 +1832,7 @@ void Application::drawFrame() RELEASE_NOEXCEPT
 	createResultValue(result, "Application::drawFrame::acquireNextImageKHR", {vk::Result::eSuccess, vk::Result::eSuboptimalKHR, vk::Result::eErrorOutOfDateKHR});
 
 	// Only recreate swap chain if out of date; because we already have the next image
-	if (result == vk::Result::eErrorOutOfDateKHR) {
+	if (result == vk::Result::eErrorOutOfDateKHR) [[unlikely]] {
 		m_framebufferResized = false;
 		recreateSwapChain();
 		return;
@@ -1776,6 +1930,10 @@ void Application::destroySwapChain() RELEASE_NOEXCEPT
 	for (uint32_t i = 0; i < m_swapChainImageCount; ++i)
 		m_logicalDevice.destroyFramebuffer(m_swapChainFramebuffers[i], nullptr);
 
+	m_logicalDevice.destroyImageView(m_depthImageView, nullptr);
+	m_logicalDevice.destroyImage(m_depthImage, nullptr);
+	m_logicalDevice.freeMemory(m_depthImageMemory, nullptr);
+
 	m_logicalDevice.destroyPipeline(m_graphicsPipeline, nullptr);
 	m_logicalDevice.destroyPipelineLayout(m_pipelineLayout, nullptr);
 	m_logicalDevice.destroyRenderPass(m_renderPass, nullptr);
@@ -1792,11 +1950,11 @@ void Application::recreateSwapChain() RELEASE_NOEXCEPT
 
 	// Wait for window to be in the foreground
 	int width, height;
-	glfwGetFramebufferSize(m_window, &width, &height);
-	while (width == 0 && height == 0) {
+	do {
 		glfwGetFramebufferSize(m_window, &width, &height);
         glfwWaitEvents();
 	}
+	while (width == 0 && height == 0);
 
 	// Wait for gpu to finish
 	result = m_logicalDevice.waitIdle();
@@ -1812,6 +1970,7 @@ void Application::recreateSwapChain() RELEASE_NOEXCEPT
 	createSwapChainImageViews(); // Based directly on the swap chain images
 	createRenderPass(); // Depends on the format of the swap chain images
 	createGraphicsPipeline(); // Viewport and scissor rectangle size is specified (possible to avoid by using dynamic state)
+	createDepthResources(); // Depends on the swap chain extent
 	createFrameBuffers(); // Directly depends on the swap chain images
 	createUniformBuffers(); // Directly depends on the swap chain images
 	createDescriptorPool(); // Directly depends on the swap chain images
@@ -2054,10 +2213,10 @@ void Application::createImage(const uint32_t width, const uint32_t height, const
 	createResultValue(result, "vk::Device::bindImageMemory");
 }
 
-void Application::transitionImageLayout(const vk::Image image, const vk::Format /* format */, const vk::ImageLayout old_layout, const vk::ImageLayout new_layout) RELEASE_NOEXCEPT
+void Application::transitionImageLayout(const vk::Image image, const vk::Format /* format */, const vk::ImageAspectFlags image_aspect_flags, const vk::ImageLayout old_layout, const vk::ImageLayout new_layout) RELEASE_NOEXCEPT
 {
 	const vk::ImageSubresourceRange subresource_range{
-		vk::ImageAspectFlagBits::eColor,
+		image_aspect_flags,
 		0,
 		1,
 		0,
@@ -2094,7 +2253,13 @@ void Application::transitionImageLayout(const vk::Image image, const vk::Format 
 		source_stage = vk::PipelineStageFlagBits::eTransfer;
 		destination_stage = vk::PipelineStageFlagBits::eFragmentShader; // Image will be read be the fragemnt shader
 	} 
-	else {
+	else if (old_layout == vk::ImageLayout::eUndefined && new_layout == vk::ImageLayout::eDepthStencilAttachmentOptimal) {
+		image_memory_barrier.dstAccessMask = vk::AccessFlagBits::eDepthStencilAttachmentRead | vk::AccessFlagBits::eDepthStencilAttachmentWrite;
+
+		source_stage = vk::PipelineStageFlagBits::eTopOfPipe;
+		destination_stage = vk::PipelineStageFlagBits::eEarlyFragmentTests; // Image will be read be the fragemnt shader
+	} 
+	else [[unlikely]] {
 		assert(false && "ASSERT: Unsupported image layout transition!");
 	}
 

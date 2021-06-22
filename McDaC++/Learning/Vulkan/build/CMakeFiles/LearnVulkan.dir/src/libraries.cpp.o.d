@@ -1,6 +1,6 @@
 CMakeFiles/LearnVulkan.dir/src/libraries.cpp.o: \
-  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/libraries.cpp \
-  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/stb_image.h \
+  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/libraries.cpp \
+  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/stb_image.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/stdio.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__config \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/pthread.h \

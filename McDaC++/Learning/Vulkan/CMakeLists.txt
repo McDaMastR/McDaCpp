@@ -5,11 +5,9 @@ set(DEBUG_ENABLE ON)
 
 if(DEBUG_ENABLE)
 	set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "" FORCE)
-	set(CMAKE_CONFIGURATION_TYPES "Debug" CACHE STRING "" FORCE)
-	set(PROJECT_NAME "LearnVulkan-DEBUG")
+	set(PROJECT_NAME "${PROJECT_NAME}-DEBUG")
 else()
 	set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
-	set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING "" FORCE)
 endif()
 
 set(CMAKE_CXX_STANDARD 20)
@@ -46,13 +44,15 @@ if(DEBUG_ENABLE)
 		-fsanitize=address
 		-fsanitize=pointer-compare
 		-fsanitize=pointer-subtract
-		-fsanitize=undefined)
+		-fsanitize=undefined
+		-Wno-unknown-attributes) # compiler warnings don't recognise likely attributes (but it is supported)
 	
 	set(LINKER_FLAGS
 		-fsanitize=address)
 else()
 	set(MACROS)
-	set(COMPILE_FLAGS)
+	set(COMPILE_FLAGS
+		-Wno-unknown-attributes)
 	set(LINKER_FLAGS)
 endif()
 
