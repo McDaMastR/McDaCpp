@@ -20,14 +20,17 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#define GLM_ENABLE_EXPERIMENTAL // Enable experimental features (hashing functions)
+#include <glm/gtx/hash.hpp>
+
 #ifdef _DEBUG
 	#define NUM_VALIDATION_LAYERS 1
 #endif
 
 #ifdef __APPLE__
-	#define NUM_DEVICE_EXTENSIONS 2
+	#define NUM_DEVICE_EXTENSIONS 3
 #else
-	#define NUM_DEVICE_EXTENSIONS 1
+	#define NUM_DEVICE_EXTENSIONS 2
 #endif
 
 #define VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME "VK_KHR_portability_subset"
@@ -49,9 +52,6 @@
 #define VERTEX_INPUT_TEX_COORD_ATTRIBUTE_FORMAT vk::Format::eR32G32Sfloat
 
 #define MAX_FRAMES_IN_FLIGHT 2
-#define SPRITE_COUNT 9
-#define VERTEX_COUNT 4 * SPRITE_COUNT
-#define INDEX_COUNT 6 * SPRITE_COUNT
 
 struct QueueFamilyIndices
 {
@@ -71,9 +71,9 @@ struct SwapChainSupportDetails
 		delete[] presentModes;
 	}
 
-	vk::SurfaceCapabilitiesKHR capabilities; // Basic surface capabilities (min/max number of images in swap chain, min/max width and height of images)
+	vk::SurfaceCapabilities2KHR capabilities; // Basic surface capabilities (min/max number of images in swap chain, min/max width and height of images)
 	uint32_t formatCount;
-	vk::SurfaceFormatKHR *formats = nullptr; // Surface formats (pixel format, color space)
+	vk::SurfaceFormat2KHR *formats = nullptr; // Surface formats (pixel format, color space)
 	uint32_t presentModeCount;
 	vk::PresentModeKHR *presentModes = nullptr; // Available presentation modes
 };
@@ -135,9 +135,29 @@ struct Vertex
 
 		return vertex_input_attribute_descriptions;
 	}
+
+	bool operator==(const Vertex &other) const noexcept
+	{
+    	return position == other.position && color == other.color && texCoord == other.texCoord;
+	}
 };
 
-using Index = uint16_t;
+// Needed for hashing the vertex struct
+namespace std
+{
+	template<>
+	struct hash<Vertex> 
+	{
+		size_t operator()(Vertex const& vertex) const 
+		{
+            return ((hash<glm::vec3>()(vertex.position) ^
+                   (hash<glm::vec3>()(vertex.color) << 1)) >> 1) ^
+                   (hash<glm::vec2>()(vertex.texCoord) << 1);
+        }
+	};
+}
+
+using Index = uint32_t;
 
 class Application
 {
@@ -162,12 +182,13 @@ private:
 	void copyBuffer(const vk::Buffer &src_buffer, const vk::Buffer &dst_buffer, const vk::DeviceSize size) RELEASE_NOEXCEPT;
 	void updateUniformBuffer(const uint32_t current_image) RELEASE_NOEXCEPT;
 
-	void createImage(const uint32_t width, const uint32_t height, const vk::Format format, const vk::ImageTiling tiling, const vk::ImageUsageFlags usage, const vk::MemoryPropertyFlags properties, vk::Image &image, vk::DeviceMemory &image_memory) RELEASE_NOEXCEPT;
-	void transitionImageLayout(const vk::Image image, const vk::Format format, const vk::ImageAspectFlags image_aspect_flags, const vk::ImageLayout old_layout, const vk::ImageLayout new_layout) RELEASE_NOEXCEPT;
+	void createImage(const uint32_t width, const uint32_t height, const uint32_t mip_levels, const vk::SampleCountFlagBits sample_count, const vk::Format format, const vk::ImageTiling tiling, const vk::ImageUsageFlags usage, const vk::MemoryPropertyFlags properties, vk::Image &image, vk::DeviceMemory &image_memory) RELEASE_NOEXCEPT;
+	void transitionImageLayout(const vk::Image image, const vk::Format format, const vk::ImageAspectFlags image_aspect_flags, const vk::ImageLayout old_layout, const vk::ImageLayout new_layout, const uint32_t mip_levels) RELEASE_NOEXCEPT;
 	void copyBufferToImage(const vk::Buffer src_buffer, const vk::Image dst_image, const uint32_t width, const uint32_t height) RELEASE_NOEXCEPT;
+	void generateMipmaps(const vk::Image image, const vk::Format image_format, int tex_width, int tex_height, const uint32_t mip_levels) RELEASE_NOEXCEPT;
 
-	[[nodiscard]] vk::CommandBuffer beginSingleTimeCommand() RELEASE_NOEXCEPT;
-	void endSingleTimeCommand(const vk::CommandBuffer command_buffer) RELEASE_NOEXCEPT;
+	[[nodiscard]] vk::CommandBuffer beginSingleTimeCommand(const bool need_graphics) RELEASE_NOEXCEPT;
+	void endSingleTimeCommand(const vk::CommandBuffer command_buffer, const bool need_graphics) RELEASE_NOEXCEPT;
 	
 	void createInstance() RELEASE_NOEXCEPT;
 #ifdef _DEBUG
@@ -183,10 +204,12 @@ private:
 	void createGraphicsPipeline() RELEASE_NOEXCEPT;
 	void createFrameBuffers() RELEASE_NOEXCEPT;
 	void createCommandPools() RELEASE_NOEXCEPT;
+	void createColorResources() RELEASE_NOEXCEPT;
 	void createDepthResources() RELEASE_NOEXCEPT;
 	void createTextureImage() RELEASE_NOEXCEPT;
 	void createTextureImageView() RELEASE_NOEXCEPT;
 	void createTextureSampler() RELEASE_NOEXCEPT;
+	void loadModel() RELEASE_NOEXCEPT;
 	void createVertexBuffer() RELEASE_NOEXCEPT;
 	void createIndexBuffer() RELEASE_NOEXCEPT;
 	void createUniformBuffers() RELEASE_NOEXCEPT;
@@ -206,18 +229,19 @@ private:
 
 	[[nodiscard]] QueueFamilyIndices getQueueFamilies(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT;
 
-	[[nodiscard]] vk::SurfaceFormatKHR chooseSwapSurfaceFormat(const vk::SurfaceFormatKHR * const formats, const uint32_t count) RELEASE_NOEXCEPT;
+	[[nodiscard]] vk::SurfaceFormat2KHR chooseSwapSurfaceFormat(const vk::SurfaceFormat2KHR * const formats, const uint32_t count) RELEASE_NOEXCEPT;
 	[[nodiscard]] vk::PresentModeKHR chooseSwapPresentMode(const vk::PresentModeKHR * const present_modes, const uint32_t count) RELEASE_NOEXCEPT;
-	[[nodiscard]] vk::Extent2D chooseSwapExtent(const vk::SurfaceCapabilitiesKHR &capabilities) RELEASE_NOEXCEPT;
+	[[nodiscard]] vk::Extent2D chooseSwapExtent(const vk::SurfaceCapabilities2KHR &capabilities) RELEASE_NOEXCEPT;
 
 	[[nodiscard]] std::vector<char> readFile(const std::string_view &&filename) RELEASE_NOEXCEPT;
 	[[nodiscard]] vk::ShaderModule createShaderModule(const std::vector<char> &code) RELEASE_NOEXCEPT;
 
 	[[nodiscard]] uint32_t findMemoryType(const uint32_t type_filter, const vk::MemoryPropertyFlags required_properties) RELEASE_NOEXCEPT;
-	[[nodiscard]] vk::ImageView createImageView(const vk::Image image, const vk::Format format, const vk::ImageAspectFlags aspect_flags) RELEASE_NOEXCEPT;
+	[[nodiscard]] vk::ImageView createImageView(const vk::Image image, const vk::Format format, const vk::ImageAspectFlags aspect_flags, const uint32_t mip_levels) RELEASE_NOEXCEPT;
 	[[nodiscard]] vk::Format findSupportedFormat(const vk::Format * const candidate_formats, const uint32_t count, const vk::ImageTiling tiling, const vk::FormatFeatureFlags features) RELEASE_NOEXCEPT;
 	[[nodiscard]] vk::Format findDepthFormat() RELEASE_NOEXCEPT;
 	[[nodiscard]] bool hasStencilComponent(const vk::Format format) RELEASE_NOEXCEPT;
+	[[nodiscard]] vk::SampleCountFlagBits getMaxUsableSampleCount() RELEASE_NOEXCEPT;
 
 private:
 	// GLFW
@@ -228,8 +252,8 @@ private:
 	vk::SurfaceKHR m_surface;
 
 	vk::PhysicalDevice m_physicalDevice;
-	vk::PhysicalDeviceProperties m_physicalDeviceProperties;
-	vk::PhysicalDeviceFeatures m_physicalDeviceFeatures;
+	vk::PhysicalDeviceProperties2 m_physicalDeviceProperties;
+	vk::PhysicalDeviceMemoryProperties2 m_physicalDeviceMemoryProperties;
 	vk::Device m_logicalDevice;
 
 	vk::DebugUtilsMessengerEXT m_debugMessenger;
@@ -271,6 +295,9 @@ private:
 	vk::Buffer m_indexBuffer;
 	vk::DeviceMemory m_indexBufferMemory;
 
+	std::vector<Vertex> m_vertices;
+	std::vector<Index> m_indices;
+
 	vk::Buffer *m_uniformBuffers = nullptr;
 	vk::DeviceMemory *m_uniformBuffersMemory = nullptr;
 
@@ -278,72 +305,20 @@ private:
 	vk::DeviceMemory m_textureImageMemory;
 	vk::ImageView m_textureImageView;
 	vk::Sampler m_textureSampler;
+	uint32_t m_textureMipLevels;
 
 	vk::Image m_depthImage;
 	vk::DeviceMemory m_depthImageMemory;
 	vk::ImageView m_depthImageView;
 
+	vk::Image m_colorImage;
+	vk::DeviceMemory m_colorImageMemory;
+	vk::ImageView m_colorImageView;
+
 	vk::DescriptorPool m_descriptorPool;
 	vk::DescriptorSet *m_descriptorSets = nullptr;
 
-	const Vertex m_vertices[VERTEX_COUNT] = {
-		{ {-1.0f, -0.5f, -0.8f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
-		{ { 0.0f, -0.5f, -0.8f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
-		{ { 0.0f,  0.5f, -0.8f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
-		{ {-1.0f,  0.5f, -0.8f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
-
-		{ {0.0f, -0.5f, -0.6f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
-		{ {1.0f, -0.5f, -0.6f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
-		{ {1.0f,  0.5f, -0.6f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
-		{ {0.0f,  0.5f, -0.6f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
-
-		{ {-1.0f, -0.5f, -0.4f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
-		{ { 0.0f, -0.5f, -0.4f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
-		{ { 0.0f,  0.5f, -0.4f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
-		{ {-1.0f,  0.5f, -0.4f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
-
-		{ {0.0f, -0.5f, -0.2f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
-		{ {1.0f, -0.5f, -0.2f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
-		{ {1.0f,  0.5f, -0.2f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
-		{ {0.0f,  0.5f, -0.2f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
-
-		{ {-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} }, // Original
-		{ { 0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
-		{ { 0.5f,  0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
-		{ {-0.5f,  0.5f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
-
-		{ {-1.0f, -0.5f, 0.2f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
-		{ { 0.0f, -0.5f, 0.2f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
-		{ { 0.0f,  0.5f, 0.2f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
-		{ {-1.0f,  0.5f, 0.2f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
-
-		{ {0.0f, -0.5f, 0.4f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
-		{ {1.0f, -0.5f, 0.4f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
-		{ {1.0f,  0.5f, 0.4f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
-		{ {0.0f,  0.5f, 0.4f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
-
-		{ {-1.0f, -0.5f, 0.6f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
-		{ { 0.0f, -0.5f, 0.6f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
-		{ { 0.0f,  0.5f, 0.6f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
-		{ {-1.0f,  0.5f, 0.6f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} },
-
-		{ {0.0f, -0.5f, 0.8f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f} },
-		{ {1.0f, -0.5f, 0.8f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f} },
-		{ {1.0f,  0.5f, 0.8f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f} },
-		{ {0.0f,  0.5f, 0.8f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f} }
-	};
-
-	const Index m_indices[INDEX_COUNT] = {
-		0, 1, 2, 2, 3, 0,
-		4, 5, 6, 6, 7, 4,
-		8, 9, 10, 10, 11, 8,
-		12, 13, 14, 14, 15, 12,
-		16, 17, 18, 18, 19, 16,
-		20, 21, 22, 22, 23, 20,
-		24, 25, 26, 26, 27, 24,
-		28, 29, 30, 30, 31, 28,
-		32, 33, 34, 34, 35, 32
-	};
+	vk::SampleCountFlagBits m_msaaSamples;
 
 #ifdef _DEBUG
 	const char * const m_validationLayers[NUM_VALIDATION_LAYERS] = {
@@ -352,7 +327,8 @@ private:
 #endif
 
 	const char * const m_deviceExtensions[NUM_DEVICE_EXTENSIONS] = {
-		VK_KHR_SWAPCHAIN_EXTENSION_NAME
+		VK_KHR_SWAPCHAIN_EXTENSION_NAME,
+		VK_KHR_CREATE_RENDERPASS_2_EXTENSION_NAME
 #ifdef __APPLE__
 		, VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME
 #endif

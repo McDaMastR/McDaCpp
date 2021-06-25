@@ -5,10 +5,11 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_set>
+#include <unordered_map>
 
 #define SWAP_CHAIN_QUEUE_FAMILY_INDEX_COUNT 2
 #define PIPELINE_SHADER_STAGE_COUNT 2
-#define FRAMEBUFFER_ATTACHMENT_COUNT 2
+#define FRAMEBUFFER_ATTACHMENT_COUNT 3
 #define DRAW_FRAME_SUBMIT_INFO_WAIT_SEMAPHORE_COUNT 1
 #define DRAW_FRAME_SUBMIT_INFO_SIGNAL_SEMAPHORE_COUNT 1
 #define PRESENT_INFO_SWAP_CHAIN_COUNT 1
@@ -17,7 +18,7 @@
 #define VERTEX_BUFFER_COUNT 1
 #define DESCRIPTOR_SET_WRITE_COUNT 2
 #define DEPTH_FORMAT_COUNT 3
-#define RENDER_PASS_ATTACHMENT_COUNT 2
+#define RENDER_PASS_ATTACHMENT_COUNT 3
 #define CLEAR_VALUE_COUNT 2
 
 #define CLEAR_COLOR_R 0.0f
@@ -27,6 +28,9 @@
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
+
+#define VIKING_MODEL_PATH "assets/models/viking_room.obj"
+#define VIKING_TEXTURE_PATH "assets/images/viking_room.png"
 
 #ifdef NDEBUG
 	#define APP_NAME "LearnVulkan"
@@ -172,11 +176,13 @@ void Application::initVulkan() RELEASE_NOEXCEPT
 	createDescriptorSetLayout();
 	createGraphicsPipeline();
 	createCommandPools();
+	createColorResources();
 	createDepthResources();
 	createFrameBuffers();
 	createTextureImage();
 	createTextureImageView();
 	createTextureSampler();
+	loadModel();
 	createVertexBuffer();
 	createIndexBuffer(); 
 	createUniformBuffers();
@@ -200,7 +206,7 @@ void Application::createInstance() RELEASE_NOEXCEPT
 		APP_VERSION, 
 		ENGINE_NAME, 
 		ENGINE_VERSION, 
-		VK_API_VERSION_1_1 // Highest API version supported on MoltenVK
+		VK_API_VERSION_1_1 // Highest version supported by MoltenVK
 	);
 
 	// Get required extensions
@@ -302,6 +308,11 @@ void Application::choosePhysicalDevice() RELEASE_NOEXCEPT
 	for (uint32_t i = 0; i < physical_device_count; ++i) {
 		if (physicalDeviceSupportsRequirements(physical_devices[i])) {
 			m_physicalDevice = physical_devices[i];
+
+			m_physicalDevice.getProperties2(&m_physicalDeviceProperties);
+			m_physicalDevice.getMemoryProperties2(&m_physicalDeviceMemoryProperties);
+
+			m_msaaSamples = getMaxUsableSampleCount();
 			delete[] physical_devices;
 			return;
 		}
@@ -315,70 +326,69 @@ void Application::createLogicalDevice() RELEASE_NOEXCEPT
 {
 	vk::Result result;
 
-	m_physicalDevice.getProperties(&m_physicalDeviceProperties);
-	m_physicalDevice.getFeatures(&m_physicalDeviceFeatures);
-
 	m_queueFamilyIndices = getQueueFamilies(m_physicalDevice);
 	if (m_queueFamilyIndices.graphicsFamily.value() == m_queueFamilyIndices.transferFamily.value())
 		DEBUG_LOG("Graphics family found, transfer family missing: using graphics family");
 
 	// Required device features
-	const vk::PhysicalDeviceFeatures features{
-		VK_FALSE, // Robust buffer access
-		VK_FALSE, // Full draw index uint32
-		VK_FALSE, // Image cube array
-		VK_FALSE, // Independent blend
-		VK_FALSE, // Geometry shader
-		VK_FALSE, // Tessellation shader
-		VK_FALSE, // Sample rate shading
-		VK_FALSE, // Dual src blend
-		VK_FALSE, // Logic op
-		VK_FALSE, // Multi draw indirect
-		VK_FALSE, // Draw indirect first instance
-		VK_FALSE, // Depth clamp
-		VK_FALSE, // Depth bias clamp
-		VK_FALSE, // Fill mode non solid
-		VK_FALSE, // Depth bounds
-		VK_FALSE, // Wide lines
-		VK_FALSE, // Large points
-		VK_FALSE, // Alpha to one
-		VK_FALSE, // Multi viewport
-		VK_TRUE, // Sampler anisotropy
-		VK_FALSE, // Texture compression ETC2
-		VK_FALSE, // Texture compression ASTC_LDR
-		VK_FALSE, // Texture compression BC
-		VK_FALSE, // Occlusion query precise
-		VK_FALSE, // Pipeline statistics query
-		VK_FALSE, // Vertex pipeline stores and atomics
-		VK_FALSE, // Fragment stores and atomics
-		VK_FALSE, // Shader tessellation and geometry point size
-		VK_FALSE, // Shader image gather extended
-		VK_FALSE, // Shader storage image extended formats
-		VK_FALSE, // Shader storage image multisample
-		VK_FALSE, // Shader storage image read without format
-		VK_FALSE, // Shader storage image write without format
-		VK_FALSE, // Shader uniform buffer array dynamic indexing
-		VK_FALSE, // Shader sampled image array dynamic indexing
-		VK_FALSE, // Shader storage buffer array dynamic indexing
-		VK_FALSE, // Shader storage image array dynamic indexing
-		VK_FALSE, // Shader clip distance
-		VK_FALSE, // Shader cull distance
-		VK_FALSE, // Shader float 64
-		VK_FALSE, // Shader int 64
-		VK_FALSE, // Shader int 16
-		VK_FALSE, // Shader resource residency
-		VK_FALSE, // Shader resource min lod
-		VK_FALSE, // Sparse binding
-		VK_FALSE, // Sparse residency buffer
-		VK_FALSE, // Sparse residency image 2D
-		VK_FALSE, // Sparse residency image 3D
-		VK_FALSE, // Sparse residency 2 samples
-		VK_FALSE, // Sparse residency 4 samples
-		VK_FALSE, // Sparse residency 8 samples
-		VK_FALSE, // Sparse residency 16 samples
-		VK_FALSE, // Sparse residency aliased
-		VK_FALSE, // Variable multisample rate
-		VK_FALSE // Inherited queries
+	const vk::PhysicalDeviceFeatures2 features{
+		{
+			VK_FALSE, // Robust buffer access
+			VK_FALSE, // Full draw index uint32
+			VK_FALSE, // Image cube array
+			VK_FALSE, // Independent blend
+			VK_FALSE, // Geometry shader
+			VK_FALSE, // Tessellation shader
+			VK_TRUE, // Sample rate shading
+			VK_FALSE, // Dual src blend
+			VK_FALSE, // Logic op
+			VK_FALSE, // Multi draw indirect
+			VK_FALSE, // Draw indirect first instance
+			VK_FALSE, // Depth clamp
+			VK_FALSE, // Depth bias clamp
+			VK_FALSE, // Fill mode non solid
+			VK_FALSE, // Depth bounds
+			VK_FALSE, // Wide lines
+			VK_FALSE, // Large points
+			VK_FALSE, // Alpha to one
+			VK_FALSE, // Multi viewport
+			VK_TRUE, // Sampler anisotropy
+			VK_FALSE, // Texture compression ETC2
+			VK_FALSE, // Texture compression ASTC_LDR
+			VK_FALSE, // Texture compression BC
+			VK_FALSE, // Occlusion query precise
+			VK_FALSE, // Pipeline statistics query
+			VK_FALSE, // Vertex pipeline stores and atomics
+			VK_FALSE, // Fragment stores and atomics
+			VK_FALSE, // Shader tessellation and geometry point size
+			VK_FALSE, // Shader image gather extended
+			VK_FALSE, // Shader storage image extended formats
+			VK_FALSE, // Shader storage image multisample
+			VK_FALSE, // Shader storage image read without format
+			VK_FALSE, // Shader storage image write without format
+			VK_FALSE, // Shader uniform buffer array dynamic indexing
+			VK_FALSE, // Shader sampled image array dynamic indexing
+			VK_FALSE, // Shader storage buffer array dynamic indexing
+			VK_FALSE, // Shader storage image array dynamic indexing
+			VK_FALSE, // Shader clip distance
+			VK_FALSE, // Shader cull distance
+			VK_FALSE, // Shader float 64
+			VK_FALSE, // Shader int 64
+			VK_FALSE, // Shader int 16
+			VK_FALSE, // Shader resource residency
+			VK_FALSE, // Shader resource min lod
+			VK_FALSE, // Sparse binding
+			VK_FALSE, // Sparse residency buffer
+			VK_FALSE, // Sparse residency image 2D
+			VK_FALSE, // Sparse residency image 3D
+			VK_FALSE, // Sparse residency 2 samples
+			VK_FALSE, // Sparse residency 4 samples
+			VK_FALSE, // Sparse residency 8 samples
+			VK_FALSE, // Sparse residency 16 samples
+			VK_FALSE, // Sparse residency aliased
+			VK_FALSE, // Variable multisample rate
+			VK_FALSE // Inherited queries
+		} // Temporary original vk::PhysicalDeviceFeatures
 	};
 
 	const float queue_priority = 1.0f;
@@ -440,7 +450,7 @@ void Application::createLogicalDevice() RELEASE_NOEXCEPT
 #endif
 		NUM_DEVICE_EXTENSIONS, // Enabled extension count: number of device extensions
 		m_deviceExtensions, // Enabled extension names: required device extensions
-		&features // Enabled features: features of physical device
+		&features.features // Enabled features: features of physical device
 	};
 
 	// Create the logical device
@@ -451,31 +461,48 @@ void Application::createLogicalDevice() RELEASE_NOEXCEPT
 	m_dynamicLoader.init(m_logicalDevice);
 
 	// Get handles to the queue families
-	m_logicalDevice.getQueue(m_queueFamilyIndices.graphicsFamily.value(), 0, &m_graphicsQueue);
+	vk::DeviceQueueInfo2 queue_info{
+		{}, // Flags
+		m_queueFamilyIndices.graphicsFamily.value(), // Queue family index
+		0 // Queue index
+	};
 
-	// Free memory
-	delete[] device_queue_create_infos;
+	m_logicalDevice.getQueue2(&queue_info, &m_graphicsQueue);
 
 	// Create the right amount of queue family handles
 	if (queue_families.size() == 1) {
-		m_logicalDevice.getQueue(m_queueFamilyIndices.presentFamily.value(), 0, &m_presentQueue);
-		m_logicalDevice.getQueue(m_queueFamilyIndices.transferFamily.value(), 0, &m_transferQueue);
+		m_logicalDevice.getQueue2(&queue_info, &m_presentQueue);
+		m_logicalDevice.getQueue2(&queue_info, &m_transferQueue);
 		return;
 	} 
 	if (queue_families.size() == 2) {
-		if (m_queueFamilyIndices.graphicsFamily.value() == m_queueFamilyIndices.presentFamily.value()) [[likely]] {
-			m_logicalDevice.getQueue(m_queueFamilyIndices.presentFamily.value(), 0, &m_presentQueue);
-			m_logicalDevice.getQueue(m_queueFamilyIndices.transferFamily.value(), 1, &m_transferQueue);
+		[[likely]] if (m_queueFamilyIndices.graphicsFamily.value() == m_queueFamilyIndices.presentFamily.value()) {
+			m_logicalDevice.getQueue2(&queue_info, &m_presentQueue);
+
+			queue_info.queueFamilyIndex = m_queueFamilyIndices.transferFamily.value();
+			queue_info.queueIndex = 1;
+			m_logicalDevice.getQueue2(&queue_info, &m_transferQueue);
 			return;
 		}
 
-		m_logicalDevice.getQueue(m_queueFamilyIndices.presentFamily.value(), 1, &m_presentQueue);
-		m_logicalDevice.getQueue(m_queueFamilyIndices.transferFamily.value(), 0, &m_transferQueue);
+		m_logicalDevice.getQueue2(&queue_info, &m_transferQueue);
+
+		queue_info.queueFamilyIndex = m_queueFamilyIndices.presentFamily.value();
+		queue_info.queueIndex = 1;
+		m_logicalDevice.getQueue2(&queue_info, &m_presentQueue);
 		return;
 	}
 
-	m_logicalDevice.getQueue(m_queueFamilyIndices.presentFamily.value(), 1, &m_presentQueue);
-	m_logicalDevice.getQueue(m_queueFamilyIndices.transferFamily.value(), 2, &m_transferQueue);
+	queue_info.queueFamilyIndex = m_queueFamilyIndices.presentFamily.value();
+	queue_info.queueIndex = 1;
+	m_logicalDevice.getQueue2(&queue_info, &m_presentQueue);
+
+	queue_info.queueFamilyIndex = m_queueFamilyIndices.transferFamily.value();
+	queue_info.queueIndex = 2;
+	m_logicalDevice.getQueue2(&queue_info, &m_transferQueue);
+
+	// Free memory
+	delete[] device_queue_create_infos;
 }
 
 void Application::createSwapChain() RELEASE_NOEXCEPT
@@ -483,29 +510,29 @@ void Application::createSwapChain() RELEASE_NOEXCEPT
 	vk::Result result;
 
 	const SwapChainSupportDetails swap_chain_support = querySwapChainSupport(m_physicalDevice);
-	const vk::SurfaceFormatKHR surface_format = chooseSwapSurfaceFormat(swap_chain_support.formats, swap_chain_support.formatCount);
+	const vk::SurfaceFormat2KHR surface_format = chooseSwapSurfaceFormat(swap_chain_support.formats, swap_chain_support.formatCount);
 	const vk::PresentModeKHR present_mode = chooseSwapPresentMode(swap_chain_support.presentModes, swap_chain_support.presentModeCount);
 	const vk::Extent2D extent = chooseSwapExtent(swap_chain_support.capabilities);
 
-	uint32_t image_count = swap_chain_support.capabilities.minImageCount + 1; // Amount of images to be stored in the queue (recommended to request at least 1 more than the minimum)
+	uint32_t image_count = swap_chain_support.capabilities.surfaceCapabilities.minImageCount + 1; // Amount of images to be stored in the queue (recommended to request at least 1 more than the minimum)
 
-	if (swap_chain_support.capabilities.maxImageCount > 0 && // If maxImageCount == 0, then there is no maximum
-		image_count > swap_chain_support.capabilities.maxImageCount) // Wanted queue size is larger than the maxmimum
-		image_count = swap_chain_support.capabilities.maxImageCount;
+	if (swap_chain_support.capabilities.surfaceCapabilities.maxImageCount > 0 && // If maxImageCount == 0, then there is no maximum
+		image_count > swap_chain_support.capabilities.surfaceCapabilities.maxImageCount) // Wanted queue size is larger than the maxmimum
+		image_count = swap_chain_support.capabilities.surfaceCapabilities.maxImageCount;
 
 	vk::SwapchainCreateInfoKHR swapchain_create_info{
 		{}, // Flags
 		m_surface, // Surface
 		image_count, // Min image count
-		surface_format.format, // Image format
-		surface_format.colorSpace, // Image color space
+		surface_format.surfaceFormat.format, // Image format
+		surface_format.surfaceFormat.colorSpace, // Image color space
 		extent, // Image extent
 		1, // Image array layers: The amount of layers each image consists of
 		vk::ImageUsageFlagBits::eColorAttachment, // The kind of operations we'll use the images in the swap chain for (color attachment == render directly to them)
 		vk::SharingMode::eExclusive, // Image sharing mode: whether images are owned by one queue family at a time, or multiple (one; offers the best performance)
 		{}, // Queue family index count
 		{}, // Queue family indices
-		swap_chain_support.capabilities.currentTransform, // Pre transform (current transform means add no transform)
+		swap_chain_support.capabilities.surfaceCapabilities.currentTransform, // Pre transform (current transform means add no transform)
 		vk::CompositeAlphaFlagBitsKHR::eOpaque, // For blending with other windows in the window system (Opaque means to ignore the alpha channel)
 		present_mode, // Present mode
 		VK_TRUE, // Clipped: true if you don't care about the color of pixels that are obscured, for example because another window is in front of them
@@ -528,7 +555,7 @@ void Application::createSwapChain() RELEASE_NOEXCEPT
 	result = m_logicalDevice.createSwapchainKHR(&swapchain_create_info, nullptr, &m_swapChain);
 	createResultValue(result, "vk::Device::createSwapchainKHR");
 
-	m_swapChainImageFormat = surface_format.format;
+	m_swapChainImageFormat = surface_format.surfaceFormat.format;
 	m_swapChainExtent = extent;
 
 	result = m_logicalDevice.getSwapchainImagesKHR(m_swapChain, &m_swapChainImageCount, nullptr);
@@ -541,14 +568,15 @@ void Application::createSwapChain() RELEASE_NOEXCEPT
 
 void Application::createSwapChainImageViews() RELEASE_NOEXCEPT
 {
-	// vk::Result result;
-	m_swapChainImageViews = new vk::ImageView[m_swapChainImageCount];
+	[[unlikely]] if (m_swapChainImageViews == nullptr)
+		m_swapChainImageViews = new vk::ImageView[m_swapChainImageCount];
 
 	for (uint32_t i = 0; i < m_swapChainImageCount; ++i) {
 		m_swapChainImageViews[i] = createImageView(
 			m_swapChainImages[i], // Image
 			m_swapChainImageFormat, // Format
-			vk::ImageAspectFlagBits::eColor
+			vk::ImageAspectFlagBits::eColor, // Aspect flags
+			1 // Mip levels
 		);
 	}
 }
@@ -558,23 +586,23 @@ void Application::createRenderPass() RELEASE_NOEXCEPT
 	vk::Result result;
 
 	// Color buffer attachment represented by one of the images from the swap chain
-	const vk::AttachmentDescription color_attachment{
+	const vk::AttachmentDescription2KHR color_attachment{ // KHR extension being used because it wasn't core until 1.2 (using 1.1)
 		{}, // Flags
 		m_swapChainImageFormat, // Format (matches the swap chain image format)
-		vk::SampleCountFlagBits::e1, // Samples (1 sample; not multisampling)
-		vk::AttachmentLoadOp::eClear, // Load op: what to do with the color and depth data in the attachment before and after rendering (clear the values to a constant at the start)
-		vk::AttachmentStoreOp::eStore, // Store op: what to do with the color and depth data in the attachment before and after rendering (rendered contents will be stored in memory and can be read later)
-		vk::AttachmentLoadOp::eDontCare, // Stencil load op: what to do with the stencil data in the attachment before and after rendering (not using; don't care)
-		vk::AttachmentStoreOp::eDontCare, // Stencil store op: what to do with the stencil data in the attachment before and after rendering (not using; don't care)
+		m_msaaSamples, // Samples
+		vk::AttachmentLoadOp::eClear, // Load op: what to do with the color and depth data in the attachment before rendering (clear the values to a constant at the start)
+		vk::AttachmentStoreOp::eDontCare, // Store op: what to do with the color and depth data in the attachment after rendering
+		vk::AttachmentLoadOp::eDontCare, // Stencil load op: what to do with the stencil data in the attachment before rendering 
+		vk::AttachmentStoreOp::eDontCare, // Stencil store op: what to do with the stencil data in the attachment after rendering
 		vk::ImageLayout::eUndefined, // Initial layout: the layout the image will have before the render pass begins (don't care)
-		vk::ImageLayout::ePresentSrcKHR // Final layout: the layout to automatically transition to when the render pass finishes (images to be presented in the swap chain)
+		vk::ImageLayout::eColorAttachmentOptimal // Final layout: the layout to automatically transition to when the render pass finishes
 	};
 
 	// Depth buffer attachment
-	const vk::AttachmentDescription depth_attachment{
+	const vk::AttachmentDescription2KHR depth_attachment{
 		{}, 
 		findDepthFormat(), 
-		vk::SampleCountFlagBits::e1,
+		m_msaaSamples,
 		vk::AttachmentLoadOp::eClear,
 		vk::AttachmentStoreOp::eDontCare, 
 		vk::AttachmentLoadOp::eDontCare, 
@@ -583,38 +611,59 @@ void Application::createRenderPass() RELEASE_NOEXCEPT
 		vk::ImageLayout::eDepthStencilAttachmentOptimal
 	};
 
-	const vk::AttachmentDescription attachment_descriptions[RENDER_PASS_ATTACHMENT_COUNT] = {
+	// Color attachment resolve (for multisampling)
+	const vk::AttachmentDescription2KHR color_attachment_resolve{
+		{}, 
+		m_swapChainImageFormat, 
+		vk::SampleCountFlagBits::e1,
+		vk::AttachmentLoadOp::eDontCare,
+		vk::AttachmentStoreOp::eStore, 
+		vk::AttachmentLoadOp::eDontCare, 
+		vk::AttachmentStoreOp::eDontCare,
+		vk::ImageLayout::eUndefined, 
+		vk::ImageLayout::ePresentSrcKHR
+	};
+
+	const vk::AttachmentDescription2KHR attachment_descriptions[RENDER_PASS_ATTACHMENT_COUNT] = {
 		std::move(color_attachment),
-		std::move(depth_attachment)
+		std::move(depth_attachment),
+		std::move(color_attachment_resolve)
 	};
 
 	// Reference attachments using the indices of an array of attachments
-	const vk::AttachmentReference color_attachment_reference{
+	const vk::AttachmentReference2KHR color_attachment_reference{
 		0, // Attachment: which attachment to reference by its index in the attachment descriptions array
-		vk::ImageLayout::eColorAttachmentOptimal // Layout: which layout we would like the attachment to have during a subpass that uses this reference (using color buffer and wanting optimal preformance)
+		vk::ImageLayout::eColorAttachmentOptimal, // Layout: which layout we would like the attachment to have during a subpass that uses this reference (using color buffer and wanting optimal preformance)
+		{} // Aspect mask: Only used for input attachents
 	};
 
-	const vk::AttachmentReference depth_attachment_reference{
+	const vk::AttachmentReference2KHR depth_attachment_reference{
 		1, 
 		vk::ImageLayout::eDepthStencilAttachmentOptimal
 	};
 
+	const vk::AttachmentReference2KHR color_attachment_resolve_reference{
+		2, 
+		vk::ImageLayout::eColorAttachmentOptimal
+	};
+
 	// Subsequent rendering operations that depend on the contents of framebuffers in previous passes
-	const vk::SubpassDescription subpass{
+	const vk::SubpassDescription2KHR subpass{
 		{}, // Flags
 		vk::PipelineBindPoint::eGraphics, // Pipeline bind point: type of subpass (graphics subpass)
+		0, // View mask
 		0, // Input attachment count: number of input attachments (not using any)
 		nullptr, // Input attachments: attachments that are read from a shader (not using any)
 		1, // Color attachment count: number of color attachments (using 1)
 		&color_attachment_reference, // Color attachments: attachments used for outputing pixel color (this is index 0 of the color attachment array, referenced from the fragment shader: layout(location = 0) out vec4 color)
-		nullptr, // Resolve attachments: Attachments used for multisampling color attachments (not using any)
+		&color_attachment_resolve_reference, // Resolve attachments: Attachments used for multisampling color attachments
 		&depth_attachment_reference, // Depth stencil attachment: Attachment for depth and stencil data (not using)
 		0, // Preserve attachment count: number of preserve attachments (not using any)
 		nullptr // Preserve attachments: attachments that are not used by this subpass, but for which the data must be preserved (not using any)
 	};
 
 	// Dependencies automatically takes care of image layout transitions
-	const vk::SubpassDependency subpass_dependency{
+	const vk::SubpassDependency2KHR subpass_dependency{
 		VK_SUBPASS_EXTERNAL, // Src subpass (VK_SUBPASS_EXTERNAL refers to the implicit subpass before or after the render pass)
 		0, // Dst subpass; must always be higher than srcSubpass to prevent cycles in the dependency graph; except for VK_SUBPASS_EXTERNAL (index 0 refers to the only created subpass)
 		vk::PipelineStageFlagBits::eColorAttachmentOutput |
@@ -624,22 +673,25 @@ void Application::createRenderPass() RELEASE_NOEXCEPT
 		{}, // Src access mask: the operations to wait on
 		vk::AccessFlagBits::eColorAttachmentWrite|
 		vk::AccessFlagBits::eDepthStencilAttachmentWrite, // Dst access mask
-		{} // Dependency flags
+		{}, // Dependency flags
+		0 // View offset
 	};
 
-	const vk::RenderPassCreateInfo render_pass_create_info{
+	const vk::RenderPassCreateInfo2KHR render_pass_create_info{
 		{}, // Flags
 		RENDER_PASS_ATTACHMENT_COUNT, // Attachment count: number of attachments (using 1)
 		attachment_descriptions, // Attachments: the array of attachments (using 1)
 		1, // Subpass count: number of subpasses (using 1)
 		&subpass, // Subpasses: array of subpasses (using 1)
 		1, // Dependency count: number of dependecies (using 1)
-		&subpass_dependency // Dependecies: array of subpass dependecies (not using any)
+		&subpass_dependency, // Dependecies: array of subpass dependecies (not using any)
+		0, // Correlated view mask count
+		nullptr // Correlated view masks
 	};
 
 	// Create the render pass
-	result = m_logicalDevice.createRenderPass(&render_pass_create_info, nullptr, &m_renderPass);
-	createResultValue(result, "vk::Device::createRenderPass");
+	result = m_logicalDevice.createRenderPass2KHR(&render_pass_create_info, nullptr, &m_renderPass, m_dynamicLoader); // Extension function needs to be dynamically loaded
+	createResultValue(result, "vk::Device::createRenderPass2KHR");
 }
 
 void Application::createDescriptorSetLayout() RELEASE_NOEXCEPT
@@ -786,9 +838,9 @@ void Application::createGraphicsPipeline() RELEASE_NOEXCEPT
 	// Not using multisampling, so struct is disabled
 	const vk::PipelineMultisampleStateCreateInfo multisample_state_create_info{
 		{}, // Flags
-		vk::SampleCountFlagBits::e1, // Rasterization samples
-		VK_FALSE, // Sample shading enable
-		1.0f, // Min sample shading
+		m_msaaSamples, // Rasterization samples
+		VK_TRUE, // Sample shading enable
+		0.2f, // Min sample shading: min fraction for sample shading; closer to one is smoother
 		nullptr, // Sample mask
 		VK_FALSE, // Alpha to coverage enable
 		VK_FALSE // Alpha to one enable
@@ -898,13 +950,14 @@ void Application::createFrameBuffers() RELEASE_NOEXCEPT
 {
 	vk::Result result;
 
-	if (m_swapChainFramebuffers == nullptr) [[unlikely]] // Unlikely because this function may be called many times, but this branch will only be gone into once
+	[[unlikely]] if (m_swapChainFramebuffers == nullptr) // Unlikely because this function may be called many times, but this branch will only be gone into once
 		m_swapChainFramebuffers = new vk::Framebuffer[m_swapChainImageCount];
 
 	for (uint32_t i = 0; i < m_swapChainImageCount; ++i) {
 		const vk::ImageView attachments[FRAMEBUFFER_ATTACHMENT_COUNT] = {
-			m_swapChainImageViews[i],
-			m_depthImageView
+			m_colorImageView,
+			m_depthImageView,
+			m_swapChainImageViews[i]
 		};
 
 		const vk::FramebufferCreateInfo framebuffer_create_info{
@@ -947,6 +1000,32 @@ void Application::createCommandPools() RELEASE_NOEXCEPT
 	createResultValue(result, "vk::Device::createCommandPool");
 }
 
+void Application::createColorResources() RELEASE_NOEXCEPT
+{
+	// Create the color image
+	createImage(
+		m_swapChainExtent.width, 
+		m_swapChainExtent.height, 
+		1, 
+		m_msaaSamples, 
+		m_swapChainImageFormat, 
+		vk::ImageTiling::eOptimal, 
+		vk::ImageUsageFlagBits::eTransientAttachment | 
+		vk::ImageUsageFlagBits::eColorAttachment, 
+		vk::MemoryPropertyFlagBits::eDeviceLocal, 
+		m_colorImage, 
+		m_colorImageMemory
+	);
+
+	// Create the color image view
+	m_colorImageView = createImageView(
+		m_colorImage,
+		m_swapChainImageFormat,
+		vk::ImageAspectFlagBits::eColor,
+		1
+	);
+}
+
 void Application::createDepthResources() RELEASE_NOEXCEPT
 {
 	// Get the supported depth format
@@ -956,6 +1035,8 @@ void Application::createDepthResources() RELEASE_NOEXCEPT
 	createImage(
 		m_swapChainExtent.width,
 		m_swapChainExtent.height,
+		1,
+		m_msaaSamples,
 		depth_format,
 		vk::ImageTiling::eOptimal,
 		vk::ImageUsageFlagBits::eDepthStencilAttachment,
@@ -968,7 +1049,8 @@ void Application::createDepthResources() RELEASE_NOEXCEPT
 	m_depthImageView = createImageView(
 		m_depthImage,
 		depth_format,
-		vk::ImageAspectFlagBits::eDepth
+		vk::ImageAspectFlagBits::eDepth,
+		1
 	);
 
 	// Explicitly transitioning the image is not needed, as it will happen in the render pass, but is good to keep here for learning
@@ -980,7 +1062,8 @@ void Application::createDepthResources() RELEASE_NOEXCEPT
 			vk::ImageAspectFlagBits::eDepth |
 			vk::ImageAspectFlagBits::eStencil,
 			vk::ImageLayout::eUndefined,
-			vk::ImageLayout::eDepthStencilAttachmentOptimal
+			vk::ImageLayout::eDepthStencilAttachmentOptimal,
+			1
 		);
 	} 
 	else [[unlikely]] {
@@ -989,7 +1072,8 @@ void Application::createDepthResources() RELEASE_NOEXCEPT
 			depth_format,
 			vk::ImageAspectFlagBits::eDepth,
 			vk::ImageLayout::eUndefined,
-			vk::ImageLayout::eDepthStencilAttachmentOptimal
+			vk::ImageLayout::eDepthStencilAttachmentOptimal,
+			1
 		);
 	}
 #endif
@@ -1004,7 +1088,7 @@ void Application::createTextureImage() RELEASE_NOEXCEPT
 
 	// Load the texture
 	stbi_uc * const pixels = stbi_load(
-		"assets/images/annoying_dog.png", // Filename
+		VIKING_TEXTURE_PATH, // Filename
 		&tex_width, // X: width
 		&tex_height, // Y: height
 		&tex_channels, // Channels in file
@@ -1016,6 +1100,9 @@ void Application::createTextureImage() RELEASE_NOEXCEPT
 
 	// Size of the pixels array
 	const vk::DeviceSize image_size = static_cast<vk::DeviceSize>(tex_width * tex_height * 4);
+
+	// Number of mip levels
+	m_textureMipLevels = static_cast<uint32_t>(std::floor(std::log2(std::max(tex_width, tex_height)))) + 1;
 
 	// Map and fill a staging buffer
 	vk::Buffer staging_buffer;
@@ -1045,9 +1132,12 @@ void Application::createTextureImage() RELEASE_NOEXCEPT
 	createImage(
 		static_cast<uint32_t>(tex_width), // Width
 		static_cast<uint32_t>(tex_height), // Height
+		m_textureMipLevels, // Mip levels
+		vk::SampleCountFlagBits::e1, // Sample count
 		vk::Format::eR8G8B8A8Srgb, // Format
 		vk::ImageTiling::eOptimal, // Tiling
 		vk::ImageUsageFlagBits::eTransferDst |
+		vk::ImageUsageFlagBits::eTransferSrc |
 		vk::ImageUsageFlagBits::eSampled, // Usage
 		vk::MemoryPropertyFlagBits::eDeviceLocal, // Properties
 		m_textureImage, // Image
@@ -1060,7 +1150,8 @@ void Application::createTextureImage() RELEASE_NOEXCEPT
 		vk::Format::eR8G8B8A8Srgb, // Format
 		vk::ImageAspectFlagBits::eColor, // Image aspect flags
 		vk::ImageLayout::eUndefined, // Old layout
-		vk::ImageLayout::eTransferDstOptimal // New layout
+		vk::ImageLayout::eTransferDstOptimal, // New layout
+		m_textureMipLevels // Mip levels
 	);
 
 	// Copy the staging buffer data to the image
@@ -1071,14 +1162,24 @@ void Application::createTextureImage() RELEASE_NOEXCEPT
 		static_cast<uint32_t>(tex_height) // Height
 	);
 
-	// Transition the image for shader read-only access
-	transitionImageLayout(
+	// Generate the mipmaps
+	generateMipmaps(
 		m_textureImage,
 		vk::Format::eR8G8B8A8Srgb,
-		vk::ImageAspectFlagBits::eColor,
-		vk::ImageLayout::eTransferDstOptimal,
-		vk::ImageLayout::eShaderReadOnlyOptimal
+		tex_width,
+		tex_height,
+		m_textureMipLevels
 	);
+
+	// Transition the image for shader read-only access // Using mipmapping instead of just transitioning
+	// transitionImageLayout(
+	// 	m_textureImage,
+	// 	vk::Format::eR8G8B8A8Srgb,
+	// 	vk::ImageAspectFlagBits::eColor,
+	// 	vk::ImageLayout::eTransferDstOptimal,
+	// 	vk::ImageLayout::eShaderReadOnlyOptimal,
+	// 	m_textureMipLevels
+	// );
 
 	// Memory cleanup
 	m_logicalDevice.destroyBuffer(staging_buffer, nullptr);
@@ -1087,8 +1188,7 @@ void Application::createTextureImage() RELEASE_NOEXCEPT
 
 void Application::createTextureImageView() RELEASE_NOEXCEPT
 {
-	// vk::Result result;
-	m_textureImageView = createImageView(m_textureImage, vk::Format::eR8G8B8A8Srgb, vk::ImageAspectFlagBits::eColor);
+	m_textureImageView = createImageView(m_textureImage, vk::Format::eR8G8B8A8Srgb, vk::ImageAspectFlagBits::eColor, m_textureMipLevels);
 }
 
 void Application::createTextureSampler() RELEASE_NOEXCEPT
@@ -1106,11 +1206,11 @@ void Application::createTextureSampler() RELEASE_NOEXCEPT
 		vk::SamplerAddressMode::eRepeat, // Address mode W (Z)
 		0.0f, // Mip lod bias
 		VK_TRUE, // Anisotropy enable
-		m_physicalDeviceProperties.limits.maxSamplerAnisotropy, // Max anisotropy (max quality)
+		m_physicalDeviceProperties.properties.limits.maxSamplerAnisotropy, // Max anisotropy (max quality)
 		VK_FALSE, // Compare enable
 		vk::CompareOp::eAlways, // Compare op
 		0.0f, // Min lod
-		0.0f, // Max lod
+		static_cast<float>(m_textureMipLevels), // Max lod
 		vk::BorderColor::eIntOpaqueBlack, // Boarder color: for ClampToBoarder address mode
 		VK_FALSE // Unnormalized coordinates
 	};
@@ -1120,14 +1220,72 @@ void Application::createTextureSampler() RELEASE_NOEXCEPT
 	createResultValue(result, "vk::Device::createSampler");
 }
 
+void Application::loadModel() RELEASE_NOEXCEPT
+{
+	tinyobj::attrib_t attrib;
+	std::vector<tinyobj::shape_t> shapes;
+    std::vector<tinyobj::material_t> materials;
+    std::string warn, err;
+
+	// Load the object file
+#ifdef NDEBUG
+	tinyobj::LoadObj(
+		&attrib, // Attrib
+		&shapes, // Shapes
+		&materials, // Materials
+		&warn, // Warn
+		&err, // Err
+		VIKING_MODEL_PATH, // Filename
+		nullptr, // Mtl basedir (optional)
+		true, // Triangulate (optional)
+		true // Default vcols fallback (optional)
+	);
+#else
+	assert(tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, VIKING_MODEL_PATH) && "ASSERT: Failed to load object file");
+#endif
+
+	std::unordered_map<Vertex, uint32_t> unique_vertices;
+
+	for (const auto &shape : shapes) {
+		for (const auto &index : shape.mesh.indices) {
+			const Vertex vertex{
+				.position = 
+				{
+					attrib.vertices[static_cast<size_t>(3 * index.vertex_index + 0)],
+					attrib.vertices[static_cast<size_t>(3 * index.vertex_index + 1)],
+					attrib.vertices[static_cast<size_t>(3 * index.vertex_index + 2)]
+				},
+
+				.color = 
+				{
+					1.0f, 
+					1.0f, 
+					1.0f
+				},
+
+				.texCoord = 
+				{
+					attrib.texcoords[static_cast<size_t>(2 * index.texcoord_index + 0)],
+					1.0f - attrib.texcoords[static_cast<size_t>(2 * index.texcoord_index + 1)]
+				}
+			};
+
+			if (unique_vertices.count(vertex) == 0) { // If vertex already exists
+				unique_vertices[vertex] = static_cast<uint32_t>(m_vertices.size());
+				m_vertices.emplace_back(std::move(vertex));
+			}
+
+			m_indices.emplace_back(unique_vertices[vertex]);
+		}
+	}
+}
+
 void Application::createVertexBuffer() RELEASE_NOEXCEPT
 {
-	// vk::Result result;
-
 	// Create and fill the vertex buffer
 	createAndFillBuffer<Vertex>( // Type of data (template arg)
-		m_vertices, // Data
-		VERTEX_COUNT, // Count
+		m_vertices.data(), // Data
+		m_vertices.size(), // Count
 		vk::BufferUsageFlagBits::eVertexBuffer, // Usage
 		m_vertexBuffer, // Buffer
 		m_vertexBufferMemory // Buffer memory
@@ -1136,11 +1294,9 @@ void Application::createVertexBuffer() RELEASE_NOEXCEPT
 
 void Application::createIndexBuffer() RELEASE_NOEXCEPT
 {
-	// vk::Result result;
-
 	createAndFillBuffer<Index>(
-		m_indices,
-		INDEX_COUNT,
+		m_indices.data(),
+		m_indices.size(),
 		vk::BufferUsageFlagBits::eIndexBuffer,
 		m_indexBuffer,
 		m_indexBufferMemory
@@ -1149,9 +1305,7 @@ void Application::createIndexBuffer() RELEASE_NOEXCEPT
 
 void Application::createUniformBuffers() RELEASE_NOEXCEPT
 {
-	// vk::Result result;
-
-	if (m_uniformBuffers == nullptr) [[unlikely]] {
+	[[unlikely]] if (m_uniformBuffers == nullptr) {
 		m_uniformBuffers = new vk::Buffer[m_swapChainImageCount];
 		m_uniformBuffersMemory = new vk::DeviceMemory[m_swapChainImageCount];
 	}
@@ -1178,8 +1332,8 @@ void Application::createDescriptorPool() RELEASE_NOEXCEPT
 	};
 
 	const vk::DescriptorPoolSize sampler_descriptor_pool_size{
-		vk::DescriptorType::eCombinedImageSampler, // Type
-		m_swapChainImageCount // Descriptor count
+		vk::DescriptorType::eCombinedImageSampler, 
+		m_swapChainImageCount
 	};
 
 	const vk::DescriptorPoolSize descriptor_pool_sizes[DESCRIPTOR_POOL_SIZE_COUNT] = {
@@ -1203,7 +1357,7 @@ void Application::createDescriptorSets() RELEASE_NOEXCEPT
 {
 	vk::Result result;
 
-	if (m_descriptorSets == nullptr) [[unlikely]]
+	[[unlikely]] if (m_descriptorSets == nullptr)
 		m_descriptorSets = new vk::DescriptorSet[m_swapChainImageCount];
 
 	vk::DescriptorSetLayout * const descriptor_set_layouts = new vk::DescriptorSetLayout[m_swapChainImageCount];
@@ -1272,7 +1426,7 @@ void Application::createCommandBuffers() RELEASE_NOEXCEPT
 {
 	vk::Result result;
 
-	if (m_commandBuffers == nullptr) [[unlikely]]
+	[[unlikely]] if (m_commandBuffers == nullptr) 
 		m_commandBuffers = new vk::CommandBuffer[m_swapChainImageCount];
 
 	// Infomation for allocating memory
@@ -1349,8 +1503,12 @@ void Application::createCommandBuffers() RELEASE_NOEXCEPT
 			clear_values // Clear values
 		};
 
+		const vk::SubpassBeginInfoKHR subpass_begin_info{
+			vk::SubpassContents::eInline // Contents (inline; the render pass commands will be embedded in the primary command buffer itself)
+		};
+
 		// Begin the render pass
-		m_commandBuffers[i].beginRenderPass(&render_pass_begin_info, vk::SubpassContents::eInline); // Inline: the render pass commands will be embedded in the primary command buffer itself
+		m_commandBuffers[i].beginRenderPass2KHR(&render_pass_begin_info, &subpass_begin_info, m_dynamicLoader);
 		
 		// Bind the graphics pipeline with the command buffer
 		m_commandBuffers[i].bindPipeline(vk::PipelineBindPoint::eGraphics, m_graphicsPipeline);
@@ -1363,7 +1521,7 @@ void Application::createCommandBuffers() RELEASE_NOEXCEPT
 		// Bind the vertex buffers
 		m_commandBuffers[i].bindVertexBuffers(
 			0, // First binding: offset
-			VERTEX_BUFFER_COUNT, // Buffer count
+			VERTEX_BUFFER_COUNT, // Binding count: buffer count
 			&m_vertexBuffer, // Buffers
 			offsets // Offsets: byte offset to start reading vertex data from
 		);
@@ -1372,7 +1530,7 @@ void Application::createCommandBuffers() RELEASE_NOEXCEPT
 		m_commandBuffers[i].bindIndexBuffer(
 			m_indexBuffer, // Buffer
 			0, // Offset
-			vk::IndexType::eUint16 // Index type
+			vk::IndexType::eUint32 // Index type
 		);
 
 		// Bind the descriptor sets (uniform buffer)
@@ -1388,15 +1546,18 @@ void Application::createCommandBuffers() RELEASE_NOEXCEPT
 
 		// DRAW THE GEOMETRY!!!!
 		m_commandBuffers[i].drawIndexed(
-			INDEX_COUNT, // Index count
+			static_cast<uint32_t>(m_indices.size()), // Index count
 			1, // Instance count: used for instanced rendering (not doing, so 1)
 			0, // First index: a value offset into the index buffer
 			0, // Vertex offset: an offset to add to the indices in the index buffer
 			0 // First instance: an offset for instanced rendering; defines the lowest value of gl_InstanceIndex
 		);
 
+		// Information for ending the renderpass
+		const vk::SubpassEndInfoKHR subpass_end_info; // No constuctor paramaters
+
 		// End the render pass
-		m_commandBuffers[i].endRenderPass();
+		m_commandBuffers[i].endRenderPass2KHR(&subpass_end_info, m_dynamicLoader);
 
 		// End the command buffer
 		result = m_commandBuffers[i].end();
@@ -1409,8 +1570,8 @@ void Application::createSyncObjects() RELEASE_NOEXCEPT
 	vk::Result result;
 
 	// Create the right amount of fences
-	if (m_imagesInFlight == nullptr) [[unlikely]]
-		m_imagesInFlight = new vk::Fence[m_swapChainImageCount]{nullptr};
+	[[unlikely]] if (m_imagesInFlight == nullptr)
+		m_imagesInFlight = new vk::Fence[m_swapChainImageCount]{nullptr}; // TODO: get rid of {nullptr}
 
 	// Information for semaphore creation (currently there is basically no info required)
 	const vk::SemaphoreCreateInfo semaphore_create_info{
@@ -1461,7 +1622,7 @@ bool Application::areLayersSupported(const char * const * const layers) RELEASE_
 			}
 		}
 
-		if (!found) [[unlikely]] {
+		[[unlikely]] if (!found) {
 			delete[] layer_properties;
 			return false;
 		}
@@ -1478,8 +1639,10 @@ std::vector<const char *> Application::getRequiredInstanceExtensions() RELEASE_N
 	std::vector<const char *> extensions = {glfw_extensions, glfw_extensions + glfw_extension_count};
 
 #ifdef _DEBUG
-	extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME); // Includes debug_report and debug_marker
+	extensions.reserve(2);
+	extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
 #endif
+	extensions.emplace_back(VK_KHR_GET_SURFACE_CAPABILITIES_2_EXTENSION_NAME);
 	return extensions;
 }
 
@@ -1489,13 +1652,13 @@ bool Application::physicalDeviceSupportsRequirements(const vk::PhysicalDevice &p
 	const QueueFamilyIndices indices = getQueueFamilies(physical_device);
 	const SwapChainSupportDetails swap_chain_support_details = querySwapChainSupport(physical_device);
 
-	vk::PhysicalDeviceFeatures features;
-	physical_device.getFeatures(&features);
+	vk::PhysicalDeviceFeatures2 features;
+	physical_device.getFeatures2(&features);
 
 	return 	indices.isComplete() && 
 			physicalDeviceSupportsExtensions(physical_device) && 
 			swapChainAdequate(swap_chain_support_details) && 
-			features.samplerAnisotropy;
+			features.features.samplerAnisotropy;
 }
 
 QueueFamilyIndices Application::getQueueFamilies(const vk::PhysicalDevice &physical_device) RELEASE_NOEXCEPT
@@ -1503,30 +1666,30 @@ QueueFamilyIndices Application::getQueueFamilies(const vk::PhysicalDevice &physi
 	vk::Result result;
 	QueueFamilyIndices indices;
 	uint32_t queue_family_property_count;
-	vk::QueueFamilyProperties *queue_family_properties; 
+	vk::QueueFamilyProperties2 *queue_family_properties; 
 
-	physical_device.getQueueFamilyProperties(&queue_family_property_count, nullptr);
-	queue_family_properties = new vk::QueueFamilyProperties[queue_family_property_count];
-	physical_device.getQueueFamilyProperties(&queue_family_property_count, queue_family_properties);
+	physical_device.getQueueFamilyProperties2(&queue_family_property_count, nullptr);
+	queue_family_properties = new vk::QueueFamilyProperties2[queue_family_property_count];
+	physical_device.getQueueFamilyProperties2(&queue_family_property_count, queue_family_properties);
 
 	for (uint32_t i = 0; i < queue_family_property_count; ++i) {
 		vk::Bool32 surface_support;
 		result = physical_device.getSurfaceSupportKHR(i, m_surface, &surface_support); // Check is GPU supports present family with given surface
 		createResultValue(result, "vk::PhysicalDevice::getSurfaceSupportKHR");
 
-		if (queue_family_properties[i].queueCount == 0) [[unlikely]]
+		[[unlikely]] if (queue_family_properties[i].queueFamilyProperties.queueCount == 0)
 			continue;
 
-		if (queue_family_properties[i].queueFlags & vk::QueueFlagBits::eGraphics)
+		if (queue_family_properties[i].queueFamilyProperties.queueFlags & vk::QueueFlagBits::eGraphics)
 			indices.graphicsFamily = i;
 		
-		if (queue_family_properties[i].queueFlags & vk::QueueFlagBits::eTransfer && !(queue_family_properties[i].queueFlags & vk::QueueFlagBits::eGraphics))
+		if (queue_family_properties[i].queueFamilyProperties.queueFlags & vk::QueueFlagBits::eTransfer && !(queue_family_properties[i].queueFamilyProperties.queueFlags & vk::QueueFlagBits::eGraphics))
 			indices.transferFamily = i;
 
 		if (surface_support)
 			indices.presentFamily = i;
 		
-		if (indices.isComplete()) [[unlikely]] {
+		[[unlikely]] if (indices.isComplete()) {
 			delete[] queue_family_properties;
 			return indices;
 		}
@@ -1566,15 +1729,19 @@ SwapChainSupportDetails Application::querySwapChainSupport(const vk::PhysicalDev
 	vk::Result result;
 	SwapChainSupportDetails support_details;
 
-	result = result = physical_device.getSurfaceCapabilitiesKHR(m_surface, &support_details.capabilities);
-	createResultValue(result, "vk::PhysicalDevice::getSurfaceCapabilitiesKHR");
+	const vk::PhysicalDeviceSurfaceInfo2KHR surface_info{
+		m_surface // Surface
+	};
 
-	result = physical_device.getSurfaceFormatsKHR(m_surface, &support_details.formatCount, nullptr);
-	createResultValue(result, "vk::PhysicalDevice::getSurfaceFormatsKHR");
+	result = physical_device.getSurfaceCapabilities2KHR(&surface_info, &support_details.capabilities);
+	createResultValue(result, "vk::PhysicalDevice::getSurfaceCapabilities2KHR");
 
-	support_details.formats = new vk::SurfaceFormatKHR[support_details.formatCount];
-	result = physical_device.getSurfaceFormatsKHR(m_surface, &support_details.formatCount, support_details.formats);
-	createResultValue(result, "vk::PhysicalDevice::getSurfaceFormatsKHR");
+	result = physical_device.getSurfaceFormats2KHR(&surface_info, &support_details.formatCount, nullptr);
+	createResultValue(result, "vk::PhysicalDevice::getSurfaceFormats2KHR");
+
+	support_details.formats = new vk::SurfaceFormat2KHR[support_details.formatCount];
+	result = physical_device.getSurfaceFormats2KHR(&surface_info, &support_details.formatCount, support_details.formats);
+	createResultValue(result, "vk::PhysicalDevice::getSurfaceFormats2KHR");
 
 	result = physical_device.getSurfacePresentModesKHR(m_surface, &support_details.presentModeCount, nullptr);
 	createResultValue(result, "vk::PhysicalDevice::getSurfacePresentModesKHR");
@@ -1591,11 +1758,11 @@ bool Application::swapChainAdequate(const SwapChainSupportDetails &swap_chain) R
 	return swap_chain.formatCount > 0 && swap_chain.presentModeCount > 0;
 }
 
-vk::SurfaceFormatKHR Application::chooseSwapSurfaceFormat(const vk::SurfaceFormatKHR * const formats, const uint32_t count) RELEASE_NOEXCEPT
+vk::SurfaceFormat2KHR Application::chooseSwapSurfaceFormat(const vk::SurfaceFormat2KHR * const formats, const uint32_t count) RELEASE_NOEXCEPT
 {
 	for (uint32_t i = 0; i < count; ++i)
-		if (formats[i].format == vk::Format::eB8G8R8Srgb && // Formats pixels as: B, G, R, A; 8 bits each
-			formats[i].colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear) // Is Srbg format supported
+		if (formats[i].surfaceFormat.format == vk::Format::eB8G8R8Srgb && // Formats pixels as: B, G, R, A; 8 bits each
+			formats[i].surfaceFormat.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear) // Is Srbg format supported
 			return formats[i];
 	
 	return formats[0]; // Could rank formats
@@ -1612,13 +1779,13 @@ vk::PresentModeKHR Application::chooseSwapPresentMode(const vk::PresentModeKHR *
 			return vk::PresentModeKHR::eFifo;
 
 	// Guaranteed to be avalible
-	return vk::PresentModeKHR::eImmediate; // Images are immediatly transfered to the screen (great preformanace, possible tearing, verge energy usage)
+	return vk::PresentModeKHR::eImmediate; // Images are immediatly transfered to the screen (great preformanace, possible tearing, averge energy usage)
 }
 
-vk::Extent2D Application::chooseSwapExtent(const vk::SurfaceCapabilitiesKHR &capabilities) RELEASE_NOEXCEPT
+vk::Extent2D Application::chooseSwapExtent(const vk::SurfaceCapabilities2KHR &capabilities) RELEASE_NOEXCEPT
 {
-	if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max())
-		return capabilities.currentExtent; // Width and height are already set
+	if (capabilities.surfaceCapabilities.currentExtent.width != std::numeric_limits<uint32_t>::max())
+		return capabilities.surfaceCapabilities.currentExtent; // Width and height are already set
 	
 	int width, height;
 	glfwGetFramebufferSize(m_window, &width, &height);
@@ -1627,8 +1794,8 @@ vk::Extent2D Application::chooseSwapExtent(const vk::SurfaceCapabilitiesKHR &cap
 	// the value of WIDTH and HEIGHT between the allowed 
 	// minimum and maximum extents that are supported by the implementation
 	const vk::Extent2D extent{
-		std::clamp(static_cast<uint32_t>(width),  capabilities.minImageExtent.width,  capabilities.maxImageExtent.width),
-		std::clamp(static_cast<uint32_t>(height), capabilities.minImageExtent.height, capabilities.maxImageExtent.height)
+		std::clamp(static_cast<uint32_t>(width),  capabilities.surfaceCapabilities.minImageExtent.width,  capabilities.surfaceCapabilities.maxImageExtent.width),
+		std::clamp(static_cast<uint32_t>(height), capabilities.surfaceCapabilities.minImageExtent.height, capabilities.surfaceCapabilities.maxImageExtent.height)
 	};
 
 	return extent;
@@ -1644,7 +1811,7 @@ std::vector<char> Application::readFile(const std::string_view &&filename) RELEA
 
 	assert(file.is_open() && "ASSERT: Failed to open file!");
 
-	std::streampos file_size = file.tellg();
+	const std::streampos file_size = file.tellg();
 	std::vector<char> buffer(static_cast<size_t>(file_size));
 
 	file.seekg(0);
@@ -1670,14 +1837,10 @@ vk::ShaderModule Application::createShaderModule(const std::vector<char> &code) 
 	return shader_module;
 }
 
-uint32_t Application::findMemoryType(const uint32_t type_filter, const vk::MemoryPropertyFlags required_properties) RELEASE_NOEXCEPT
+uint32_t Application::findMemoryType(const uint32_t type_filter, const vk::MemoryPropertyFlags required_properties) RELEASE_NOEXCEPT // HERE
 {
-	// Get the memory properties of the GPU being used
-	vk::PhysicalDeviceMemoryProperties memory_properties;
-	m_physicalDevice.getMemoryProperties(&memory_properties);
-
-	for (uint32_t i = 0; i < memory_properties.memoryTypeCount; ++i) {
-		if (type_filter & (1 << i) && (memory_properties.memoryTypes[i].propertyFlags & required_properties) == required_properties) {
+	for (uint32_t i = 0; i < m_physicalDeviceMemoryProperties.memoryProperties.memoryTypeCount; ++i) {
+		if (type_filter & (1 << i) && (m_physicalDeviceMemoryProperties.memoryProperties.memoryTypes[i].propertyFlags & required_properties) == required_properties) {
 			return i;
 		}
 	}
@@ -1691,13 +1854,13 @@ uint32_t Application::findMemoryType(const uint32_t type_filter, const vk::Memor
 vk::Format Application::findSupportedFormat(const vk::Format * const candidate_formats, const uint32_t count, const vk::ImageTiling tiling, const vk::FormatFeatureFlags features) RELEASE_NOEXCEPT
 {
 	for (uint32_t i = 0; i < count; ++i) {
-		vk::FormatProperties format_properties;
-		m_physicalDevice.getFormatProperties(candidate_formats[i], &format_properties);
+		vk::FormatProperties2 format_properties;
+		m_physicalDevice.getFormatProperties2(candidate_formats[i], &format_properties);
 
-		if (tiling == vk::ImageTiling::eLinear && (format_properties.linearTilingFeatures & features) == features)
+		if (tiling == vk::ImageTiling::eLinear && (format_properties.formatProperties.linearTilingFeatures & features) == features)
 			return candidate_formats[i];
 		
-		if (tiling == vk::ImageTiling::eOptimal && (format_properties.optimalTilingFeatures & features) == features)
+		if (tiling == vk::ImageTiling::eOptimal && (format_properties.formatProperties.optimalTilingFeatures & features) == features)
 			return candidate_formats[i];
 	}
 
@@ -1730,7 +1893,28 @@ bool Application::hasStencilComponent(const vk::Format format) RELEASE_NOEXCEPT
 	return format != vk::Format::eD32Sfloat;
 }
 
-vk::ImageView Application::createImageView(const vk::Image image, const vk::Format format, const vk::ImageAspectFlags aspect_flags) RELEASE_NOEXCEPT
+vk::SampleCountFlagBits Application::getMaxUsableSampleCount() RELEASE_NOEXCEPT
+{
+	const vk::SampleCountFlags sample_counts =  m_physicalDeviceProperties.properties.limits.framebufferColorSampleCounts & 
+												m_physicalDeviceProperties.properties.limits.framebufferDepthSampleCounts;
+	
+	if (sample_counts & vk::SampleCountFlagBits::e64)
+		return vk::SampleCountFlagBits::e64;
+	if (sample_counts & vk::SampleCountFlagBits::e32)
+		return vk::SampleCountFlagBits::e32;
+	if (sample_counts & vk::SampleCountFlagBits::e16)
+		return vk::SampleCountFlagBits::e16;
+	if (sample_counts & vk::SampleCountFlagBits::e8)
+		return vk::SampleCountFlagBits::e8;
+	if (sample_counts & vk::SampleCountFlagBits::e4)
+		return vk::SampleCountFlagBits::e4;
+	if (sample_counts & vk::SampleCountFlagBits::e2)
+		return vk::SampleCountFlagBits::e2;
+
+	return vk::SampleCountFlagBits::e1;
+}
+
+vk::ImageView Application::createImageView(const vk::Image image, const vk::Format format, const vk::ImageAspectFlags aspect_flags, const uint32_t mip_levels) RELEASE_NOEXCEPT
 {
 	vk::Result result;
 
@@ -1745,8 +1929,8 @@ vk::ImageView Application::createImageView(const vk::Image image, const vk::Form
 	// Describes what the image's purpose is and which parts of the image should be accessed
 	const vk::ImageSubresourceRange image_view_subresource_range{
 		aspect_flags, // Aspect mask (using color targets)
-		0, // Base mip level (first mipmapping level)
-		1, // Mip level amount (one mipmapping level)
+		0, // Base mip level 
+		mip_levels, // Mip level amount
 		0, // Base array layer (first array layer)
 		1 // Array layer amount (one array layer)
 	};
@@ -1794,7 +1978,7 @@ void Application::printFPS() RELEASE_NOEXCEPT
 	const float duration = std::chrono::duration<float>(current_time - m_previousTimeFPS).count();
 	++m_frameCountFPS;
 
-	if (duration >= 1.0f) [[unlikely]] {
+	[[unlikely]] if (duration >= 1.0f) {
 		std::cout << std::setprecision(4) << "Application Average: " << 1000.0f / m_frameCountFPS << "ms\t(" << m_frameCountFPS << " FPS)\n";
 
 		m_frameCountFPS = 0;
@@ -1832,7 +2016,7 @@ void Application::drawFrame() RELEASE_NOEXCEPT
 	createResultValue(result, "Application::drawFrame::acquireNextImageKHR", {vk::Result::eSuccess, vk::Result::eSuboptimalKHR, vk::Result::eErrorOutOfDateKHR});
 
 	// Only recreate swap chain if out of date; because we already have the next image
-	if (result == vk::Result::eErrorOutOfDateKHR) [[unlikely]] {
+	[[unlikely]] if (result == vk::Result::eErrorOutOfDateKHR) {
 		m_framebufferResized = false;
 		recreateSwapChain();
 		return;
@@ -1934,6 +2118,10 @@ void Application::destroySwapChain() RELEASE_NOEXCEPT
 	m_logicalDevice.destroyImage(m_depthImage, nullptr);
 	m_logicalDevice.freeMemory(m_depthImageMemory, nullptr);
 
+	m_logicalDevice.destroyImageView(m_colorImageView, nullptr);
+	m_logicalDevice.destroyImage(m_colorImage, nullptr);
+	m_logicalDevice.freeMemory(m_colorImageMemory, nullptr);
+
 	m_logicalDevice.destroyPipeline(m_graphicsPipeline, nullptr);
 	m_logicalDevice.destroyPipelineLayout(m_pipelineLayout, nullptr);
 	m_logicalDevice.destroyRenderPass(m_renderPass, nullptr);
@@ -1970,6 +2158,7 @@ void Application::recreateSwapChain() RELEASE_NOEXCEPT
 	createSwapChainImageViews(); // Based directly on the swap chain images
 	createRenderPass(); // Depends on the format of the swap chain images
 	createGraphicsPipeline(); // Viewport and scissor rectangle size is specified (possible to avoid by using dynamic state)
+	createColorResources(); // Depends on the swap chain extent
 	createDepthResources(); // Depends on the swap chain extent
 	createFrameBuffers(); // Directly depends on the swap chain images
 	createUniformBuffers(); // Directly depends on the swap chain images
@@ -2069,15 +2258,19 @@ void Application::createBuffer(const vk::DeviceSize size, const vk::BufferUsageF
 	createResultValue(result, "vk::Device::createBuffer");
 
 	// Get the memory requirements for the buffer
-	vk::MemoryRequirements buffer_memory_requirements;
-	m_logicalDevice.getBufferMemoryRequirements(buffer, &buffer_memory_requirements);
+	const vk::BufferMemoryRequirementsInfo2 memory_requirements_info{
+		buffer
+	};
+
+	vk::MemoryRequirements2 buffer_memory_requirements;
+	m_logicalDevice.getBufferMemoryRequirements2(&memory_requirements_info, &buffer_memory_requirements);
 
 	// Memory type index
-	const uint32_t buffer_memory_type_index = findMemoryType(buffer_memory_requirements.memoryTypeBits, properties);
+	const uint32_t buffer_memory_type_index = findMemoryType(buffer_memory_requirements.memoryRequirements.memoryTypeBits, properties);
 
 	// Information for allocating memory
 	const vk::MemoryAllocateInfo buffer_memory_allocate_info{
-		buffer_memory_requirements.size, // Allocation size
+		buffer_memory_requirements.memoryRequirements.size, // Allocation size
 		buffer_memory_type_index // Memory type index
 	};
 
@@ -2086,8 +2279,14 @@ void Application::createBuffer(const vk::DeviceSize size, const vk::BufferUsageF
 	createResultValue(result, "vk::Device::allocateMemory");
 
 	// Bind the allocated memory with the buffer
-	result = m_logicalDevice.bindBufferMemory(buffer, buffer_memory, 0); // The 3rd parameter is the offset within the reigon of memory
-	createResultValue(result, "vk::Device::bindBufferMemory");
+	const vk::BindBufferMemoryInfo bind_buffer_memory_info{
+		buffer, // Buffer
+		buffer_memory, // Memory
+		0 // Memory offset
+	};
+
+	result = m_logicalDevice.bindBufferMemory2(1, &bind_buffer_memory_info); // The 3rd parameter is the offset within the reigon of memory
+	createResultValue(result, "vk::Device::bindBufferMemory2");
 }
 
 void Application::copyBuffer(const vk::Buffer &src_buffer, const vk::Buffer &dst_buffer, const vk::DeviceSize size) RELEASE_NOEXCEPT
@@ -2100,13 +2299,18 @@ void Application::copyBuffer(const vk::Buffer &src_buffer, const vk::Buffer &dst
 	};
 
 	// Begin the command
-	const vk::CommandBuffer command_buffer = beginSingleTimeCommand();
+	const vk::CommandBuffer command_buffer = beginSingleTimeCommand(false);
 
 	// Copy the data
-	command_buffer.copyBuffer(src_buffer, dst_buffer, 1, &buffer_copy_region);
+	command_buffer.copyBuffer(
+		src_buffer, // Src buffer
+		dst_buffer, // Dst buffer
+		1, // Region count
+		&buffer_copy_region // Regions 
+	);
 
 	// End the command
-	endSingleTimeCommand(command_buffer);
+	endSingleTimeCommand(command_buffer, false);
 }
 
 void Application::updateUniformBuffer(const uint32_t current_image) RELEASE_NOEXCEPT
@@ -2122,7 +2326,7 @@ void Application::updateUniformBuffer(const uint32_t current_image) RELEASE_NOEX
 	UniformBufferObject UBO{
 		.model = glm::rotate(glm::mat4(1.0f), duration * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), // Rotate around the Z-axis at 90 degrees/second
 		.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)), // Look at the geometry from above at a 45 degree angle
-		.proj = glm::perspective(glm::radians(25.0f), m_swapChainExtent.width / static_cast<float>(m_swapChainExtent.height), 0.1f, 10.0f) // Perspective projection with a 45 degree vertical field-of-view
+		.proj = glm::perspective(glm::radians(40.0f), m_swapChainExtent.width / static_cast<float>(m_swapChainExtent.height), 0.1f, 10.0f) // Perspective projection with a 45 degree vertical field-of-view
 	};
 
 	// Flip the sign on the scaling factor of the Y axis to render geometry right way up
@@ -2147,7 +2351,7 @@ void Application::updateUniformBuffer(const uint32_t current_image) RELEASE_NOEX
 	m_logicalDevice.unmapMemory(m_uniformBuffersMemory[current_image]);
 }
 
-void Application::createImage(const uint32_t width, const uint32_t height, const vk::Format format, const vk::ImageTiling tiling, const vk::ImageUsageFlags usage, const vk::MemoryPropertyFlags properties, vk::Image &image, vk::DeviceMemory &image_memory) RELEASE_NOEXCEPT
+void Application::createImage(const uint32_t width, const uint32_t height, const uint32_t mip_levels, const vk::SampleCountFlagBits sample_count, const vk::Format format, const vk::ImageTiling tiling, const vk::ImageUsageFlags usage, const vk::MemoryPropertyFlags properties, vk::Image &image, vk::DeviceMemory &image_memory) RELEASE_NOEXCEPT
 {
 	vk::Result result;
 
@@ -2170,9 +2374,9 @@ void Application::createImage(const uint32_t width, const uint32_t height, const
 		vk::ImageType::e2D, // Image type: what coordinate system the texels are going to be addressed in
 		format, // Format: the format of data
 		image_extent, // Extent: the dimensions of the image; amount of texels on each axis
-		1, // Mip levels (not using)
+		mip_levels, // Mip levels
 		1, // Array layers
-		vk::SampleCountFlagBits::e1, // Samples: for multisampling (not using)
+		sample_count, // Samples: for multisampling
 		tiling, // Tiling: the tiling of the texels in theimage
 		usage, // Usage: similar to buffer usage
 		{}, // Sharing mode
@@ -2195,13 +2399,17 @@ void Application::createImage(const uint32_t width, const uint32_t height, const
 	createResultValue(result, "vk::Device::createImage");
 
 	// Memory requirements for the GPU being used
-	vk::MemoryRequirements memory_requirements;
-	m_logicalDevice.getImageMemoryRequirements(image, &memory_requirements);
+	const vk::ImageMemoryRequirementsInfo2 memory_requirements_info{
+		image
+	};
+
+	vk::MemoryRequirements2 image_memory_requirements;
+	m_logicalDevice.getImageMemoryRequirements2(&memory_requirements_info, &image_memory_requirements);
 
 	// Information for allocating memory
 	const vk::MemoryAllocateInfo memory_allocate_info{
-		memory_requirements.size,
-		findMemoryType(memory_requirements.memoryTypeBits, properties)
+		image_memory_requirements.memoryRequirements.size,
+		findMemoryType(image_memory_requirements.memoryRequirements.memoryTypeBits, properties)
 	};
 
 	// Allocate memory for the texture buffer
@@ -2209,18 +2417,24 @@ void Application::createImage(const uint32_t width, const uint32_t height, const
 	createResultValue(result, "vk::Device::allocateMemory");
 
 	// Bind the memory to the buffer handle
-	result = m_logicalDevice.bindImageMemory(image, image_memory, 0);
-	createResultValue(result, "vk::Device::bindImageMemory");
+	const vk::BindImageMemoryInfo bind_image_memory_info{
+		image, // Image
+		image_memory, // Memory
+		0 // Memory offset
+	};
+
+	result = m_logicalDevice.bindImageMemory2(1, &bind_image_memory_info);
+	createResultValue(result, "vk::Device::bindImageMemory2");
 }
 
-void Application::transitionImageLayout(const vk::Image image, const vk::Format /* format */, const vk::ImageAspectFlags image_aspect_flags, const vk::ImageLayout old_layout, const vk::ImageLayout new_layout) RELEASE_NOEXCEPT
+void Application::transitionImageLayout(const vk::Image image, const vk::Format /* format */, const vk::ImageAspectFlags image_aspect_flags, const vk::ImageLayout old_layout, const vk::ImageLayout new_layout, const uint32_t mip_levels) RELEASE_NOEXCEPT
 {
 	const vk::ImageSubresourceRange subresource_range{
-		image_aspect_flags,
-		0,
-		1,
-		0,
-		1
+		image_aspect_flags, // Aspect mask
+		0, // Base mip level
+		mip_levels, // Level count
+		0, // Base array layer
+		1 // Layer count
 	};
 
 	vk::ImageMemoryBarrier image_memory_barrier{
@@ -2263,7 +2477,7 @@ void Application::transitionImageLayout(const vk::Image image, const vk::Format 
 		assert(false && "ASSERT: Unsupported image layout transition!");
 	}
 
-	const vk::CommandBuffer command_buffer = beginSingleTimeCommand();
+	const vk::CommandBuffer command_buffer = beginSingleTimeCommand(false);
 
 	// Transfer the image
 	command_buffer.pipelineBarrier(
@@ -2278,7 +2492,7 @@ void Application::transitionImageLayout(const vk::Image image, const vk::Format 
 		&image_memory_barrier // Image memory barriers
 	);
 
-	endSingleTimeCommand(command_buffer);
+	endSingleTimeCommand(command_buffer, false);
 }
 
 void Application::copyBufferToImage(const vk::Buffer src_buffer, const vk::Image dst_image, const uint32_t width, const uint32_t height) RELEASE_NOEXCEPT
@@ -2311,7 +2525,7 @@ void Application::copyBufferToImage(const vk::Buffer src_buffer, const vk::Image
 		image_extent // Image extent
 	};
 
-	const vk::CommandBuffer command_buffer = beginSingleTimeCommand();
+	const vk::CommandBuffer command_buffer = beginSingleTimeCommand(false);
 
 	command_buffer.copyBufferToImage(
 		src_buffer, // Src buffer
@@ -2321,15 +2535,146 @@ void Application::copyBufferToImage(const vk::Buffer src_buffer, const vk::Image
 		&image_copy_region // Regions
 	);
 
-	endSingleTimeCommand(command_buffer);
+	endSingleTimeCommand(command_buffer, false);
 }
 
-vk::CommandBuffer Application::beginSingleTimeCommand() RELEASE_NOEXCEPT
+void Application::generateMipmaps(const vk::Image image, const vk::Format image_format, int tex_width, int tex_height, const uint32_t mip_levels) RELEASE_NOEXCEPT
+{
+	// Check if image format supports linear blitting
+	vk::FormatProperties2 format_properties;
+	m_physicalDevice.getFormatProperties2(image_format, &format_properties);
+	assert(format_properties.formatProperties.optimalTilingFeatures & vk::FormatFeatureFlagBits::eSampledImageFilterLinear && "VULKAN ASSERT: Texture image format does not support linear blitting!");
+
+	vk::ImageMemoryBarrier image_memory_barrier{
+		{}, // Src access mask
+		{}, // Dst access mask
+		{}, // Old layout
+		{}, // New layout
+		VK_QUEUE_FAMILY_IGNORED, // Src queue family index
+		VK_QUEUE_FAMILY_IGNORED, // Dst queue family index
+		image, // Image
+		{
+			vk::ImageAspectFlagBits::eColor,
+			{},
+			1,
+			0,
+			1
+		} // Subresource range
+	};
+
+	const vk::CommandBuffer command_buffer = beginSingleTimeCommand(true);
+
+	for (uint32_t i = 1; i < mip_levels; ++i) {
+		image_memory_barrier.subresourceRange.baseMipLevel = i - 1;
+		image_memory_barrier.oldLayout = vk::ImageLayout::eTransferDstOptimal;
+		image_memory_barrier.newLayout = vk::ImageLayout::eTransferSrcOptimal;
+		image_memory_barrier.srcAccessMask = vk::AccessFlagBits::eTransferWrite;
+		image_memory_barrier.dstAccessMask = vk::AccessFlagBits::eTransferRead;
+
+		command_buffer.pipelineBarrier(
+			vk::PipelineStageFlagBits::eTransfer, // Src stage mask
+			vk::PipelineStageFlagBits::eTransfer, // Dst stage mask
+			{}, // Dependency flags
+			0, // Memory barrier count
+			nullptr, // Memory barriers
+			0, // Buffer memory count
+			nullptr, // Buffer memory barriers
+			1, // Image memory barrier count
+			&image_memory_barrier // Image memory barriers
+		);
+
+		const vk::ImageSubresourceLayers src_image_subresource{
+			vk::ImageAspectFlagBits::eColor, // Aspect mask
+			i - 1, // Mip level
+			0, // Base array layer
+			1 // Layer count
+		};
+
+		const std::array<vk::Offset3D, 2> src_offsets{
+			vk::Offset3D{ 0, 0, 0 },
+			vk::Offset3D{ static_cast<int32_t>(tex_width), static_cast<int32_t>(tex_height), 1 }
+		};
+
+		const vk::ImageSubresourceLayers dst_image_subresource{
+			vk::ImageAspectFlagBits::eColor, // Aspect mask
+			i, // Mip level
+			0, // Base array layer
+			1 // Layer count
+		};
+
+		const std::array<vk::Offset3D, 2> dst_offsets{
+			vk::Offset3D{ 0, 0, 0 },
+			vk::Offset3D{ tex_width > 1 ? tex_width / 2 : 1, tex_height > 1 ? tex_height / 2 : 1, 1 }
+		};
+
+		const vk::ImageBlit image_blit{
+			std::move(src_image_subresource), // Src subresource
+			std::move(src_offsets), // Src offsets
+			std::move(dst_image_subresource), // Dst subresource
+			std::move(dst_offsets) // Dst offsets
+		};
+
+		command_buffer.blitImage(
+			image, // Src image
+			vk::ImageLayout::eTransferSrcOptimal, // Src image layout
+			image, // Dst image
+			vk::ImageLayout::eTransferDstOptimal, // Dst image layout
+			1, // Region count
+			&image_blit, // Regions
+			vk::Filter::eLinear // Filter
+		);
+
+		image_memory_barrier.oldLayout = vk::ImageLayout::eTransferSrcOptimal;
+		image_memory_barrier.newLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+		image_memory_barrier.srcAccessMask = vk::AccessFlagBits::eTransferRead;
+		image_memory_barrier.dstAccessMask = vk::AccessFlagBits::eShaderRead;
+
+		command_buffer.pipelineBarrier(
+			vk::PipelineStageFlagBits::eTransfer,
+			vk::PipelineStageFlagBits::eFragmentShader,
+			{},
+			0, 
+			nullptr,
+			0, 
+			nullptr,
+			1, 
+			&image_memory_barrier 
+		);
+
+		if (tex_width > 1) 
+			tex_width /= 2;
+    	if (tex_height > 1) 
+			tex_height /= 2;
+	}
+
+	// Transition the last mip level
+	image_memory_barrier.subresourceRange.baseMipLevel = mip_levels - 1;
+	image_memory_barrier.oldLayout = vk::ImageLayout::eTransferDstOptimal;
+	image_memory_barrier.newLayout = vk::ImageLayout::eShaderReadOnlyOptimal;
+	image_memory_barrier.srcAccessMask = vk::AccessFlagBits::eTransferWrite;
+	image_memory_barrier.dstAccessMask = vk::AccessFlagBits::eShaderRead;
+
+	command_buffer.pipelineBarrier(
+		vk::PipelineStageFlagBits::eTransfer,
+		vk::PipelineStageFlagBits::eFragmentShader,
+		{},
+		0, 
+		nullptr,
+		0, 
+		nullptr,
+		1, 
+		&image_memory_barrier 
+	);
+
+	endSingleTimeCommand(command_buffer, true);
+}
+
+vk::CommandBuffer Application::beginSingleTimeCommand(const bool need_graphics) RELEASE_NOEXCEPT
 {
 	vk::Result result;
 
 	const vk::CommandBufferAllocateInfo command_buffer_allocate_info{
-		m_transferCommandPool,
+		need_graphics ? m_graphicsCommandPool : m_transferCommandPool,
 		vk::CommandBufferLevel::ePrimary,
 		1
 	};
@@ -2348,7 +2693,7 @@ vk::CommandBuffer Application::beginSingleTimeCommand() RELEASE_NOEXCEPT
 	return command_buffer;
 }
 
-void Application::endSingleTimeCommand(const vk::CommandBuffer command_buffer) RELEASE_NOEXCEPT
+void Application::endSingleTimeCommand(const vk::CommandBuffer command_buffer, const bool need_graphics) RELEASE_NOEXCEPT
 {
 	vk::Result result;
 
@@ -2362,6 +2707,17 @@ void Application::endSingleTimeCommand(const vk::CommandBuffer command_buffer) R
 		1,
 		&command_buffer
 	};
+
+	[[unlikely]] if (need_graphics) {
+		result = m_graphicsQueue.submit(1, &submit_info, nullptr);
+		createResultValue(result, "vk::Queue::submit");
+
+		result = m_graphicsQueue.waitIdle();
+		createResultValue(result, "vk::Queue::waitIdle");
+
+		m_logicalDevice.freeCommandBuffers(m_graphicsCommandPool, 1, &command_buffer);
+		return;
+	}
 
 	result = m_transferQueue.submit(1, &submit_info, nullptr);
 	createResultValue(result, "vk::Queue::submit");
