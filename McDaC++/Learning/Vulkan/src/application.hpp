@@ -28,9 +28,9 @@
 #endif
 
 #ifdef __APPLE__
-	#define NUM_DEVICE_EXTENSIONS 3
+	#define NUM_DEVICE_EXTENSIONS 4
 #else
-	#define NUM_DEVICE_EXTENSIONS 2
+	#define NUM_DEVICE_EXTENSIONS 3
 #endif
 
 #define VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME "VK_KHR_portability_subset"
@@ -252,8 +252,10 @@ private:
 	vk::SurfaceKHR m_surface;
 
 	vk::PhysicalDevice m_physicalDevice;
+	vk::PhysicalDeviceFeatures2 m_physicalDeviceFeatures;
 	vk::PhysicalDeviceProperties2 m_physicalDeviceProperties;
 	vk::PhysicalDeviceMemoryProperties2 m_physicalDeviceMemoryProperties;
+	vk::PhysicalDeviceDriverPropertiesKHR m_physicalDeviceDriverProperties;
 	vk::Device m_logicalDevice;
 
 	vk::DebugUtilsMessengerEXT m_debugMessenger;
@@ -328,7 +330,8 @@ private:
 
 	const char * const m_deviceExtensions[NUM_DEVICE_EXTENSIONS] = {
 		VK_KHR_SWAPCHAIN_EXTENSION_NAME,
-		VK_KHR_CREATE_RENDERPASS_2_EXTENSION_NAME
+		VK_KHR_CREATE_RENDERPASS_2_EXTENSION_NAME,
+		VK_KHR_DRIVER_PROPERTIES_EXTENSION_NAME
 #ifdef __APPLE__
 		, VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME
 #endif

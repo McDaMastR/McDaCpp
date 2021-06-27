@@ -4,7 +4,7 @@
 # compile CXX with /Library/Developer/CommandLineTools/usr/bin/c++
 CXX_DEFINES = -D_DEBUG
 
-CXX_INCLUDES = -I/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/Vulkan::Vulkan -isystem /usr/local/include
+CXX_INCLUDES = -isystem /usr/local/include
 
 CXX_FLAGS = -g -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk -Og -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -Wold-style-cast -Wcast-align -Wunused -Wconversion -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat=2 -fsanitize=address -fsanitize=pointer-compare -fsanitize=pointer-subtract -fsanitize=undefined -Wno-unknown-attributes -std=gnu++2a
 

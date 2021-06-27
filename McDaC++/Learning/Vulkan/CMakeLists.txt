@@ -1,15 +1,6 @@
 cmake_minimum_required(VERSION 3.20.4)
 project(LearnVulkan LANGUAGES CXX)
 
-set(DEBUG_ENABLE ON)
-
-if(DEBUG_ENABLE)
-	set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "" FORCE)
-	set(PROJECT_NAME "${PROJECT_NAME}-DEBUG")
-else()
-	set(CMAKE_BUILD_TYPE "Release" CACHE STRING "" FORCE)
-endif()
-
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
@@ -17,14 +8,15 @@ set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 
 set(SOURCE_FILES
-    src/main.cpp
-    src/application.cpp
+	src/main.cpp
+	src/application.cpp
 	src/libraries.cpp)
 
-if(DEBUG_ENABLE)
-	set(MACROS
-		_DEBUG)
-
+if(${CMAKE_BUILD_TYPE} MATCHES Debug)
+	set(PROJECT_NAME "${PROJECT_NAME}-DEBUG")
+	
+	set(MACROS _DEBUG)
+	
 	set(COMPILE_FLAGS
 		-Og
 		-Wall 
@@ -46,13 +38,11 @@ if(DEBUG_ENABLE)
 		-fsanitize=pointer-subtract
 		-fsanitize=undefined
 		-Wno-unknown-attributes) # compiler warnings don't recognise likely attributes (but it is supported)
-	
-	set(LINKER_FLAGS
-		-fsanitize=address)
+		
+	set(LINKER_FLAGS -fsanitize=address)
 else()
 	set(MACROS)
-	set(COMPILE_FLAGS
-		-Wno-unknown-attributes)
+	set(COMPILE_FLAGS -Wno-unknown-attributes)
 	set(LINKER_FLAGS)
 endif()
 
@@ -81,6 +71,5 @@ add_custom_command(
 	COMMAND glslc ${CMAKE_SOURCE_DIR}/assets/shaders/triangle.frag -o ${CMAKE_SOURCE_DIR}/bin/frag.spv
 )
 
-target_include_directories(${PROJECT_NAME} PRIVATE Vulkan::Vulkan)
 target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan)
 target_link_libraries(${PROJECT_NAME} glfw)

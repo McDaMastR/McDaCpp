@@ -39,11 +39,11 @@
 #endif
 #define ENGINE_NAME "No Engine"
 
-#define APP_VERSION VK_MAKE_VERSION(0, 1, 0)
-#define ENGINE_VERSION VK_MAKE_VERSION(0, 1, 0)
+#define APP_VERSION VK_MAKE_VERSION(1, 0, 0)
+#define ENGINE_VERSION VK_MAKE_VERSION(1, 0, 0)
 
 #ifdef _DEBUG
-	#define DEBUG_LOG(x) std::cout << "DEBUG_LOG: " << x << "\n\n";
+	#define DEBUG_LOG(x) std::cout << "Debug Log:\n\t" << x << "\n\n";
 #else
 	#define DEBUG_LOG(x)
 #endif
@@ -308,12 +308,257 @@ void Application::choosePhysicalDevice() RELEASE_NOEXCEPT
 	for (uint32_t i = 0; i < physical_device_count; ++i) {
 		if (physicalDeviceSupportsRequirements(physical_devices[i])) {
 			m_physicalDevice = physical_devices[i];
+			m_physicalDeviceProperties.pNext = &m_physicalDeviceDriverProperties;
 
+			m_physicalDevice.getFeatures2(&m_physicalDeviceFeatures);
 			m_physicalDevice.getProperties2(&m_physicalDeviceProperties);
 			m_physicalDevice.getMemoryProperties2(&m_physicalDeviceMemoryProperties);
 
 			m_msaaSamples = getMaxUsableSampleCount();
 			delete[] physical_devices;
+
+			const auto printMemoryTypes = [&]{
+				for (uint32_t i = 0; i < m_physicalDeviceMemoryProperties.memoryProperties.memoryTypeCount; ++i) {
+					std::cout << "\t\tMemory Type " << i << " Property Flags:\t\t\t\t" << vk::to_string(m_physicalDeviceMemoryProperties.memoryProperties.memoryTypes[i].propertyFlags) << '\n'
+							  << "\t\tMemory Type " << i << " Heap Index:\t\t\t\t" << m_physicalDeviceMemoryProperties.memoryProperties.memoryTypes[i].heapIndex << '\n';
+				}
+
+				return ' ';
+			};
+
+			const auto printMemoryHeaps = [&]{
+				for (uint32_t i = 0; i < m_physicalDeviceMemoryProperties.memoryProperties.memoryHeapCount; ++i) {
+					std::cout << "\t\tMemory Heap " << i << " Size:\t\t\t\t\t" << m_physicalDeviceMemoryProperties.memoryProperties.memoryHeaps[i].size << '\n'
+							  << "\t\tMemory Heap " << i << " Flags:\t\t\t\t\t" << vk::to_string(m_physicalDeviceMemoryProperties.memoryProperties.memoryHeaps[i].flags) << '\n';
+				}
+
+				return ' ';
+			};
+
+			DEBUG_LOG(
+				"Physical Device Properties:\n" << std::boolalpha <<
+				"\t\tAPI version:\t\t\t\t\t\t" << VK_VERSION_MAJOR(m_physicalDeviceProperties.properties.apiVersion) << '.'
+								     	 	   << VK_VERSION_MINOR(m_physicalDeviceProperties.properties.apiVersion) << '.'
+								     	 	   << VK_VERSION_PATCH(m_physicalDeviceProperties.properties.apiVersion) << '\n' << 
+
+				"\t\tDriver Version:\t\t\t\t\t\t" << VK_VERSION_MAJOR(m_physicalDeviceProperties.properties.driverVersion) << '.'
+								   				  << VK_VERSION_MINOR(m_physicalDeviceProperties.properties.driverVersion) << '.' // Not always the right way to get the driver version (it's vendor-specific)
+								   				  << VK_VERSION_PATCH(m_physicalDeviceProperties.properties.driverVersion) << '\n' <<
+
+				"\t\tDriver Conformance Version:\t\t\t\t" << +m_physicalDeviceDriverProperties.conformanceVersion.major << '.' 
+														  << +m_physicalDeviceDriverProperties.conformanceVersion.minor << '.' 
+														  << +m_physicalDeviceDriverProperties.conformanceVersion.subminor << '.' 
+														  << +m_physicalDeviceDriverProperties.conformanceVersion.patch << '\n' <<
+
+				"\t\tDriver Info:\t\t\t\t\t\t" << m_physicalDeviceDriverProperties.driverInfo.data() << '\n' << 
+				"\t\tDriver ID:\t\t\t\t\t\t" << vk::to_string(m_physicalDeviceDriverProperties.driverID) << '\n' << 
+				"\t\tDriver Name:\t\t\t\t\t\t" << m_physicalDeviceDriverProperties.driverName.data() << '\n' << 
+
+				"\t\tVendor ID:\t\t\t\t\t\t0x" << std::hex << m_physicalDeviceProperties.properties.vendorID << '\n' << 
+				"\t\tDevice ID:\t\t\t\t\t\t0x" << m_physicalDeviceProperties.properties.deviceID << std::dec << '\n' << 
+				"\t\tDevice Type:\t\t\t\t\t\t" << vk::to_string(m_physicalDeviceProperties.properties.deviceType) << '\n' <<
+				"\t\tDevice Name:\t\t\t\t\t\t" << m_physicalDeviceProperties.properties.deviceName.data() << '\n' <<
+				"\t\tPipeline Cache UUID:\t\t\t\t\t0x" << std::hex << +m_physicalDeviceProperties.properties.pipelineCacheUUID[0]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[1]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[2]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[3]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[4]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[5]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[6]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[7]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[8]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[9]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[10]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[11]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[12]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[13]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[14]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[15]
+														   	 	   << +m_physicalDeviceProperties.properties.pipelineCacheUUID[16] << std::dec << '\n' <<
+				
+				"\t\tMax Image Dimension 1D:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxImageDimension1D << '\n' <<
+				"\t\tMax Image Dimension 2D:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxImageDimension2D << '\n' <<
+				"\t\tMax Image Dimension 3D:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxImageDimension3D << '\n' <<
+				"\t\tMax Image Dimension Cube:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxImageDimensionCube << '\n' <<
+				"\t\tMax Image Array layers:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxImageArrayLayers << '\n' <<
+				"\t\tMax Texel Buffer Elements:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxTexelBufferElements << '\n' <<
+				"\t\tMax Uniform Buffer Range:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxUniformBufferRange << '\n' <<
+				"\t\tMax Storage Buffer Range:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxStorageBufferRange << '\n' <<
+				"\t\tMax Push Constants Size:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxPushConstantsSize << '\n' <<
+				"\t\tMax Memory Allocation Count:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxMemoryAllocationCount << '\n' <<
+				"\t\tMax Sampler Allocation Count:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxSamplerAllocationCount << '\n' <<
+				"\t\tBuffer Image Granularity:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.bufferImageGranularity << '\n' <<
+				"\t\tSparse Address Space Size:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.sparseAddressSpaceSize << '\n' <<
+				"\t\tMax Bound Descriptor Sets:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxBoundDescriptorSets << '\n' <<
+				"\t\tMax Per Stage Descriptor Samplers:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxPerStageDescriptorSamplers << '\n' <<
+				"\t\tMax Per Stage Descriptor Uniform Buffers:\t\t" << m_physicalDeviceProperties.properties.limits.maxPerStageDescriptorUniformBuffers << '\n' <<
+				"\t\tMax Per Stage Descriptor Storage Buffers:\t\t" << m_physicalDeviceProperties.properties.limits.maxPerStageDescriptorStorageBuffers << '\n' << 
+				"\t\tMax Per Stage Descriptor Sampled Images:\t\t" << m_physicalDeviceProperties.properties.limits.maxPerStageDescriptorSampledImages << '\n' <<
+				"\t\tMax Per Stage Descriptor Storage Images:\t\t" << m_physicalDeviceProperties.properties.limits.maxPerStageDescriptorStorageImages << '\n' <<
+				"\t\tMax Per Stage Descriptor Input Attachments:\t\t" << m_physicalDeviceProperties.properties.limits.maxPerStageDescriptorInputAttachments << '\n' <<
+				"\t\tMax Per Stage Resources:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxPerStageResources << '\n' <<
+				"\t\tMax Descriptor Set Samplers:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxDescriptorSetSamplers << '\n' <<
+				"\t\tMax Descriptor Set Uniform Buffers:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxDescriptorSetUniformBuffers << '\n' <<
+				"\t\tMax Descriptor Set Uniform Buffers Dynamic:\t\t" << m_physicalDeviceProperties.properties.limits.maxDescriptorSetUniformBuffersDynamic << '\n' <<
+				"\t\tMax Descriptor Set Storage Buffers:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxDescriptorSetStorageBuffers << '\n' <<
+				"\t\tMax Descriptor Set Storage Buffers Dynamic:\t\t" << m_physicalDeviceProperties.properties.limits.maxDescriptorSetStorageBuffersDynamic << '\n' <<
+				"\t\tMax Descriptor Set Sampled Images:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxDescriptorSetSampledImages << '\n' <<
+				"\t\tMax Descriptor Set Storage Images:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxDescriptorSetStorageImages << '\n' <<
+				"\t\tMax Descriptor Set Input Attchments:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxDescriptorSetInputAttachments << '\n' <<
+				"\t\tMax Vertex Input Attributes:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxVertexInputAttributes << '\n' <<
+				"\t\tMax Vertex Input Bindings:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxVertexInputBindings << '\n' <<
+				"\t\tMax Vertex Input Attribute Offset:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxVertexInputAttributeOffset << '\n' <<
+				"\t\tMax Vertex Input Binding Stride:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxVertexInputBindingStride << '\n' <<
+				"\t\tMax Vertex Output Components:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxVertexOutputComponents << '\n' <<
+				"\t\tMax Tessellation Generation Level:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxTessellationGenerationLevel << '\n' <<
+				"\t\tMax Tessellation Patch Size:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxTessellationPatchSize << '\n' <<
+				"\t\tMax Tessellation Control Per Vertex Input Components:\t" << m_physicalDeviceProperties.properties.limits.maxTessellationControlPerVertexInputComponents << '\n' <<
+				"\t\tMax Tessellation Control Per Vertex Output Components:\t" << m_physicalDeviceProperties.properties.limits.maxTessellationControlPerVertexOutputComponents << '\n' <<
+				"\t\tMax Tessellation Control Per Patch Output Components:\t" << m_physicalDeviceProperties.properties.limits.maxTessellationControlPerPatchOutputComponents << '\n' <<
+				"\t\tMax Tessellation Evaluation Input Components:\t\t" << m_physicalDeviceProperties.properties.limits.maxTessellationEvaluationInputComponents << '\n' <<
+				"\t\tMax Tessellation Evaluation Output Components:\t\t" << m_physicalDeviceProperties.properties.limits.maxTessellationEvaluationOutputComponents << '\n' <<
+				"\t\tMax Geometry Shader Invocations:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxGeometryShaderInvocations << '\n' <<
+				"\t\tMax Geometry Input Components:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxGeometryInputComponents << '\n' <<
+				"\t\tMax Geometry Output Components:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxGeometryOutputComponents << '\n' <<
+				"\t\tMax Geometry Output Vertices:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxGeometryOutputVertices << '\n' <<
+				"\t\tMax Geometry Total Output Components:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxGeometryTotalOutputComponents << '\n' <<
+				"\t\tMax Fragment Input Components:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxFragmentInputComponents << '\n' <<
+				"\t\tMax Fragment Output Attachments:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxFragmentOutputAttachments << '\n' <<
+				"\t\tMax Fragment Dual Src Attachments:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxFragmentDualSrcAttachments << '\n' <<
+				"\t\tMax Fragment Combined Output Resources:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxFragmentCombinedOutputResources << '\n' <<
+				"\t\tMax Compute Shared Memory Size:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxComputeSharedMemorySize << '\n' <<
+				"\t\tMax Compute Work Group Count:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxComputeWorkGroupCount[0] << ", " 
+															<< m_physicalDeviceProperties.properties.limits.maxComputeWorkGroupCount[1] << ", " 
+															<< m_physicalDeviceProperties.properties.limits.maxComputeWorkGroupCount[2] << '\n' <<
+
+				"\t\tMax Compute Work Group Invocations:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxComputeWorkGroupInvocations << '\n' <<
+				"\t\tMax Compute Work Group Size:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxComputeWorkGroupSize[0] << ", " 
+														   << m_physicalDeviceProperties.properties.limits.maxComputeWorkGroupSize[1] << ", " 
+														   << m_physicalDeviceProperties.properties.limits.maxComputeWorkGroupSize[2] << '\n' <<
+
+				"\t\tSub Pixel Precesion Bits:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.subPixelPrecisionBits << '\n' <<
+				"\t\tSub Texel Precesion Bits:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.subTexelPrecisionBits << '\n' <<
+				"\t\tMipmap Precesion Bits:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.mipmapPrecisionBits << '\n' <<
+				"\t\tMax Draw Indexed Index Value:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxDrawIndexedIndexValue << '\n' <<
+				"\t\tMax Draw Indirect Count:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxDrawIndirectCount << '\n' <<
+				"\t\tMax Sampler LOD Bias:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxSamplerLodBias << '\n' <<
+				"\t\tMax Sampler Anisotropy:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxSamplerAnisotropy << '\n' <<
+				"\t\tMax Viewports:\t\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxViewports << '\n' <<
+				"\t\tMax Viewport Dimensions:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxViewportDimensions[0] << ", " 
+													   << m_physicalDeviceProperties.properties.limits.maxViewportDimensions[1] << '\n' <<
+				
+				"\t\tViewport Bounds Range:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.viewportBoundsRange[0] << ", " 
+													   << m_physicalDeviceProperties.properties.limits.viewportBoundsRange[1] << '\n' <<
+				
+				"\t\tViewport Sub Pixel Bits:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.viewportSubPixelBits << '\n' <<
+				"\t\tMin Memory Map Alignment:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.minMemoryMapAlignment << '\n' <<
+				"\t\tMin Texel Buffer Offset Alignment:\t\t\t" << m_physicalDeviceProperties.properties.limits.minTexelBufferOffsetAlignment << '\n' <<
+				"\t\tMin Uniform Buffer Offset Alignment:\t\t\t" << m_physicalDeviceProperties.properties.limits.minUniformBufferOffsetAlignment << '\n' <<
+				"\t\tMin Storage Buffer Offset Alignment:\t\t\t" << m_physicalDeviceProperties.properties.limits.minStorageBufferOffsetAlignment << '\n' <<
+				"\t\tMin Texel Offset:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.minTexelOffset << '\n' <<
+				"\t\tMax Texel Offset:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxTexelOffset << '\n' <<
+				"\t\tMin Texel Gather Offset:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.minTexelGatherOffset << '\n' <<
+				"\t\tMax Texel Gather Offset:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxTexelGatherOffset << '\n' <<
+				"\t\tMin Interpolation Offset:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.minInterpolationOffset << '\n' <<
+				"\t\tMax Interpolation Offset:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxInterpolationOffset << '\n' <<
+				"\t\tSub Pixel Interpolation Offset Bits:\t\t\t" << m_physicalDeviceProperties.properties.limits.subPixelInterpolationOffsetBits << '\n' <<
+				"\t\tMax Framebuffer Width:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxFramebufferWidth << '\n' <<
+				"\t\tMax Framebuffer Height:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxFramebufferHeight << '\n' <<
+				"\t\tMax Framebuffer Layers:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxFramebufferLayers << '\n' <<
+				"\t\tFramebuffer Color Sample Counts:\t\t\t" << vk::to_string(m_physicalDeviceProperties.properties.limits.framebufferColorSampleCounts) << '\n' <<
+				"\t\tFramebuffer Depth Sample Counts:\t\t\t" << vk::to_string(m_physicalDeviceProperties.properties.limits.framebufferDepthSampleCounts) << '\n' <<
+				"\t\tFramebuffer Stencil Sample Counts:\t\t\t" << vk::to_string(m_physicalDeviceProperties.properties.limits.framebufferStencilSampleCounts) << '\n' <<
+				"\t\tFramebuffer No Attachments Sample Counts:\t\t" << vk::to_string(m_physicalDeviceProperties.properties.limits.framebufferNoAttachmentsSampleCounts) << '\n' <<
+				"\t\tMax Color Attachments:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxColorAttachments << '\n' <<
+				"\t\tSampled Image Color Sample Counts:\t\t\t" << vk::to_string(m_physicalDeviceProperties.properties.limits.sampledImageColorSampleCounts) << '\n' <<
+				"\t\tSampled Image Integer Sample Counts:\t\t\t" << vk::to_string(m_physicalDeviceProperties.properties.limits.sampledImageIntegerSampleCounts) << '\n' <<
+				"\t\tSampled Image Depth Sample Counts:\t\t\t" << vk::to_string(m_physicalDeviceProperties.properties.limits.sampledImageDepthSampleCounts) << '\n' <<
+				"\t\tSampled Image Stencil Sample Counts:\t\t\t" << vk::to_string(m_physicalDeviceProperties.properties.limits.sampledImageStencilSampleCounts) << '\n' <<
+				"\t\tStorage Image Sample Counts:\t\t\t\t" << vk::to_string(m_physicalDeviceProperties.properties.limits.storageImageSampleCounts) << '\n' <<
+				"\t\tMax Sample Mask Words:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxSampleMaskWords << '\n' <<
+				"\t\tTimestamp Compute And Graphics:\t\t\t\t" << static_cast<bool>(m_physicalDeviceProperties.properties.limits.timestampComputeAndGraphics) << '\n' <<
+				"\t\tTimestamp Period:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.timestampPeriod << '\n' <<
+				"\t\tMax Clip Distances:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxClipDistances << '\n' <<
+				"\t\tMax Cull Distances:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.maxCullDistances << '\n' <<
+				"\t\tMax Combined Clip And Cull Distances:\t\t\t" << m_physicalDeviceProperties.properties.limits.maxCombinedClipAndCullDistances << '\n' <<
+				"\t\tDiscrete Queue Priorities:\t\t\t\t" << m_physicalDeviceProperties.properties.limits.discreteQueuePriorities << '\n' <<
+				"\t\tPoint Size Range:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.pointSizeRange[0] << ", "
+												  << m_physicalDeviceProperties.properties.limits.pointSizeRange[1] << '\n' <<
+				
+				"\t\tLine Width Range:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.lineWidthRange[0] << ", "
+												  << m_physicalDeviceProperties.properties.limits.lineWidthRange[1] << '\n' <<
+				
+				"\t\tPoint Size Granularity:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.pointSizeGranularity << '\n' <<
+				"\t\tLine Width Granularity:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.lineWidthGranularity << '\n' <<
+				"\t\tStrict Lines:\t\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceProperties.properties.limits.strictLines) << '\n' <<
+				"\t\tStandard Sample Locations:\t\t\t\t" << static_cast<bool>(m_physicalDeviceProperties.properties.limits.standardSampleLocations) << '\n' <<
+				"\t\tOptimal Buffer Copy Offset Alignement:\t\t\t" << m_physicalDeviceProperties.properties.limits.optimalBufferCopyOffsetAlignment << '\n' <<
+				"\t\tOptimal Buffer Copy Row Pitch Alignement:\t\t" << m_physicalDeviceProperties.properties.limits.optimalBufferCopyRowPitchAlignment << '\n' <<
+				"\t\tNon Coherent Atom Size:\t\t\t\t\t" << m_physicalDeviceProperties.properties.limits.nonCoherentAtomSize << '\n' <<
+				"\t\tResidency Standard 2D Block Shape:\t\t\t" << static_cast<bool>(m_physicalDeviceProperties.properties.sparseProperties.residencyStandard2DBlockShape) << '\n' <<
+				"\t\tResidency Standard 2D Multisample Block Shape:\t\t" << static_cast<bool>(m_physicalDeviceProperties.properties.sparseProperties.residencyStandard2DMultisampleBlockShape) << '\n' <<
+				"\t\tResidency Standard 3D Block Shape:\t\t\t" << static_cast<bool>(m_physicalDeviceProperties.properties.sparseProperties.residencyStandard3DBlockShape) << '\n' <<
+				"\t\tResidency Aligned Mip Size:\t\t\t\t" << static_cast<bool>(m_physicalDeviceProperties.properties.sparseProperties.residencyAlignedMipSize) << '\n' <<
+				"\t\tResidency Non Resident Strict:\t\t\t\t" << static_cast<bool>(m_physicalDeviceProperties.properties.sparseProperties.residencyNonResidentStrict) << '\n' <<
+				printMemoryTypes() << 
+				printMemoryHeaps() <<
+				"\t\tRobust Buffer Access:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.robustBufferAccess) << '\n' <<
+				"\t\tFull Draw Index Uint32:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.fullDrawIndexUint32) << '\n' <<
+				"\t\tImage Cube Array:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.imageCubeArray) << '\n' <<
+				"\t\tIndependent Blend:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.independentBlend) << '\n' <<
+				"\t\tGeometry Shader:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.geometryShader) << '\n' <<
+				"\t\tTessellation Shader:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.tessellationShader) << '\n' <<
+				"\t\tSample Rate Shading:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.sampleRateShading) << '\n' <<
+				"\t\tDual Src Blend:\t\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.dualSrcBlend) << '\n' <<
+				"\t\tLogic Op:\t\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.logicOp) << '\n' <<
+				"\t\tMulti Draw Indirect:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.multiDrawIndirect) << '\n' <<
+				"\t\tDraw Indirect First Instance:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.drawIndirectFirstInstance) << '\n' <<
+				"\t\tDepth Clamp:\t\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.depthClamp) << '\n' <<
+				"\t\tDepth Bias Clamp:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.depthBiasClamp) << '\n' <<
+				"\t\tFill Mode Non Solid:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.fillModeNonSolid) << '\n' <<
+				"\t\tDepth Bounds:\t\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.depthBounds) << '\n' <<
+				"\t\tWide Lines:\t\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.wideLines) << '\n' <<
+				"\t\tLarge Points:\t\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.largePoints) << '\n' <<
+				"\t\tAlpha To One:\t\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.alphaToOne) << '\n' <<
+				"\t\tMulti Viewport:\t\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.multiViewport) << '\n' <<
+				"\t\tSampler Anisotropy:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.samplerAnisotropy) << '\n' <<
+				"\t\tTexture Compression ETC 2:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.textureCompressionETC2) << '\n' <<
+				"\t\tTexture Compression ASTC LDR:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.textureCompressionASTC_LDR) << '\n' <<
+				"\t\tTexture Compression BC:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.textureCompressionBC) << '\n' <<
+				"\t\tOcclusion Query Precise:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.occlusionQueryPrecise) << '\n' <<
+				"\t\tPipeline Statistics Query:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.pipelineStatisticsQuery) << '\n' <<
+				"\t\tVertex Pipeline Stores And Atomics:\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.vertexPipelineStoresAndAtomics) << '\n' <<
+				"\t\tFragment Stores And Atomics:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.fragmentStoresAndAtomics) << '\n' <<
+				"\t\tShader Tessellation And Geometry Point Size:\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderTessellationAndGeometryPointSize) << '\n' <<
+				"\t\tShader Image Gather Extended:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderImageGatherExtended) << '\n' <<
+				"\t\tShader Storage Image Extended Formats:\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderStorageImageExtendedFormats) << '\n' <<
+				"\t\tShader Storage Image Multisample:\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderStorageImageMultisample) << '\n' <<
+				"\t\tShader Storage Image Read Without Format:\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderStorageImageReadWithoutFormat) << '\n' <<
+				"\t\tShader Storage Image Write Without Format:\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderStorageImageWriteWithoutFormat) << '\n' <<
+				"\t\tShader Uniform Buffer Array Dynamic Indexing:\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderUniformBufferArrayDynamicIndexing) << '\n' <<
+				"\t\tShader Sampled Image Array Dynamic Indexing:\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderSampledImageArrayDynamicIndexing) << '\n' <<
+				"\t\tShader Storage Buffer Array Dynamic Indexing:\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderStorageBufferArrayDynamicIndexing) << '\n' <<
+				"\t\tShader Storage Image Array Dynamic Indexing:\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderStorageImageArrayDynamicIndexing) << '\n' <<
+				"\t\tShader Clip Distance:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderClipDistance) << '\n' <<
+				"\t\tShader Cull Distance:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderCullDistance) << '\n' <<
+				"\t\tShader Float64:\t\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderFloat64) << '\n' <<
+				"\t\tShader Int64:\t\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderInt64) << '\n' <<
+				"\t\tShader Int16:\t\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderInt16) << '\n' <<
+				"\t\tShader Resource Residency:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderResourceResidency) << '\n' <<
+				"\t\tShader Resource Min LOD:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.shaderResourceMinLod) << '\n' <<
+				"\t\tSparse Binding:\t\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.sparseBinding) << '\n' <<
+				"\t\tSparse Residency Buffer:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.sparseResidencyBuffer) << '\n' <<
+				"\t\tSparse Residency Image 2D:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.sparseResidencyImage2D) << '\n' <<
+				"\t\tSparse Residency Image 3D:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.sparseResidencyImage3D) << '\n' <<
+				"\t\tSparse Residency 2 Samples:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.sparseResidency2Samples) << '\n' <<
+				"\t\tSparse Residency 4 Samples:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.sparseResidency4Samples) << '\n' <<
+				"\t\tSparse Residency 8 Samples:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.sparseResidency8Samples) << '\n' <<
+				"\t\tSparse Residency 16 Samples:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.sparseResidency16Samples) << '\n' <<
+				"\t\tSparse Residency Aliased:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.sparseResidencyAliased) << '\n' <<
+				"\t\tVariable Multisample Rate:\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.variableMultisampleRate) << '\n' <<
+				"\t\tInherited Queries:\t\t\t\t\t" << static_cast<bool>(m_physicalDeviceFeatures.features.inheritedQueries)
+			);
+
 			return;
 		}
 	}
@@ -2326,7 +2571,7 @@ void Application::updateUniformBuffer(const uint32_t current_image) RELEASE_NOEX
 	UniformBufferObject UBO{
 		.model = glm::rotate(glm::mat4(1.0f), duration * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f)), // Rotate around the Z-axis at 90 degrees/second
 		.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f)), // Look at the geometry from above at a 45 degree angle
-		.proj = glm::perspective(glm::radians(40.0f), m_swapChainExtent.width / static_cast<float>(m_swapChainExtent.height), 0.1f, 10.0f) // Perspective projection with a 45 degree vertical field-of-view
+		.proj = glm::perspective(glm::radians(40.0f), m_swapChainExtent.width / static_cast<float>(m_swapChainExtent.height), 0.1f, 10.0f) // Perspective projection with a 40 degree vertical field-of-view
 	};
 
 	// Flip the sign on the scaling factor of the Y axis to render geometry right way up
@@ -2403,8 +2648,39 @@ void Application::createImage(const uint32_t width, const uint32_t height, const
 		image
 	};
 
+	vk::MemoryDedicatedRequirements dedicated_requirements;
+
 	vk::MemoryRequirements2 image_memory_requirements;
+	image_memory_requirements.pNext = &dedicated_requirements;
+
 	m_logicalDevice.getImageMemoryRequirements2(&memory_requirements_info, &image_memory_requirements);
+
+	if (dedicated_requirements.prefersDedicatedAllocation || dedicated_requirements.requiresDedicatedAllocation) {
+		const vk::MemoryDedicatedAllocateInfo dedicated_allocate_info{
+			image,
+			nullptr
+		};
+
+		vk::MemoryAllocateInfo memory_allocate_info{
+			image_memory_requirements.memoryRequirements.size,
+			findMemoryType(image_memory_requirements.memoryRequirements.memoryTypeBits, properties)
+		};
+
+		memory_allocate_info.pNext = &dedicated_allocate_info;
+
+		result = m_logicalDevice.allocateMemory(&memory_allocate_info, nullptr, &image_memory);
+		createResultValue(result, "vk::Device::allocateMemory");
+
+		const vk::BindImageMemoryInfo bind_image_memory_info{
+			image, 
+			image_memory,
+			0
+		};
+
+		result = m_logicalDevice.bindImageMemory2(1, &bind_image_memory_info);
+		createResultValue(result, "vk::Device::bindImageMemory2");
+		return;
+	}
 
 	// Information for allocating memory
 	const vk::MemoryAllocateInfo memory_allocate_info{
