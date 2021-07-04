@@ -44,19 +44,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/local/Cellar/cmake/3.20.4/bin/cmake
+CMAKE_COMMAND = /usr/local/Cellar/cmake/3.20.5/bin/cmake
 
 # The command to remove a file.
-RM = /usr/local/Cellar/cmake/3.20.4/bin/cmake -E rm -f
+RM = /usr/local/Cellar/cmake/3.20.5/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan
+CMAKE_SOURCE_DIR = /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build
+CMAKE_BINARY_DIR = /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/LearnVulkan-DEBUG.dir/depend.make
@@ -72,44 +72,44 @@ include CMakeFiles/LearnVulkan-DEBUG.dir/flags.make
 CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: CMakeFiles/LearnVulkan-DEBUG.dir/flags.make
 CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp
 CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: CMakeFiles/LearnVulkan-DEBUG.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o -MF CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o.d -o CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o -MF CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o.d -o CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o -c /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp
 
 CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp > CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp > CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.i
 
 CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp -o CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp -o CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.s
 
 CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o: CMakeFiles/LearnVulkan-DEBUG.dir/flags.make
 CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o: ../src/application.cpp
 CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o: CMakeFiles/LearnVulkan-DEBUG.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o -MF CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o.d -o CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o -MF CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o.d -o CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o -c /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp
 
 CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp > CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp > CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.i
 
 CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp -o CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.cpp -o CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.s
 
 CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.o: CMakeFiles/LearnVulkan-DEBUG.dir/flags.make
 CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.o: ../src/libraries.cpp
 CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.o: CMakeFiles/LearnVulkan-DEBUG.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.o -MF CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.o.d -o CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.o -c /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/libraries.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.o -MF CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.o.d -o CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.o -c /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/libraries.cpp
 
 CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/libraries.cpp > CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.i
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/libraries.cpp > CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.i
 
 CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/libraries.cpp -o CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.s
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/libraries.cpp -o CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.s
 
 # Object files for target LearnVulkan-DEBUG
 LearnVulkan__DEBUG_OBJECTS = \
@@ -127,12 +127,12 @@ LearnVulkan__DEBUG_EXTERNAL_OBJECTS =
 ../bin/LearnVulkan-DEBUG: /usr/local/lib/libvulkan.dylib
 ../bin/LearnVulkan-DEBUG: /usr/local/lib/libglfw.3.3.dylib
 ../bin/LearnVulkan-DEBUG: CMakeFiles/LearnVulkan-DEBUG.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ../bin/LearnVulkan-DEBUG"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ../bin/LearnVulkan-DEBUG"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/LearnVulkan-DEBUG.dir/link.txt --verbose=$(VERBOSE)
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "[100%] Compiling Vertex Shader"
-	glslc /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/assets/shaders/triangle.vert -o /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/bin/vert.spv
+	glslc /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/assets/shaders/scene.vert -o /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/bin/vert.spv
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold "[100%] Compiling Fragment Shader"
-	glslc /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/assets/shaders/triangle.frag -o /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/bin/frag.spv
+	glslc /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/assets/shaders/scene.frag -o /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/bin/frag.spv
 
 # Rule to build all files generated by this target.
 CMakeFiles/LearnVulkan-DEBUG.dir/build: ../bin/LearnVulkan-DEBUG
@@ -143,6 +143,6 @@ CMakeFiles/LearnVulkan-DEBUG.dir/clean:
 .PHONY : CMakeFiles/LearnVulkan-DEBUG.dir/clean
 
 CMakeFiles/LearnVulkan-DEBUG.dir/depend:
-	cd /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan-DEBUG.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/build/CMakeFiles/LearnVulkan-DEBUG.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/LearnVulkan-DEBUG.dir/depend
 

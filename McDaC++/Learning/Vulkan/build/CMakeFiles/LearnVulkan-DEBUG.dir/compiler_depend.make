@@ -232,6 +232,13 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o: ../src/application.cpp \
   /usr/local/include/vulkan/vulkan.h \
   /usr/local/include/vulkan/vk_platform.h \
   /usr/local/include/vulkan/vulkan_core.h \
+  /usr/local/include/vulkan/vulkan_beta.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h264std.h \
+  /usr/local/include/vk_video/vulkan_video_codecs_common.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h264std_encode.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h264std_decode.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h265std.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h265std_decode.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/dlfcn.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/stdbool.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/stdbool.h \
@@ -515,9 +522,9 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/application.cpp.o: ../src/application.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/stack \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/deque \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/iomanip \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/unordered_set \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__hash_table \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/unordered_map
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/set \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/unordered_map \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__hash_table
 
 CMakeFiles/LearnVulkan-DEBUG.dir/src/libraries.cpp.o: ../src/libraries.cpp \
   /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/share/asan_blacklist.txt \
@@ -996,6 +1003,13 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
   /usr/local/include/vulkan/vulkan.h \
   /usr/local/include/vulkan/vk_platform.h \
   /usr/local/include/vulkan/vulkan_core.h \
+  /usr/local/include/vulkan/vulkan_beta.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h264std.h \
+  /usr/local/include/vk_video/vulkan_video_codecs_common.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h264std_encode.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h264std_decode.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h265std.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h265std_decode.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/dlfcn.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/stdbool.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/stdbool.h \
@@ -1278,8 +1292,6 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/unordered_map:
 
-/Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/unordered_set:
-
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/iomanip:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/deque:
@@ -1340,7 +1352,15 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/local/include/glm/ext/vector_double1.hpp:
 
+/usr/local/include/glm/ext/vector_float1_precision.hpp:
+
+/usr/local/include/glm/ext/vector_float1.hpp:
+
 /usr/local/include/glm/ext/vector_bool1_precision.hpp:
+
+/usr/local/include/glm/gtx/hash.hpp:
+
+/usr/local/include/glm/gtc/matrix_transform.inl:
 
 /usr/local/include/glm/ext/matrix_clip_space.inl:
 
@@ -1351,6 +1371,8 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/local/include/glm/ext/matrix_double2x2.hpp:
 
 /usr/local/include/glm/ext/matrix_projection.inl:
+
+/usr/local/include/vk_video/vulkan_video_codec_h264std_decode.h:
 
 /usr/local/include/glm/gtc/matrix_transform.hpp:
 
@@ -1427,6 +1449,8 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/local/include/glm/ext/vector_double3.hpp:
 
 /usr/local/include/glm/detail/type_mat3x3.hpp:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/set:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_null.h:
 
@@ -1556,6 +1580,8 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/local/include/glm/detail/qualifier.hpp:
 
+/usr/local/include/vk_video/vulkan_video_codec_h264std.h:
+
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/float.h:
 
 /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/float.h:
@@ -1567,14 +1593,6 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_types/_intmax_t.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/math.h:
-
-/usr/local/include/glm/ext/matrix_transform.inl:
-
-../src/application.cpp:
-
-/usr/local/include/glm/detail/type_mat3x3.inl:
-
-/Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/cmath:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/system_error:
 
@@ -1589,6 +1607,18 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/local/include/glm/trigonometric.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/dlfcn.h:
+
+/usr/local/include/vk_video/vulkan_video_codec_h265std_decode.h:
+
+/usr/local/include/vk_video/vulkan_video_codec_h265std.h:
+
+/usr/local/include/glm/ext/matrix_transform.inl:
+
+../src/application.cpp:
+
+/usr/local/include/glm/detail/type_mat3x3.inl:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/cmath:
 
 /usr/local/include/vulkan/vulkan_core.h:
 
@@ -1676,9 +1706,11 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 
 /usr/local/include/glm/ext/vector_float2_precision.hpp:
 
-/Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__tuple:
+/usr/local/include/vk_video/vulkan_video_codec_h264std_encode.h:
 
 /usr/local/include/glm/ext/vector_bool1.hpp:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__tuple:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/nl_types.h:
 
@@ -1727,8 +1759,6 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/limits.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/string_view:
-
-/usr/local/include/glm/gtc/matrix_transform.inl:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/_types/_uint64_t.h:
 
@@ -1791,8 +1821,6 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/mmintrin.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/array:
-
-/usr/local/include/glm/ext/vector_float1_precision.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_types/_timespec.h:
 
@@ -1940,7 +1968,7 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/xlocale/_wctype.h:
 
-/usr/local/include/glm/ext/vector_float1.hpp:
+/usr/local/include/vk_video/vulkan_video_codecs_common.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/qos.h:
 
@@ -1950,9 +1978,9 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/_symbol_aliasing.h:
 
-/usr/local/include/glm/vector_relational.hpp:
-
 /usr/local/include/glm/gtc/vec1.hpp:
+
+/usr/local/include/glm/vector_relational.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/stdlib.h:
 
@@ -1985,6 +2013,8 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 ../src/stb_image.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/wchar.h:
+
+/usr/local/include/vulkan/vulkan_beta.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/sys/stdio.h:
 
@@ -2035,8 +2065,6 @@ CMakeFiles/LearnVulkan-DEBUG.dir/src/main.cpp.o: ../src/main.cpp \
 /usr/local/include/glm/gtx/dual_quaternion.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/wchar.h:
-
-/usr/local/include/glm/gtx/hash.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/stdio.h:
 

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20.4)
+cmake_minimum_required(VERSION 3.20.5)
 project(LearnVulkan LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -57,18 +57,18 @@ add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 add_custom_command(
 	TARGET ${PROJECT_NAME}
-	DEPENDS ${CMAKE_SOURCE_DIR}/assets/shaders/triangle.vert
+	DEPENDS ${CMAKE_SOURCE_DIR}/assets/shaders/scene.vert
 
 	COMMENT "[100%] Compiling Vertex Shader"
-	COMMAND glslc ${CMAKE_SOURCE_DIR}/assets/shaders/triangle.vert -o ${CMAKE_SOURCE_DIR}/bin/vert.spv
+	COMMAND glslc ${CMAKE_SOURCE_DIR}/assets/shaders/scene.vert -o ${CMAKE_SOURCE_DIR}/bin/vert.spv
 )
 
 add_custom_command(
 	TARGET ${PROJECT_NAME}
-	DEPENDS ${CMAKE_SOURCE_DIR}/assets/shaders/triangle.frag
+	DEPENDS ${CMAKE_SOURCE_DIR}/assets/shaders/scene.frag
 
 	COMMENT "[100%] Compiling Fragment Shader"
-	COMMAND glslc ${CMAKE_SOURCE_DIR}/assets/shaders/triangle.frag -o ${CMAKE_SOURCE_DIR}/bin/frag.spv
+	COMMAND glslc ${CMAKE_SOURCE_DIR}/assets/shaders/scene.frag -o ${CMAKE_SOURCE_DIR}/bin/frag.spv
 )
 
 target_link_libraries(${PROJECT_NAME} Vulkan::Vulkan)

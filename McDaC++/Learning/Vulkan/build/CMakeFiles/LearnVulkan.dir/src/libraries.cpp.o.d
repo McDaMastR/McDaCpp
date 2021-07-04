@@ -1,6 +1,6 @@
 CMakeFiles/LearnVulkan.dir/src/libraries.cpp.o: \
-  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/libraries.cpp \
-  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/stb_image.h \
+  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/libraries.cpp \
+  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/stb_image.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/stdio.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__config \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/pthread.h \
@@ -106,7 +106,7 @@ CMakeFiles/LearnVulkan.dir/src/libraries.cpp.o: \
   /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/xmmintrin.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/mmintrin.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/mm_malloc.h \
-  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/tiny_obj_loader.h \
+  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/tiny_obj_loader.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/map \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__tree \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/iterator \

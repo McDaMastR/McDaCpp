@@ -94,6 +94,23 @@
 		"*.tcc": "cpp",
 		"stop_token": "cpp",
 		"cinttypes": "cpp",
-		"cfenv": "cpp"
-	}
+		"cfenv": "cpp",
+		"cfloat": "cpp"
+	},
+	"cSpell.words": [
+		"Aorange",
+		"Astrawberry",
+		"Aword",
+		"Sfloat",
+		"Srbg",
+		"UBOs",
+		"Wwindow",
+		"apidump",
+		"blitting",
+		"khronos",
+		"lunarg",
+		"msaa",
+		"stbi",
+		"vcols"
+	]
 }

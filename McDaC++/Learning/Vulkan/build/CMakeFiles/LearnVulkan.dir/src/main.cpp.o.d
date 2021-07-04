@@ -1,6 +1,6 @@
 CMakeFiles/LearnVulkan.dir/src/main.cpp.o: \
-  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp \
-  /Users/sethmcdonald/dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.hpp \
+  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/main.cpp \
+  /Users/seth/Dev/McDaStuff/McDaC++/Learning/Vulkan/src/application.hpp \
   /usr/local/include/vulkan/vulkan.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/algorithm \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/__config \
@@ -229,6 +229,13 @@ CMakeFiles/LearnVulkan.dir/src/main.cpp.o: \
   /usr/local/include/vulkan/vulkan.h \
   /usr/local/include/vulkan/vk_platform.h \
   /usr/local/include/vulkan/vulkan_core.h \
+  /usr/local/include/vulkan/vulkan_beta.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h264std.h \
+  /usr/local/include/vk_video/vulkan_video_codecs_common.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h264std_encode.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h264std_decode.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h265std.h \
+  /usr/local/include/vk_video/vulkan_video_codec_h265std_decode.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/dlfcn.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/stdbool.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/12.0.5/include/stdbool.h \
